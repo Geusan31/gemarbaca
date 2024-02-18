@@ -59,11 +59,21 @@ class LoginController extends GetxController {
           "password": passwordController.text.toString(),
         });
         if (response.statusCode == 200) {
-          ResponseLogin responseLogin = ResponseLogin.fromJson(response.data);
-          await StorageProvider.write(StorageKey.name, responseLogin.data!.name!.toString());
-          await StorageProvider.write(StorageKey.token, response.data['token']);
-          showToastSuccess(response.data['message']);
-          Get.offAllNamed(Routes.HOME);
+          if (response.data != null) {
+            ResponseLogin responseLogin = ResponseLogin.fromJson(response.data);
+            if (responseLogin.data != null && responseLogin.data!.name != null) {
+              await StorageProvider.write(StorageKey.name, responseLogin.data!.name!.toString());
+            }
+            String? newToken = response.data['token'];
+            print(newToken);
+            if (newToken != null) {
+              await StorageProvider.write(StorageKey.token, newToken);
+              showToastSuccess(response.data['message']);
+              Get.offAllNamed(Routes.LAYOUT);
+            } else {
+              showToastError("Token baru tidak ditemukan!");
+            }
+          }
         } else {
           showToastError("Login Gagal");
         }
@@ -79,6 +89,7 @@ class LoginController extends GetxController {
         }
       }
     } catch (e) {
+      print("Error: ${e.toString()}");
       showToastError(e.toString());
     }
   }

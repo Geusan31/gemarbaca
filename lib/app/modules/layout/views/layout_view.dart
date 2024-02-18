@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,12 +10,21 @@ class LayoutView extends GetView<LayoutController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(
-        child: Text(
-          'LayoutView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: controller.screen[controller.index.value],
+      bottomNavigationBar: Obx(() {
+        return Theme(
+          data: Theme.of(context).copyWith(iconTheme: IconThemeData(color: Colors.white)),
+          child: CurvedNavigationBar(
+            color: Theme.of(context).primaryColor,
+            height: 60,
+            buttonBackgroundColor: Theme.of(context).primaryColorLight,
+            backgroundColor: Colors.transparent,
+            index: controller.index.value,
+            items: controller.items,
+            onTap: (index) => controller.onTap(index),
+          ),
+        );
+      })
     );
   }
 }

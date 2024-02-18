@@ -5,28 +5,34 @@ import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterController extends GetxController {
   //TODO: Implement RegisterController
+  late SharedPreferences _prefs;
   final FocusNode nameFocusNode = FocusNode();
   final FocusNode usernameFocusNode = FocusNode();
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
+  final FocusNode alamatFocusNode = FocusNode();
   var isObscure = true.obs;
   var nameIsFocused = false.obs;
   var usernameIsFocused = false.obs;
   var emailIsFocused = false.obs;
   var passwordIsFocused = false.obs;
+  var alamatIsFocused = false.obs;
   final loading = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController alamatController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
+    setupSharedPreferences();
     nameFocusNode.addListener(() {
       nameIsFocused.value = nameFocusNode.hasFocus;
     });
@@ -39,6 +45,13 @@ class RegisterController extends GetxController {
     passwordFocusNode.addListener(() {
       passwordIsFocused.value = passwordFocusNode.hasFocus;
     });
+    alamatFocusNode.addListener(() {
+      alamatIsFocused.value = alamatFocusNode.hasFocus;
+    });
+  }
+
+  void setupSharedPreferences() async {
+    _prefs = await SharedPreferences.getInstance();
   }
 
   @override
@@ -58,26 +71,28 @@ class RegisterController extends GetxController {
 
   register() async {
     print(usernameController.text.toString());
-    loading(false);
+    loading(true);
     try {
       FocusScope.of(Get.context!).unfocus();
       formKey.currentState!.save();
       if (formKey.currentState!.validate()) {
         String username = usernameController.text.toString();
-        if(username.isEmpty) {
-          showToastError("Username is walawe");
+        if (username.isEmpty) {
+          showToastError("Username is required");
           return;
         }
-        final response = await ApiProvider.instance().post(EndPoint.register,
-            data: {
-              "name": nameController.text.toString(),
-              "username": username,
-              "email": emailController.text.toString(),
-              "password": passwordController.text.toString(),
-            });
+        final response =
+            await ApiProvider.instance().post(EndPoint.register, data: {
+          "nama_lengkap": nameController.text.toString(),
+          "username": username,
+          "email": emailController.text.toString(),
+          "password": passwordController.text.toString(),
+          "alamat": alamatController.text.toString(),
+        });
         if (response.statusCode == 200) {
+          await _prefs.setString('otp_token', response.data['token']);
           showToastSuccess(response.data['message']);
-          Get.offAllNamed(Routes.LOGIN);
+          Get.offAllNamed(Routes.OTP);
         } else {
           showToastError("Register Gagal!");
         }

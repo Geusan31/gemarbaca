@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gemarbaca/app/modules/layout/controllers/layout_controller.dart';
 
 import 'package:get/get.dart';
 
@@ -13,7 +14,11 @@ void main() {
   runApp(
     GetMaterialApp(
       title: "Gemar Baca",
+      initialBinding: BindingsBuilder(() {
+        Get.put(LayoutController());
+      }),
       initialRoute: AppPages.INITIAL,
+      debugShowCheckedModeBanner: false,
       getPages: AppPages.routes,
       theme: myTheme
     ),

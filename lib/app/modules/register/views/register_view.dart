@@ -56,7 +56,7 @@ class RegisterView extends GetView<RegisterController> {
                                 controller: controller.nameController,
                                 focusNode: controller.nameFocusNode,
                                 decoration: InputDecoration(
-                                  labelText: "Name",
+                                  labelText: "Nama Lengkap",
                                   labelStyle: TextStyle(
                                       color: controller.nameIsFocused.value
                                           ? Theme.of(context).primaryColor
@@ -79,7 +79,7 @@ class RegisterView extends GetView<RegisterController> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Name tidak boleh kosong!';
+                                    return 'Nama Lengkap tidak boleh kosong!';
                                   }
                                   return null;
                                 },
@@ -162,7 +162,45 @@ class RegisterView extends GetView<RegisterController> {
                                   return null;
                                 },
                               );
-                            })),
+                            })
+                        ),const SizedBox(height: 13.0),
+                        Container(
+                            margin: const EdgeInsets.only(bottom: 5),
+                            child: Obx(() {
+                              return TextFormField(
+                                controller: controller.alamatController,
+                                focusNode: controller.alamatFocusNode,
+                                decoration: InputDecoration(
+                                  labelText: "Alamat",
+                                  labelStyle: TextStyle(
+                                      color: controller.alamatIsFocused.value
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.grey),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 10),
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0))),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0)),
+                                      borderSide: BorderSide(
+                                          color:
+                                              Theme.of(context).primaryColor)),
+                                  prefixIcon: Icon(Icons.location_on_outlined,
+                                      color: controller.alamatIsFocused.value
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.grey),
+                                ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Alamat tidak boleh kosong!';
+                                  }
+                                  return null;
+                                },
+                              );
+                            })
+                        ),
                         const SizedBox(height: 13.0),
                         Container(
                             margin: const EdgeInsets.only(bottom: 5),
