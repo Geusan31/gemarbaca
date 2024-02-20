@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
 import 'package:gemarbaca/app/data/provider/api_provider.dart';
 import 'package:gemarbaca/app/routes/app_pages.dart';
@@ -12,6 +13,10 @@ class OtpController extends GetxController {
   late final SharedPreferences _prefs;
   String? email;
   String? token;
+  final TextEditingController controller1 = TextEditingController();
+  final TextEditingController controller2 = TextEditingController();
+  final TextEditingController controller3 = TextEditingController();
+  final TextEditingController controller4 = TextEditingController();
 
   final count = 0.obs;
   @override
@@ -38,6 +43,10 @@ class OtpController extends GetxController {
 
   @override
   void onClose() {
+    controller1.dispose();
+    controller2.dispose();
+    controller3.dispose();
+    controller4.dispose();
     super.onClose();
   }
 

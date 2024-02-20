@@ -10,88 +10,200 @@ class OtpView extends GetView<OtpController> {
   const OtpView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    String otpCode = '';
-    int previousLength = 0;
     return Scaffold(
-        body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: Center(
-                child: Column(children: [
-              Container(
-                margin: EdgeInsets.only(top: 20, bottom: 15),
-                child: Text("Masukkan Kode Verifikasi",
-                    style:
-                        TextStyle(fontWeight: FontWeight.w900, fontSize: 30)),
-              ),
-              FutureBuilder(
-                future: controller.getEmailToken(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else {
-                    return Container(
-                      width: 300,
-                      margin: EdgeInsets.only(bottom: 20),
-                      child: Text(
-                          "Kami telah mengirimkan verifikasi kode ke email: ${controller.email}",
-                          style: TextStyle(
-                              height: 1.3,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 16,
-                              color: Theme.of(context).hintColor),
-                          textAlign: TextAlign.center),
-                    );
-                  }
-                },
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
-                child: OtpTextField(
-                    fieldWidth: 60,
-                    numberOfFields: 4,
-                    borderColor: Theme.of(context).hintColor,
-                    cursorColor: Theme.of(context).primaryColor,
-                    textStyle: TextStyle(fontSize: 26),
-                    showFieldAsBox: true,
-                    onCodeChanged: (code) {
-                      // if(otpCode.length > 4) {
-                      //   otpCode = code;
-                      //   print("Otp Replace: $otpCode");
-                      // } else {
-                      //   otpCode += code;
-                      //   print("Otp: $otpCode");
-                      // }
-                      if (code.length > previousLength) {
-                        otpCode += code[code.length - 1];
-                        print(otpCode);
-                      } else if (code.length < 4) {
-                        otpCode = otpCode.substring(0, otpCode.length - 1);
-                        print(otpCode);
-                      }
-                    }),
-              ),
-              Center(
-                child:
-                    Image.asset("assets/img/ilustration/ilustration_otp.png"),
-              ),
-              Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            primary: Theme.of(context).primaryColor,
-                            onPrimary: Colors.white,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 20.0)),
-                        onPressed: () {
-                          controller.verifyOtp(otpCode);
-                        },
-                        child: const Text("Lanjutkan"),
-                      )))
-            ]))));
+      resizeToAvoidBottomInset: false,
+      backgroundColor: Color(0xfff7f6fb),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 24, horizontal: 32),
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Icon(
+                      Icons.arrow_back,
+                      size: 32,
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                Text(
+                  'Verification',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Kami telah mengirimkan verifikasi kode ke email: ${controller.email}",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black38,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Enter your verify code:",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black38,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 28,
+                ),
+                Container(
+                  padding: EdgeInsets.all(28),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _textFieldOTP(context, controller.controller1,
+                              first: true, last: false),
+                          _textFieldOTP(context, controller.controller2,
+                              first: false, last: false),
+                          _textFieldOTP(context, controller.controller3,
+                              first: false, last: false),
+                          _textFieldOTP(context, controller.controller4,
+                              first: false, last: true),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      Container(
+                        width: 400,
+                        height: 400,
+                        decoration: BoxDecoration(
+                          color: Colors.deepPurple.shade50,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Image.asset(
+                          'assets/img/ilustration/ilustration_otp.png',
+                        ),
+                      ),
+                      SizedBox(
+                        height: 22,
+                      ),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            var otpCode = controller.controller1.text + controller.controller2.text + controller.controller3.text + controller.controller4.text;
+                            print("Kode OTP: $otpCode");
+                            controller.verifyOtp(otpCode);
+                          },
+                          style: ButtonStyle(
+                            foregroundColor:
+                                MaterialStateProperty.all<Color>(Colors.white),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(24.0),
+                              ),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(14.0),
+                            child: Text(
+                              'Verify',
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+                Text(
+                  "Didn't you receive any code?",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black38,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 18,
+                ),
+                Text(
+                  "Resend New Code",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _textFieldOTP(BuildContext context, TextEditingController controller,
+      {required bool first, last}) {
+    return Container(
+      height: 85,
+      child: AspectRatio(
+        aspectRatio: 0.8,
+        child: TextField(
+          controller: controller,
+          autofocus: true,
+          onChanged: (value) {
+            if (value.length == 1 && last == false) {
+              FocusScope.of(context).nextFocus();
+            }
+            if (value.length == 0 && first == false) {
+              FocusScope.of(context).previousFocus();
+            }
+          },
+          showCursor: false,
+          readOnly: false,
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          keyboardType: TextInputType.number,
+          maxLength: 1,
+          decoration: InputDecoration(
+            counter: Offstage(),
+            enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(width: 2, color: Colors.black12),
+                borderRadius: BorderRadius.circular(12)),
+            focusedBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(width: 2, color: Theme.of(context).primaryColor),
+                borderRadius: BorderRadius.circular(12)),
+          ),
+        ),
+      ),
+    );
   }
 }
