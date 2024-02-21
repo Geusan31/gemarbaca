@@ -155,7 +155,7 @@ class LoginView extends GetView<LoginController> {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(10.0))),
                                 padding:
-                                const EdgeInsets.symmetric(vertical: 10.0)),
+                                const EdgeInsets.symmetric(vertical: 20.0)),
                             onPressed: () {
                               controller.login();
                             },

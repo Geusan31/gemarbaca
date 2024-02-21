@@ -90,43 +90,6 @@ class RegisterView extends GetView<RegisterController> {
                             margin: const EdgeInsets.only(bottom: 5),
                             child: Obx(() {
                               return TextFormField(
-                                controller: controller.usernameController,
-                                focusNode: controller.usernameFocusNode,
-                                decoration: InputDecoration(
-                                  labelText: "Username",
-                                  labelStyle: TextStyle(
-                                      color: controller.usernameIsFocused.value
-                                          ? Theme.of(context).primaryColor
-                                          : Colors.grey),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0))),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                  prefixIcon: Icon(Icons.person_outline,
-                                      color: controller.usernameIsFocused.value
-                                          ? Theme.of(context).primaryColor
-                                          : Colors.grey),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Username tidak boleh kosong!';
-                                  }
-                                  return null;
-                                },
-                              );
-                            })),
-                        const SizedBox(height: 13.0),
-                        Container(
-                            margin: const EdgeInsets.only(bottom: 5),
-                            child: Obx(() {
-                              return TextFormField(
                                 controller: controller.emailController,
                                 focusNode: controller.emailFocusNode,
                                 decoration: InputDecoration(
@@ -158,43 +121,6 @@ class RegisterView extends GetView<RegisterController> {
                                           r'^[a-zA-Z0-9.a-zA-Z0-9-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')
                                       .hasMatch(value)) {
                                     return 'Masukkan email yang valid';
-                                  }
-                                  return null;
-                                },
-                              );
-                            })
-                        ),const SizedBox(height: 13.0),
-                        Container(
-                            margin: const EdgeInsets.only(bottom: 5),
-                            child: Obx(() {
-                              return TextFormField(
-                                controller: controller.alamatController,
-                                focusNode: controller.alamatFocusNode,
-                                decoration: InputDecoration(
-                                  labelText: "Alamat",
-                                  labelStyle: TextStyle(
-                                      color: controller.alamatIsFocused.value
-                                          ? Theme.of(context).primaryColor
-                                          : Colors.grey),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0))),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(8.0)),
-                                      borderSide: BorderSide(
-                                          color:
-                                              Theme.of(context).primaryColor)),
-                                  prefixIcon: Icon(Icons.location_on_outlined,
-                                      color: controller.alamatIsFocused.value
-                                          ? Theme.of(context).primaryColor
-                                          : Colors.grey),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Alamat tidak boleh kosong!';
                                   }
                                   return null;
                                 },
@@ -263,7 +189,7 @@ class RegisterView extends GetView<RegisterController> {
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(10.0))),
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 10.0)),
+                                    const EdgeInsets.symmetric(vertical: 20.0)),
                             onPressed: () async {
                               controller.register();
                             },

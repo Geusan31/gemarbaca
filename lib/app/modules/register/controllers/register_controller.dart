@@ -11,10 +11,10 @@ class RegisterController extends GetxController {
   //TODO: Implement RegisterController
   late SharedPreferences _prefs;
   final FocusNode nameFocusNode = FocusNode();
-  final FocusNode usernameFocusNode = FocusNode();
+  // final FocusNode usernameFocusNode = FocusNode();
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
-  final FocusNode alamatFocusNode = FocusNode();
+  // final FocusNode alamatFocusNode = FocusNode();
   var isObscure = true.obs;
   var nameIsFocused = false.obs;
   var usernameIsFocused = false.obs;
@@ -36,18 +36,18 @@ class RegisterController extends GetxController {
     nameFocusNode.addListener(() {
       nameIsFocused.value = nameFocusNode.hasFocus;
     });
-    usernameFocusNode.addListener(() {
-      usernameIsFocused.value = usernameFocusNode.hasFocus;
-    });
+    // usernameFocusNode.addListener(() {
+    //   usernameIsFocused.value = usernameFocusNode.hasFocus;
+    // });
     emailFocusNode.addListener(() {
       emailIsFocused.value = emailFocusNode.hasFocus;
     });
     passwordFocusNode.addListener(() {
       passwordIsFocused.value = passwordFocusNode.hasFocus;
     });
-    alamatFocusNode.addListener(() {
-      alamatIsFocused.value = alamatFocusNode.hasFocus;
-    });
+    // alamatFocusNode.addListener(() {
+    //   alamatIsFocused.value = alamatFocusNode.hasFocus;
+    // });
   }
 
   void setupSharedPreferences() async {
@@ -76,18 +76,16 @@ class RegisterController extends GetxController {
       FocusScope.of(Get.context!).unfocus();
       formKey.currentState!.save();
       if (formKey.currentState!.validate()) {
-        String username = usernameController.text.toString();
-        if (username.isEmpty) {
-          showToastError("Username is required");
+        String email = emailController.text.toString();
+        if (email.isEmpty) {
+          showToastError("Email is required");
           return;
         }
         final response =
             await ApiProvider.instance().post(EndPoint.register, data: {
           "nama_lengkap": nameController.text.toString(),
-          "username": username,
           "email": emailController.text.toString(),
           "password": passwordController.text.toString(),
-          "alamat": alamatController.text.toString(),
         });
         if (response.statusCode == 200) {
           await _prefs.setString('otp_token', response.data['token']);
