@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/modules/home/controllers/home_controller.dart';
 import 'package:gemarbaca/app/modules/home/views/home_view.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class LayoutController extends GetxController {
   //TODO: Implement LayoutController
@@ -15,22 +14,34 @@ class LayoutController extends GetxController {
     HomeView(),
     HomeView(),
   ];
-  final items = <Widget>[
-    Icon(
-      Icons.home_outlined,
-      size: 30,
+  final items = [
+    const BottomNavigationBarItem(
+      label: 'Home',
+      icon: Icon(
+        Icons.home_outlined,
+        size: 30,
+      ),
     ),
-    Icon(
-      Icons.book_outlined,
-      size: 30,
+    const BottomNavigationBarItem(
+      label: 'Book',
+      icon: Icon(
+        Icons.book_outlined,
+        size: 30,
+      ),
     ),
-    Icon(
-      Icons.bookmark_border_outlined,
-      size: 30,
+    const BottomNavigationBarItem(
+      label: 'Bookmark',
+      icon: Icon(
+        Icons.bookmark_border_outlined,
+        size: 30,
+      ),
     ),
-    Icon(
-      Icons.account_circle_outlined,
-      size: 30,
+    const BottomNavigationBarItem(
+      label: 'Profile',
+      icon: Icon(
+        Icons.account_circle_outlined,
+        size: 30,
+      ),
     ),
   ];
 

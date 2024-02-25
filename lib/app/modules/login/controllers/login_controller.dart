@@ -10,21 +10,21 @@ import 'package:gemarbaca/app/widget/toast/toast.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
-  final FocusNode usernameFocusNode = FocusNode();
+  final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
   var isObscure = true.obs;
-  var usernameIsFocused = false.obs;
+  var emailIsFocused = false.obs;
   var passwordIsFocused = false.obs;
   final loading = false.obs;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
-    usernameFocusNode.addListener(() {
-      usernameIsFocused.value = usernameFocusNode.hasFocus;
+    emailFocusNode.addListener(() {
+      emailIsFocused.value = emailFocusNode.hasFocus;
     });
     passwordFocusNode.addListener(() {
       passwordIsFocused.value = passwordFocusNode.hasFocus;
@@ -55,7 +55,7 @@ class LoginController extends GetxController {
       if (formKey.currentState!.validate()) {
         final response =
             await ApiProvider.instance().post(EndPoint.login, data: {
-          "username": usernameController.text.toString(),
+          "email": emailController.text.toString(),
           "password": passwordController.text.toString(),
         });
         if (response.statusCode == 200) {

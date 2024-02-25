@@ -55,16 +55,16 @@ class LoginView extends GetView<LoginController> {
                           margin: const EdgeInsets.only(bottom: 5),
                           child: Obx(() {
                             return TextFormField(
-                              controller: controller.usernameController,
-                              focusNode: controller.usernameFocusNode,
+                              controller: controller.emailController,
+                              focusNode: controller.emailFocusNode,
                               onChanged: (value) {
-                                controller.usernameIsFocused.value =
-                                    controller.usernameFocusNode.hasFocus;
+                                controller.emailIsFocused.value =
+                                    controller.emailFocusNode.hasFocus;
                               },
                               decoration: InputDecoration(
-                                labelText: "Username",
+                                labelText: "Email",
                                 labelStyle: TextStyle(
-                                    color: controller.usernameIsFocused.value
+                                    color: controller.emailIsFocused.value
                                         ? Theme.of(context).primaryColor
                                         : Colors.grey),
                                 contentPadding: EdgeInsets.symmetric(
@@ -78,13 +78,13 @@ class LoginView extends GetView<LoginController> {
                                     borderSide: BorderSide(
                                         color: Theme.of(context).primaryColor)),
                                 prefixIcon: Icon(Icons.person_outline,
-                                    color: controller.usernameIsFocused.value
+                                    color: controller.emailIsFocused.value
                                         ? Theme.of(context).primaryColor
                                         : Colors.grey),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Username tidak boleh kosong!';
+                                  return 'Email tidak boleh kosong!';
                                 }
                                 return null;
                               },
