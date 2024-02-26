@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
 import 'package:gemarbaca/app/data/model/response_book.dart';
+import 'package:gemarbaca/app/data/model/response_high_rate_book.dart';
 import 'package:gemarbaca/app/data/model/response_populer_book.dart';
 import 'package:gemarbaca/app/data/model/response_riwayat.dart';
 import 'package:gemarbaca/app/data/provider/api_provider.dart';
@@ -13,6 +14,7 @@ class HomeController extends GetxController {
   var dataBookList = RxList<DataBook>();
   var dataRiwayatList = RxList<DataRiwayat>();
   var dataPopulerBookList = RxList<DataPopulerBook>();
+  var dataHighRateBookList = RxList<DataHighRateBook>();
   var status = Rx<RxStatus>(RxStatus.loading());
   final rating = 0.0.obs;
 
@@ -100,6 +102,10 @@ class HomeController extends GetxController {
             options: Options(headers: {
               'Authorization': 'Bearer ${StorageProvider.read('token')}'
             })),
+        ApiProvider.instance().get(EndPoint.highRateBook,
+            options: Options(headers: {
+              'Authorization': 'Bearer ${StorageProvider.read('token')}'
+            })),
       ]);
       final ResponseBook responseBook =
           ResponseBook.fromJson(responses[0].data);
@@ -107,13 +113,16 @@ class HomeController extends GetxController {
           ResponseRiwayat.fromJson(responses[1].data);
       final ResponsePopulerBook responsePopulerBook =
           ResponsePopulerBook.fromJson(responses[2].data);
+      final ResponseHighRateBook responseHighRateBook =
+          ResponseHighRateBook.fromJson(responses[3].data);
 
-      if (responseBook.data!.isEmpty || responseRiwayat.data!.isEmpty || responsePopulerBook.data!.isEmpty) {
+      if (responseBook.data!.isEmpty || responseRiwayat.data!.isEmpty || responsePopulerBook.data!.isEmpty || responseHighRateBook.data!.isEmpty) {
         status.value = RxStatus.empty();
       } else {
         dataBookList.value = responseBook.data!;
         dataRiwayatList.value = responseRiwayat.data!;
         dataPopulerBookList.value = responsePopulerBook.data!;
+        dataHighRateBookList.value = responseHighRateBook.data!;
         status.value = RxStatus.success();
       }
     } on DioException catch (e) {

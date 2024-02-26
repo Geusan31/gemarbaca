@@ -10,7 +10,8 @@ class EndPoint {
   // Book Url
   static const String book = "${BaseUrlApi}book";
   static const String populerBook = "$book/populer";
+  static const String highRateBook = "$book/high-rate";
 
   // Riwayat Url
-static const String riwayat = "${BaseUrlApi}history";
+  static const String riwayat = "${BaseUrlApi}history";
 }
