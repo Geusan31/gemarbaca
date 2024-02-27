@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/buku/bindings/buku_binding.dart';
+import '../modules/buku/views/buku_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/layout/bindings/layout_binding.dart';
@@ -20,7 +22,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.SPLASH;
+  static const INITIAL = Routes.BUKU;
 
   static final routes = [
     GetPage(
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.OTP,
       page: () => const OtpView(),
       binding: OtpBinding(),
+    ),
+    GetPage(
+      name: _Paths.BUKU,
+      page: () => const BukuView(),
+      binding: BukuBinding(),
     ),
   ];
 }

@@ -10,6 +10,7 @@ abstract class Routes {
   static const ONBOARDING = _Paths.ONBOARDING;
   static const SPLASH = _Paths.SPLASH;
   static const OTP = _Paths.OTP;
+  static const BUKU = _Paths.BUKU;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const ONBOARDING = '/onboarding';
   static const SPLASH = '/splash';
   static const OTP = '/otp';
+  static const BUKU = '/buku';
 }

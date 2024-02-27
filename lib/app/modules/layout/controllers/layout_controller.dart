@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gemarbaca/app/modules/buku/controllers/buku_controller.dart';
+import 'package:gemarbaca/app/modules/buku/views/buku_view.dart';
 import 'package:gemarbaca/app/modules/home/controllers/home_controller.dart';
 import 'package:gemarbaca/app/modules/home/views/home_view.dart';
 import 'package:get/get.dart';
@@ -6,11 +8,12 @@ import 'package:get/get.dart';
 class LayoutController extends GetxController {
   //TODO: Implement LayoutController
   HomeController homeController = Get.put(HomeController(), permanent: true);
+  BukuController bukuController = Get.put(BukuController(), permanent: true);
 
   var index = 0.obs;
   final screen = [
     HomeView(),
-    HomeView(),
+    BukuView(),
     HomeView(),
     HomeView(),
   ];
