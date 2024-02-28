@@ -9,7 +9,7 @@ class LayoutView extends GetView<LayoutController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: controller.screen[controller.index.value],
+        body: Obx(() => controller.screen[controller.index.value]),
         bottomNavigationBar: Obx(() {
           return Theme(
             data: Theme.of(context)
@@ -22,17 +22,24 @@ class LayoutView extends GetView<LayoutController> {
                     spreadRadius: 0,
                     offset: const Offset(0, -2))
               ]),
-              child: BottomNavigationBar(
-                selectedItemColor: Theme.of(context).primaryColor,
-                unselectedItemColor: Colors.grey.withOpacity(0.5),
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
+              child: NavigationBar(
+                height: 80,
                 elevation: 0,
-                currentIndex: controller.index.value,
-                backgroundColor: Colors.transparent,
-                items: controller.items,
-                onTap: (index) => controller.onTap(index),
+                selectedIndex: controller.index.value,
+                onDestinationSelected: (index) => controller.onTap(index),
+                destinations:controller.destination
               ),
+              // child: BottomNavigationBar(
+              //   selectedItemColor: Theme.of(context).primaryColor,
+              //   unselectedItemColor: Colors.grey.withOpacity(0.5),
+              //   showSelectedLabels: false,
+              //   showUnselectedLabels: false,
+              //   elevation: 0,
+              //   currentIndex: controller.index.value,
+              //   backgroundColor: Colors.transparent,
+              //   items: controller.items,
+              //   onTap: (index) => controller.onTap(index),
+              // ),
             ),
           );
         }));

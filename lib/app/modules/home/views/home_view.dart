@@ -15,78 +15,91 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Image.asset(
-                    'assets/img/logo/logo.png',
-                    width: 33,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60.0),
+          child: AppBar(
+            surfaceTintColor: Colors.transparent,
+            elevation: 0,
+            title: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 50.0),
+                        child: Image.asset(
+                          'assets/img/logo/logo.png',
+                          width: 35,
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FutureBuilder<String>(
+                                future: controller.nameView(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<String> snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        width: 200,
+                                        height: 20,
+                                        color: Colors.grey,
+                                      ),
+                                    );
+                                  } else {
+                                    if (snapshot.hasError) {
+                                      return Text("Error: ${snapshot.error}");
+                                    } else {
+                                      return Text(snapshot.data!,
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold));
+                                    }
+                                  }
+                                }),
+                            Text(controller.welcome(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                )),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        FutureBuilder<String>(
-                            future: controller.nameView(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<String> snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Shimmer.fromColors(
-                                  baseColor: Colors.grey[300]!,
-                                  highlightColor: Colors.grey[100]!,
-                                  child: Container(
-                                    width: 200,
-                                    height: 20,
-                                    color: Colors.grey,
-                                  ),
-                                );
-                              } else {
-                                if (snapshot.hasError) {
-                                  return Text("Error: ${snapshot.error}");
-                                } else {
-                                  return Text(snapshot.data!,
-                                      style: const TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.bold));
-                                }
-                              }
-                            }),
-                        Text(controller.welcome(),
-                            style: const TextStyle(
-                              fontSize: 14,
-                            )),
-                      ],
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.search, size: 25,),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.white60))),
+                    const SizedBox(
+                      width: 5,
                     ),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.search),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.white60))),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.notifications_none_outlined),
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Colors.white60))),
-                ],
-              )
-            ],
+                    IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.notifications_none_outlined, size: 25,),
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.white60))),
+                  ],
+                )
+              ],
+            ),
           ),
-          centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -272,21 +285,20 @@ class HomeView extends GetView<HomeController> {
                         margin: const EdgeInsets.symmetric(vertical: 25),
                         width: double.infinity,
                         height: 60,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
+                        child: Row(
                           children: const [
                             KategoriWidget(
-                                image: "assets/img/kategori_icon/novel.png",
-                                text: "Novel"),
+                              image: "assets/img/kategori_icon/novel.png",
+                              text: "Novel", fontSize: 12,),
                             KategoriWidget(
-                                image: "assets/img/kategori_icon/comic.png",
-                                text: "Komik"),
+                              image: "assets/img/kategori_icon/comic.png",
+                              text: "Komik", fontSize: 12,),
                             KategoriWidget(
-                                image: "assets/img/kategori_icon/education.png",
-                                text: "Pengetahuan"),
+                              image: "assets/img/kategori_icon/education.png",
+                              text: "Pengetahuan",fontSize: 10, ),
                             KategoriWidget(
-                                image: "assets/img/kategori_icon/other.png",
-                                text: "Lainnya"),
+                              image: "assets/img/kategori_icon/other.png",
+                              text: "Lainnya", fontSize: 12,),
                           ],
                         ),
                       ),

@@ -4,6 +4,7 @@ import 'package:gemarbaca/app/modules/buku/views/buku_view.dart';
 import 'package:gemarbaca/app/modules/home/controllers/home_controller.dart';
 import 'package:gemarbaca/app/modules/home/views/home_view.dart';
 import 'package:get/get.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class LayoutController extends GetxController {
   //TODO: Implement LayoutController
@@ -48,6 +49,13 @@ class LayoutController extends GetxController {
     ),
   ];
 
+  final destination = [
+    const NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
+    const NavigationDestination(icon: Icon(Iconsax.book), label: 'Buku',),
+    const NavigationDestination(icon: Icon(Iconsax.bookmark), label: 'Favorite',),
+    const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile',),
+  ];
+
   @override
   void onInit() {
     super.onInit();
@@ -64,6 +72,10 @@ class LayoutController extends GetxController {
   }
 
   void onTap(int index) {
+    print('Tapped index: $index');
+    print('Current index: ${this.index.value}');
     this.index.value = index;
+    print('New index: ${this.index.value}');
   }
+
 }
