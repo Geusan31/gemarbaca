@@ -53,38 +53,6 @@ class HomeController extends GetxController {
     }
   }
 
-  // Future<void> getBuku() async {
-  //   change(null, status: RxStatus.loading());
-  //   try {
-  //     final response = await ApiProvider.instance().get(EndPoint.book,
-  //         options: Options(headers: {
-  //           'Authorization': 'Bearer ${StorageProvider.read('token')}'
-  //         }));
-  //     print(StorageProvider.read('token'));
-  //     if (response.statusCode == 200) {
-  //       final ResponseBook responseBook = ResponseBook.fromJson(response.data);
-  //       if (responseBook.data!.isEmpty) {
-  //         change(null, status: RxStatus.empty());
-  //       } else {
-  //         change(responseBook.data, status: RxStatus.success());
-  //       }
-  //     } else {
-  //       change(null, status: RxStatus.error("Gagal mengambil data"));
-  //     }
-  //   } on DioException catch (e) {
-  //     if (e.response != null) {
-  //       if (e.response?.data != null) {
-  //         change(null,
-  //             status: RxStatus.error("${e.response?.data['message']}"));
-  //       }
-  //     } else {
-  //       change(null, status: RxStatus.error(e.message ?? ""));
-  //     }
-  //   } catch (e) {
-  //     showToastError(e.toString());
-  //   }
-  // }
-
   Future<void> getBuku() async {
     status.value = RxStatus.loading();
     print(StorageProvider.read('token'));
@@ -92,19 +60,23 @@ class HomeController extends GetxController {
       var responses = await Future.wait([
         ApiProvider.instance().get(EndPoint.book,
             options: Options(headers: {
-              'Authorization': 'Bearer ${StorageProvider.read('token')}'
+              'Authorization':
+                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
             })),
         ApiProvider.instance().get(EndPoint.riwayat,
             options: Options(headers: {
-              'Authorization': 'Bearer ${StorageProvider.read('token')}'
+              'Authorization':
+                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
             })),
         ApiProvider.instance().get(EndPoint.populerBook,
             options: Options(headers: {
-              'Authorization': 'Bearer ${StorageProvider.read('token')}'
+              'Authorization':
+                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
             })),
         ApiProvider.instance().get(EndPoint.highRateBook,
             options: Options(headers: {
-              'Authorization': 'Bearer ${StorageProvider.read('token')}'
+              'Authorization':
+                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
             })),
       ]);
       final ResponseBook responseBook =
@@ -116,14 +88,36 @@ class HomeController extends GetxController {
       final ResponseHighRateBook responseHighRateBook =
           ResponseHighRateBook.fromJson(responses[3].data);
 
-      if (responseBook.data!.isEmpty || responseRiwayat.data!.isEmpty || responsePopulerBook.data!.isEmpty || responseHighRateBook.data!.isEmpty) {
+      if (responseBook.data!.isEmpty) {
+        print("Empty Book");
         status.value = RxStatus.empty();
       } else {
+        print("Response Buku: ${responseBook.data!}");
         dataBookList.value = responseBook.data!;
+      }
+
+      if (responseRiwayat.data!.isEmpty) {
+        print("Empty Book");
+        status.value = RxStatus.empty();
+      } else {
+        print("Response Buku: ${responseRiwayat.data!}");
         dataRiwayatList.value = responseRiwayat.data!;
+      }
+
+      if (responsePopulerBook.data!.isEmpty) {
+        print("Empty Book");
+        status.value = RxStatus.empty();
+      } else {
+        print("Response Buku: ${responsePopulerBook.data!}");
         dataPopulerBookList.value = responsePopulerBook.data!;
+      }
+
+      if (responseHighRateBook.data!.isEmpty) {
+        print("Empty Book");
+        status.value = RxStatus.empty();
+      } else {
+        print("Response Buku: ${responseHighRateBook.data!}");
         dataHighRateBookList.value = responseHighRateBook.data!;
-        status.value = RxStatus.success();
       }
     } on DioException catch (e) {
       if (e.response != null) {

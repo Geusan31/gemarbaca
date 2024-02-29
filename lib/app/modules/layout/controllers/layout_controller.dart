@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/modules/buku/controllers/buku_controller.dart';
 import 'package:gemarbaca/app/modules/buku/views/buku_view.dart';
@@ -50,10 +51,19 @@ class LayoutController extends GetxController {
   ];
 
   final destination = [
-    const NavigationDestination(icon: Icon(Iconsax.home), label: 'Home'),
-    const NavigationDestination(icon: Icon(Iconsax.book), label: 'Buku',),
-    const NavigationDestination(icon: Icon(Iconsax.bookmark), label: 'Favorite',),
-    const NavigationDestination(icon: Icon(Iconsax.user), label: 'Profile',),
+    const NavigationDestination(icon: Icon(CupertinoIcons.home), label: 'Home'),
+    const NavigationDestination(
+      icon: Icon(CupertinoIcons.book),
+      label: 'Buku',
+    ),
+    const NavigationDestination(
+      icon: Icon(CupertinoIcons.bookmark),
+      label: 'Favorite',
+    ),
+    const NavigationDestination(
+      icon: Icon(CupertinoIcons.person),
+      label: 'Profile',
+    ),
   ];
 
   @override
@@ -77,5 +87,4 @@ class LayoutController extends GetxController {
     this.index.value = index;
     print('New index: ${this.index.value}');
   }
-
 }

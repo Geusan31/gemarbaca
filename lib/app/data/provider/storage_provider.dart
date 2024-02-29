@@ -1,7 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 
 class StorageProvider {
-
   static write(key, String value) async {
     await GetStorage().write(key, value);
   }
