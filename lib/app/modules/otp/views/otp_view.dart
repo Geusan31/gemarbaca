@@ -78,10 +78,13 @@ class OtpView extends GetView<OtpController> {
                         children: [
                           _textFieldOTP(context, controller.controller1,
                               first: true, last: false),
+                          SizedBox(width: 10,),
                           _textFieldOTP(context, controller.controller2,
                               first: false, last: false),
+                          SizedBox(width: 10),
                           _textFieldOTP(context, controller.controller3,
                               first: false, last: false),
+                          SizedBox(width: 10),
                           _textFieldOTP(context, controller.controller4,
                               first: false, last: true),
                         ],
@@ -169,36 +172,38 @@ class OtpView extends GetView<OtpController> {
 
   Widget _textFieldOTP(BuildContext context, TextEditingController controller,
       {required bool first, last}) {
-    return Container(
-      height: 85,
-      child: AspectRatio(
-        aspectRatio: 0.8,
-        child: TextField(
-          controller: controller,
-          autofocus: true,
-          onChanged: (value) {
-            if (value.length == 1 && last == false) {
-              FocusScope.of(context).nextFocus();
-            }
-            if (value.length == 0 && first == false) {
-              FocusScope.of(context).previousFocus();
-            }
-          },
-          showCursor: false,
-          readOnly: false,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          keyboardType: TextInputType.number,
-          maxLength: 1,
-          decoration: InputDecoration(
-            counter: Offstage(),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(width: 2, color: Colors.black12),
-                borderRadius: BorderRadius.circular(12)),
-            focusedBorder: OutlineInputBorder(
-                borderSide:
-                    BorderSide(width: 2, color: Theme.of(context).primaryColor),
-                borderRadius: BorderRadius.circular(12)),
+    return Expanded(
+      child: SizedBox(
+        height: 85,
+        child: AspectRatio(
+          aspectRatio: 0.7,
+          child: TextField(
+            controller: controller,
+            autofocus: true,
+            onChanged: (value) {
+              if (value.length == 1 && last == false) {
+                FocusScope.of(context).nextFocus();
+              }
+              if (value.length == 0 && first == false) {
+                FocusScope.of(context).previousFocus();
+              }
+            },
+            showCursor: false,
+            readOnly: false,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            keyboardType: TextInputType.number,
+            maxLength: 1,
+            decoration: InputDecoration(
+              counter: Offstage(),
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(width: 2, color: Colors.black12),
+                  borderRadius: BorderRadius.circular(12)),
+              focusedBorder: OutlineInputBorder(
+                  borderSide:
+                      BorderSide(width: 2, color: Theme.of(context).primaryColor),
+                  borderRadius: BorderRadius.circular(12)),
+            ),
           ),
         ),
       ),

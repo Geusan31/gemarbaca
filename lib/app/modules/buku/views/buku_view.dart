@@ -44,12 +44,15 @@ class BukuView extends GetView<BukuController> {
           ),
         ),
       ),
-      body: TabBarView(
-        controller: controller.tabController,
-        children: [
-          NestedTabBar(tabs: ['Novel', 'Komik', 'Manga', "asdsa", "asdasd", "asdsad", "asdas", "adsadas"]),
-          NestedTabBar(tabs: ['Fantasy', 'Action', 'Comedy']),
-        ],
+      body: GetBuilder<BukuController>(
+        builder: (controller) {
+          return TabBarView(
+            controller: controller.subTabController,
+            children: controller.dataGenreList.map((genre) {
+              return NestedTabBar(tabs: [genre.nama ?? 'No Genre']);
+            }).toList()
+          );
+        }
       ),
     );
   }
