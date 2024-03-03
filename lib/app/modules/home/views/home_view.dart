@@ -458,7 +458,6 @@ class HomeView extends GetView<HomeController> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        print(controller.status.value);
                                         if (index <
                                                 controller.dataPopulerBookList
                                                     .length &&

@@ -13,7 +13,10 @@ class EndPoint {
   static const String highRateBook = "$book/high-rate";
 
   // Genre Url
-  static const String genre = "$book/genre";
+  static const String genre = "${BaseUrlApi}genre";
+
+  // Kategori Url
+  static const String kategori = "${BaseUrlApi}kategory";
 
   // Riwayat Url
   static const String riwayat = "${BaseUrlApi}history";

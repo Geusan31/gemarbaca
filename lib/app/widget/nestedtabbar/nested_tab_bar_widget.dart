@@ -1,43 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:gemarbaca/app/data/model/response_genre.dart';
 import 'package:gemarbaca/app/modules/buku/controllers/buku_controller.dart';
 import 'package:gemarbaca/app/widget/detail/detail_kategori_genre_widget.dart';
 import 'package:get/get.dart';
 
 class NestedTabBar extends StatelessWidget {
   final List<String> tabs;
+  final List<List<Map<String, dynamic>>> bukuLists;
 
-  NestedTabBar({required this.tabs});
+  NestedTabBar({required this.tabs, required this.bukuLists});
 
   @override
   Widget build(BuildContext context) {
-    final bukuController = Get.find<BukuController>();
-    final controller = TabController(length: tabs.length, vsync: bukuController);
-
-    return Column(
-      children: [
-        Theme(
-          data: Theme.of(context).copyWith(
-              colorScheme: Theme.of(context).colorScheme.copyWith(
-                  surfaceVariant: Colors.transparent
-              )
-          ),
-          child: TabBar(
-            tabAlignment: TabAlignment.center ,
+    return DefaultTabController(
+      length: tabs.length,
+      child: Column(
+        children: [
+          TabBar(
             isScrollable: true,
-            labelColor: Colors.black,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Theme.of(context).primaryColor,
-            controller: controller,
-            tabs: tabs.map((tab) => Tab(text: tab)).toList(),
+            tabs: tabs.map((String tab) => Tab(text: tab)).toList(),
           ),
-        ),
-        Expanded(
-          child: TabBarView(
-            controller: controller,
-            children: tabs.map((tab) => BukuGridView(title: tab)).toList(),
+          Expanded(
+            child: TabBarView(
+              children: bukuLists.map((List<Map<String, dynamic>> bukuList) {
+                return BukuGridView(bukuList: bukuList);
+              }).toList(),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
