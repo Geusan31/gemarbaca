@@ -23,7 +23,7 @@ class OtpController extends GetxController {
   void onInit() async {
     super.onInit();
     _prefs = await SharedPreferences.getInstance();
-    token =  await _prefs.getString('otp_token');
+    token = await _prefs.getString('otp_token');
     getEmailToken();
   }
 
@@ -56,7 +56,7 @@ class OtpController extends GetxController {
     try {
       if (token != null) {
         final response =
-        await ApiProvider.instance().post(EndPoint.verifyOtp, data: {
+            await ApiProvider.instance().post(EndPoint.verifyOtp, data: {
           "otp": verifyCode.toString(),
           "token": token.toString(),
         });
@@ -82,7 +82,7 @@ class OtpController extends GetxController {
         }
       }
     } catch (e) {
-      print("Error catch: KOCAKK | ${e.toString()}");
+      print("Error catch: ${e.toString()}");
       showToastError(e.toString());
     }
   }

@@ -70,6 +70,7 @@ class LoginController extends GetxController {
             print(newToken);
             if (newToken != null) {
               await StorageProvider.write(StorageKey.token, newToken);
+              await StorageProvider.write(StorageKey.status, 'logged');
               showToastSuccess(response.data['message']);
               Get.offAllNamed(Routes.LAYOUT);
             } else {
