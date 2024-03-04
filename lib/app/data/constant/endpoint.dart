@@ -1,11 +1,14 @@
 class EndPoint {
   // static const String BaseUrlApi = "https://gemarbaca-api.onrender.com/";
-  static const String BaseUrlApi = "http://127.0.0.1:3000/";
+  static const String BaseUrlApi = "http://192.168.1.10:3000/";
 
   // Authentication
   static const String login = "${BaseUrlApi}auth/login";
   static const String register = "${BaseUrlApi}auth/register";
   static const String verifyOtp = "${BaseUrlApi}auth/verifyOtp";
+
+  // Validate Token
+  static const String validate = "${BaseUrlApi}validate";
 
   // Book Url
   static const String book = "${BaseUrlApi}book";

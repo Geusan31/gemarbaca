@@ -22,4 +22,5 @@ class StorageKey {
   static const String status = "status";
   static const String token = "token";
   static const String name = "name";
+  static const String onboarding = 'onboarding';
 }
