@@ -1,11 +1,11 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
 import 'package:gemarbaca/app/data/provider/api_provider.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/routes/app_pages.dart';
-import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 
 class SplashController extends GetxController {
   //TODO: Implement SplashController
@@ -14,6 +14,7 @@ class SplashController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    log("onInit Splash");
     checkOnboarding();
     checkLogin();
   }
@@ -21,6 +22,7 @@ class SplashController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+
   }
 
   @override
@@ -34,20 +36,23 @@ class SplashController extends GetxController {
     String onboarding = StorageProvider.read(StorageKey.onboarding);
 
     if(onboarding == 'onboarding') {
-      print("Seen to Onboarding: $onboarding");
+      log("Seen to Onboarding: $onboarding");
       await StorageProvider.write(StorageKey.onboarding, 'true');
-      Get.offAllNamed(Routes.ONBOARDING);
+      return Get.offAllNamed(Routes.ONBOARDING);
+    } else if (onboarding == 'true') {
+      log("Already seen Onboarding: $onboarding");
+      return Get.offAllNamed(Routes.LOGIN);
     } else {
-      print("Seen to Login: $onboarding");
-      Get.offAllNamed(Routes.LOGIN);
+      log("Seen to Login: $onboarding");
+      return Get.offAllNamed(Routes.LOGIN);
     }
   }
 
   void checkLogin() async {
     String status = StorageProvider.read(StorageKey.status);
     String token = StorageProvider.read(StorageKey.token);
-    print("Status : $status");
-    print("Token : $token");
+    log("Status : $status");
+    log("Token : $token");
 
     if(status == 'logged') {
       try {
@@ -60,7 +65,7 @@ class SplashController extends GetxController {
           return Get.offAllNamed(Routes.LOGIN);
         }
       }catch(e) {
-        showToastError(e.toString());
+        log(e.toString());
       }
     }
   }
