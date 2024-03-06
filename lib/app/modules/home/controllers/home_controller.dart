@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
 import 'package:gemarbaca/app/data/model/response_book.dart';
@@ -35,8 +37,8 @@ class HomeController extends GetxController {
   }
 
   Future<String> nameView() async {
-    var name = await StorageProvider.read('name');
-    print(name);
+    var name = StorageProvider.read(StorageKey.name);
+    log(name);
     return name;
   }
 
@@ -55,28 +57,29 @@ class HomeController extends GetxController {
 
   Future<void> getBuku() async {
     status.value = RxStatus.loading();
-    print(StorageProvider.read('token'));
+    String token = StorageProvider.read(StorageKey.token);
+    print(StorageProvider.read(StorageKey.token));
     try {
       var responses = await Future.wait([
         ApiProvider.instance().get(EndPoint.book,
             options: Options(headers: {
               'Authorization':
-                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
+                  'Bearer $token'
             })),
         ApiProvider.instance().get(EndPoint.riwayat,
             options: Options(headers: {
               'Authorization':
-                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
+                  'Bearer $token'
             })),
         ApiProvider.instance().get(EndPoint.populerBook,
             options: Options(headers: {
               'Authorization':
-                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
+                  'Bearer $token'
             })),
         ApiProvider.instance().get(EndPoint.highRateBook,
             options: Options(headers: {
               'Authorization':
-                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
+                  'Bearer $token'
             })),
       ]);
       final ResponseBook responseBook =

@@ -16,3 +16,10 @@ void showToastSuccess(String text) => showTopSnackBar(
     message: text,
   ),
 );
+
+void showToastInfo(String text) => showTopSnackBar(
+  Overlay.of(Get.overlayContext!),
+  CustomSnackBar.info(
+    message: text,
+  ),
+);

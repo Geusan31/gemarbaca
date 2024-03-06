@@ -90,7 +90,7 @@ class RegisterController extends GetxController {
         if (response.statusCode == 200) {
           await _prefs.setString('otp_token', response.data['token']);
           showToastSuccess(response.data['message']);
-          Get.offAllNamed(Routes.OTP);
+          Get.offAllNamed(Routes.OTP, parameters: {'email': emailController.text.toString()});
         } else {
           showToastError("Register Gagal!");
         }

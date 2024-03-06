@@ -6,6 +6,7 @@ class EndPoint {
   static const String login = "${BaseUrlApi}auth/login";
   static const String register = "${BaseUrlApi}auth/register";
   static const String verifyOtp = "${BaseUrlApi}auth/verifyOtp";
+  static const String resendOtp = "${BaseUrlApi}auth/resendOtp";
 
   // Validate Token
   static const String validate = "${BaseUrlApi}validate";

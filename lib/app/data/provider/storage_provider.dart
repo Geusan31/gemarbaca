@@ -19,6 +19,24 @@ class StorageProvider {
   static void clearAll() {
     GetStorage().erase();
   }
+
+  static void initialize() {
+    if (read(StorageKey.onboarding) == "") {
+      write(StorageKey.onboarding, "onboarding");
+    }
+
+    if (read(StorageKey.status) == "") {
+      write(StorageKey.status, "status");
+    }
+
+    if (read(StorageKey.token) == "") {
+      write(StorageKey.token, "token");
+    }
+
+    if (read(StorageKey.name) == "") {
+      write(StorageKey.name, "name");
+    }
+  }
 }
 
 class StorageKey {

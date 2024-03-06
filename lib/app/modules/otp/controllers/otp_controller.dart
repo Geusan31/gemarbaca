@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
+import 'package:gemarbaca/app/data/model/response_resend_otp.dart';
 import 'package:gemarbaca/app/data/provider/api_provider.dart';
 import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:gemarbaca/app/widget/toast/toast.dart';
@@ -9,10 +12,14 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OtpController extends GetxController {
+  late Timer timer;
+  final start = 60.obs;
+  var isTimerRunning = false.obs;
+
   final loading = false.obs;
   late final SharedPreferences _prefs;
-  String? email;
   String? token;
+  final String email = Get.parameters['email'] ?? "No Have Email";
   final TextEditingController controller1 = TextEditingController();
   final TextEditingController controller2 = TextEditingController();
   final TextEditingController controller3 = TextEditingController();
@@ -23,17 +30,7 @@ class OtpController extends GetxController {
   void onInit() async {
     super.onInit();
     _prefs = await SharedPreferences.getInstance();
-    token = await _prefs.getString('otp_token');
-    getEmailToken();
-  }
-
-  getEmailToken() async {
-    if (token != null) {
-      Map<String, dynamic> tokenData = JwtDecoder.decode(token!);
-      email = tokenData['email'];
-      print(email);
-      return email;
-    }
+    token = _prefs.getString('otp_token');
   }
 
   @override
@@ -48,6 +45,39 @@ class OtpController extends GetxController {
     controller3.dispose();
     controller4.dispose();
     super.onClose();
+  }
+
+  void startTimer() {
+    isTimerRunning.value = true;
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (start.value == 0) {
+        timer.cancel();
+        isTimerRunning.value = false;
+      } else {
+        start.value--;
+      }
+    });
+  }
+
+  RxInt get seconds => start;
+
+  void resetTimer() {
+    start.value = 60;
+    startTimer();
+  }
+
+  void resendOtp() async {
+    try {
+      final response = await ApiProvider.instance()
+          .post(EndPoint.resendOtp, data: {'email': email});
+      if (response.statusCode == 200) {
+        ResponseResendOtp resendOtp = ResponseResendOtp.fromJson(response.data);
+        await _prefs.setString('otp_token', resendOtp.token!);
+        showToastSuccess(resendOtp.message!);
+      }
+    } catch (e) {
+      showToastError("Something went wrong ${e.toString()}");
+    }
   }
 
   verifyOtp(String verifyCode) async {

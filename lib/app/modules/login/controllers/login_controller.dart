@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
 import 'package:gemarbaca/app/data/model/response_login.dart';
@@ -61,19 +63,23 @@ class LoginController extends GetxController {
         if (response.statusCode == 200) {
           if (response.data != null) {
             ResponseLogin responseLogin = ResponseLogin.fromJson(response.data);
+            print(responseLogin.data!.name);
             if (responseLogin.data != null &&
                 responseLogin.data!.name != null) {
               await StorageProvider.write(
-                  StorageKey.name, responseLogin.data!.name!.toString());
+                  StorageKey.name, responseLogin.data!.name!);
+              log("Name Now: ${StorageProvider.read(StorageKey.name)}");
             }
-            String? newToken = response.data['token'];
-            if (newToken != null) {
-              await StorageProvider.write(StorageKey.token, newToken);
+            String? token = response.data['token'];
+            print(token);
+            if (token != null) {
+              await StorageProvider.write(StorageKey.token, token);
+              log("Token Now: ${StorageProvider.read(StorageKey.token)}");
               await StorageProvider.write(StorageKey.status, 'logged');
               showToastSuccess(response.data['message']);
               Get.offAllNamed(Routes.LAYOUT);
             } else {
-              showToastError("Token baru tidak ditemukan!");
+              showToastError("Token tidak ditemukan!");
             }
           }
         } else {

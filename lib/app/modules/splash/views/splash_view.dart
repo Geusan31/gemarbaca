@@ -17,7 +17,7 @@ class SplashView extends GetView<SplashController> {
               child: Lottie.asset('assets/splash/splash_screen.json',
                   fit: BoxFit.cover, onLoaded: (composition) {
                 Future.delayed(composition.duration, () {
-                  controller.checkOnboarding();
+                  controller.checkStatus();
                   // controller.checkLogin();
                 });
               }))),

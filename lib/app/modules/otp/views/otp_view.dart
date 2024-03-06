@@ -78,7 +78,9 @@ class OtpView extends GetView<OtpController> {
                         children: [
                           _textFieldOTP(context, controller.controller1,
                               first: true, last: false),
-                          SizedBox(width: 10,),
+                          SizedBox(
+                            width: 10,
+                          ),
                           _textFieldOTP(context, controller.controller2,
                               first: false, last: false),
                           SizedBox(width: 10),
@@ -110,7 +112,10 @@ class OtpView extends GetView<OtpController> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            var otpCode = controller.controller1.text + controller.controller2.text + controller.controller3.text + controller.controller4.text;
+                            var otpCode = controller.controller1.text +
+                                controller.controller2.text +
+                                controller.controller3.text +
+                                controller.controller4.text;
                             print("Kode OTP: $otpCode");
                             controller.verifyOtp(otpCode);
                           },
@@ -153,15 +158,26 @@ class OtpView extends GetView<OtpController> {
                 SizedBox(
                   height: 18,
                 ),
-                Text(
-                  "Resend New Code",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                GestureDetector(
+                    onTap: controller.isTimerRunning.value
+                        ? null
+                        : () {
+                            controller.resendOtp();
+                            controller.resetTimer();
+                          },
+                    child: Obx(() {
+                      return Text(
+                        controller.isTimerRunning.value
+                            ? "Resend code after ${controller.seconds}"
+                            : "Resend Code",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        textAlign: TextAlign.center,
+                      );
+                    })),
               ],
             ),
           ),
@@ -200,8 +216,8 @@ class OtpView extends GetView<OtpController> {
                   borderSide: BorderSide(width: 2, color: Colors.black12),
                   borderRadius: BorderRadius.circular(12)),
               focusedBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(width: 2, color: Theme.of(context).primaryColor),
+                  borderSide: BorderSide(
+                      width: 2, color: Theme.of(context).primaryColor),
                   borderRadius: BorderRadius.circular(12)),
             ),
           ),
