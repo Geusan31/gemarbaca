@@ -67,7 +67,6 @@ class LoginController extends GetxController {
                   StorageKey.name, responseLogin.data!.name!.toString());
             }
             String? newToken = response.data['token'];
-            print(newToken);
             if (newToken != null) {
               await StorageProvider.write(StorageKey.token, newToken);
               await StorageProvider.write(StorageKey.status, 'logged');

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gemarbaca/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -12,14 +11,16 @@ class SplashView extends GetView<SplashController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Container(
+          child: SizedBox(
               width: double.infinity,
               height: double.infinity,
               child: Lottie.asset('assets/splash/splash_screen.json',
                   fit: BoxFit.cover, onLoaded: (composition) {
-                Future.delayed(composition.duration, () => Get.offAllNamed(Routes.ONBOARDING));
-                  }))
-      ),
+                Future.delayed(composition.duration, () {
+                  controller.checkOnboarding();
+                  // controller.checkLogin();
+                });
+              }))),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:get_storage/get_storage.dart';
 
 class StorageProvider {
@@ -9,6 +11,7 @@ class StorageProvider {
     try {
       return GetStorage().read(key);
     } catch (e) {
+      log("Error Get Storage: ${e.toString()}");
       return "";
     }
   }

@@ -15,14 +15,11 @@ class SplashController extends GetxController {
   void onInit() {
     super.onInit();
     log("onInit Splash");
-    checkOnboarding();
-    checkLogin();
   }
 
   @override
   void onReady() {
     super.onReady();
-
   }
 
   @override
@@ -35,9 +32,10 @@ class SplashController extends GetxController {
   void checkOnboarding() async {
     String onboarding = StorageProvider.read(StorageKey.onboarding);
 
-    if(onboarding == 'onboarding') {
+    if (onboarding == 'onboarding') {
       log("Seen to Onboarding: $onboarding");
-      await StorageProvider.write(StorageKey.onboarding, 'true');
+      await StorageProvider.write(StorageKey.onboarding, "true");
+      log("Sudah Onboarding: $onboarding");
       return Get.offAllNamed(Routes.ONBOARDING);
     } else if (onboarding == 'true') {
       log("Already seen Onboarding: $onboarding");
@@ -54,17 +52,16 @@ class SplashController extends GetxController {
     log("Status : $status");
     log("Token : $token");
 
-    if(status == 'logged') {
+    if (status == 'logged') {
       try {
-        final response = await ApiProvider.instance().get(EndPoint.validate, options: Options(headers: {
-          'Authorization' : 'Bearer $token'
-        }));
+        final response = await ApiProvider.instance().get(EndPoint.validate,
+            options: Options(headers: {'Authorization': 'Bearer $token'}));
         if (response.statusCode == 200) {
           return Get.offAllNamed(Routes.HOME);
         } else {
           return Get.offAllNamed(Routes.LOGIN);
         }
-      }catch(e) {
+      } catch (e) {
         log(e.toString());
       }
     }

@@ -10,9 +10,6 @@ import 'app/routes/app_pages.dart';
 
 void main() async {
   await GetStorage.init();
-  if (GetStorage().read('onboarding') == null) {
-    GetStorage().write('onboarding', 'onboarding');
-  }
   final ThemeData myTheme = ThemeData(
     primaryColor: Color(0xff19D670),
     primaryColorLight: Color(0xff57FAA2),
