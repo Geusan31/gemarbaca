@@ -117,9 +117,7 @@ class RegisterView extends GetView<RegisterController> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Email tidak boleh kosong!';
-                                  } else if (!RegExp(
-                                          r'^[a-zA-Z0-9.a-zA-Z0-9-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$')
-                                      .hasMatch(value)) {
+                                  } else if(!GetUtils.isEmail(value)) {
                                     return 'Masukkan email yang valid';
                                   }
                                   return null;

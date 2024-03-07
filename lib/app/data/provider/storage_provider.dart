@@ -36,6 +36,10 @@ class StorageProvider {
     if (read(StorageKey.name) == "") {
       write(StorageKey.name, "name");
     }
+
+    if (read(StorageKey.name) == "") {
+      write(StorageKey.retoken, "retoken");
+    }
   }
 }
 
@@ -44,4 +48,5 @@ class StorageKey {
   static const String token = "token";
   static const String name = "name";
   static const String onboarding = 'onboarding';
+  static const String retoken = 'retoken';
 }

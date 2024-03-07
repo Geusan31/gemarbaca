@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
-import 'package:gemarbaca/app/data/model/response_resend_otp.dart';
 import 'package:gemarbaca/app/data/provider/api_provider.dart';
+import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
@@ -15,6 +15,8 @@ class OtpController extends GetxController {
   late Timer timer;
   final start = 60.obs;
   var isTimerRunning = false.obs;
+
+  var isResendCode = false.obs;
 
   final loading = false.obs;
   late final SharedPreferences _prefs;
@@ -31,6 +33,8 @@ class OtpController extends GetxController {
     super.onInit();
     _prefs = await SharedPreferences.getInstance();
     token = _prefs.getString('otp_token');
+    print("Token Otp: $token");
+    startTimer();
   }
 
   @override
@@ -67,13 +71,15 @@ class OtpController extends GetxController {
   }
 
   void resendOtp() async {
+    isResendCode.value = true;
     try {
       final response = await ApiProvider.instance()
-          .post(EndPoint.resendOtp, data: {'email': email});
+          .post(EndPoint.resendOtp, data: {'email': email, 'token': token});
       if (response.statusCode == 200) {
-        ResponseResendOtp resendOtp = ResponseResendOtp.fromJson(response.data);
-        await _prefs.setString('otp_token', resendOtp.token!);
-        showToastSuccess(resendOtp.message!);
+        await StorageProvider.write(StorageKey.retoken, response.data['token']);
+        print("Token baru: ${response.data['token']}");
+        print("Token baru: ${StorageProvider.read(StorageKey.retoken)}");
+        showToastSuccess(response.data['message']);
       }
     } catch (e) {
       showToastError("Something went wrong ${e.toString()}");
@@ -82,24 +88,22 @@ class OtpController extends GetxController {
 
   verifyOtp(String verifyCode) async {
     print(verifyCode);
+    String retoken = StorageProvider.read(StorageKey.retoken);
+    print("Token Storage: $retoken");
     loading(true);
     try {
-      if (token != null) {
-        final response =
-            await ApiProvider.instance().post(EndPoint.verifyOtp, data: {
-          "otp": verifyCode.toString(),
-          "token": token.toString(),
-        });
-        if (response.statusCode == 200) {
-          showToastSuccess(response.data['message']);
-          Get.offAllNamed(Routes.LOGIN);
-        } else {
-          showToastError("Verifikasi OTP Gagal!");
-        }
+      final response =
+          await ApiProvider.instance().post(EndPoint.verifyOtp, data: {
+        "otp": verifyCode.toString(),
+        "token": isResendCode.value ? retoken.toString() : token.toString(),
+      });
+      if (response.statusCode == 200) {
+        showToastSuccess(response.data['message']);
+        Get.offAllNamed(Routes.LOGIN);
       } else {
-        showToastError("Token tidak ditemukan!");
+        showToastError("Verifikasi OTP Gagal!");
       }
-      loading(false);
+          loading(false);
     } on dio.DioException catch (e) {
       loading(false);
       if (e.response != null) {

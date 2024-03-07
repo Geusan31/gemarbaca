@@ -1,25 +1,29 @@
 /// status : 200
 /// message : "Login Successfully"
-/// data : {"id":2,"name":"Raissan","username":"raissan","email":"raissan@gmail.com","password":"$2b$10$F.t1xkk6h2Sio8YrDdFKReNsJoLpU3p8iKO5wGgnNFMhhNfODEsZW","firebaseUserId":null,"level":"anggota"}
-/// token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzA2MTMzNTQ5LCJleHAiOjE3MDYxMzcxNDl9.GJmkP5iD_u96LWhoTr12lorCC4hrpBeFeQymufX9Z8U"
+/// data : {"UserID":2,"Username":null,"Password":"$2b$10$pvjj4M3OdFlTuV/ymoK49OadzHMco3Z9QLTTQCV8xXup6hx3Tf6Ty","Email":"raisaria341@gmail.com","NamaLengkap":"Raissan","Alamat":null,"role":"anggota","createAt":"2024-03-07T15:31:04.443Z","updateAt":"2024-03-07T15:31:04.443Z"}
+/// token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhbmdnb3RhIiwiaWF0IjoxNzA5ODI5NjIyLCJleHAiOjE3MDk5MTYwMjJ9.CXTrmww1oaZOQIHP-a1MFpbajg3WngrGVlbwn_FGlAs"
+/// role : "anggota"
 
 class ResponseLogin {
   ResponseLogin({
       this.status, 
       this.message, 
       this.data, 
-      this.token,});
+      this.token, 
+      this.role,});
 
   ResponseLogin.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? DataLogin.fromJson(json['data']) : null;
     token = json['token'];
+    role = json['role'];
   }
   int? status;
   String? message;
-  Data? data;
+  DataLogin? data;
   String? token;
+  String? role;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -29,55 +33,66 @@ class ResponseLogin {
       map['data'] = data?.toJson();
     }
     map['token'] = token;
+    map['role'] = role;
     return map;
   }
 
 }
 
-/// id : 2
-/// name : "Raissan"
-/// username : "raissan"
-/// email : "raissan@gmail.com"
-/// password : "$2b$10$F.t1xkk6h2Sio8YrDdFKReNsJoLpU3p8iKO5wGgnNFMhhNfODEsZW"
-/// firebaseUserId : null
-/// level : "anggota"
+/// UserID : 2
+/// Username : null
+/// Password : "$2b$10$pvjj4M3OdFlTuV/ymoK49OadzHMco3Z9QLTTQCV8xXup6hx3Tf6Ty"
+/// Email : "raisaria341@gmail.com"
+/// NamaLengkap : "Raissan"
+/// Alamat : null
+/// role : "anggota"
+/// createAt : "2024-03-07T15:31:04.443Z"
+/// updateAt : "2024-03-07T15:31:04.443Z"
 
-class Data {
-  Data({
-      this.id, 
-      this.name, 
+class DataLogin {
+  DataLogin({
+      this.userID, 
       this.username, 
-      this.email, 
       this.password, 
-      this.firebaseUserId, 
-      this.level,});
+      this.email, 
+      this.namaLengkap, 
+      this.alamat, 
+      this.role, 
+      this.createAt, 
+      this.updateAt,});
 
-  Data.fromJson(dynamic json) {
-    id = json['id'];
-    name = json['name'];
-    username = json['username'];
-    email = json['email'];
-    password = json['password'];
-    firebaseUserId = json['firebaseUserId'];
-    level = json['level'];
+  DataLogin.fromJson(dynamic json) {
+    userID = json['UserID'];
+    username = json['Username'];
+    password = json['Password'];
+    email = json['Email'];
+    namaLengkap = json['NamaLengkap'];
+    alamat = json['Alamat'];
+    role = json['role'];
+    createAt = json['createAt'];
+    updateAt = json['updateAt'];
   }
-  int? id;
-  String? name;
-  String? username;
-  String? email;
+  int? userID;
+  dynamic username;
   String? password;
-  dynamic firebaseUserId;
-  String? level;
+  String? email;
+  String? namaLengkap;
+  dynamic alamat;
+  String? role;
+  String? createAt;
+  String? updateAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['username'] = username;
-    map['email'] = email;
-    map['password'] = password;
-    map['firebaseUserId'] = firebaseUserId;
-    map['level'] = level;
+    map['UserID'] = userID;
+    map['Username'] = username;
+    map['Password'] = password;
+    map['Email'] = email;
+    map['NamaLengkap'] = namaLengkap;
+    map['Alamat'] = alamat;
+    map['role'] = role;
+    map['createAt'] = createAt;
+    map['updateAt'] = updateAt;
     return map;
   }
 

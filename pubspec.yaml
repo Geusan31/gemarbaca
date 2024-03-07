@@ -23,6 +23,9 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   iconsax_flutter: ^1.0.0
   iconsax: ^0.0.8
+  connectivity_plus: ^2.3.8
+  permission_handler: ^11.3.0
+  device_info_plus: ^9.1.2
 
 dev_dependencies: 
   flutter_lints: ^2.0.0

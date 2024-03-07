@@ -41,14 +41,21 @@ class OtpView extends GetView<OtpController> {
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  "Kami telah mengirimkan verifikasi kode ke email: ${controller.email}",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black38,
-                  ),
-                  textAlign: TextAlign.center,
+                Column(
+                  children: [
+                    Text(
+                      "Kami telah mengirimkan verifikasi kode ke email:",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black38,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(controller.email, style: TextStyle(
+                      color: Colors.blue.shade500,
+                      fontWeight: FontWeight.bold
+                    ))
+                  ],
                 ),
                 SizedBox(
                   height: 10,
@@ -158,26 +165,30 @@ class OtpView extends GetView<OtpController> {
                 SizedBox(
                   height: 18,
                 ),
-                GestureDetector(
-                    onTap: controller.isTimerRunning.value
-                        ? null
-                        : () {
-                            controller.resendOtp();
-                            controller.resetTimer();
-                          },
-                    child: Obx(() {
-                      return Text(
-                        controller.isTimerRunning.value
-                            ? "Resend code after ${controller.seconds}"
-                            : "Resend Code",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                        textAlign: TextAlign.center,
-                      );
-                    })),
+                Obx(() {
+                  return GestureDetector(
+                      onTap: controller.isTimerRunning.value
+                          ? null
+                          : () {
+                        controller.resendOtp();
+                        controller.resetTimer();
+                      },
+                      child: Obx(() {
+                        return Text(
+                          controller.isTimerRunning.value
+                              ? "Resend code after ${controller.seconds}"
+                              : "Resend Code",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: controller.isTimerRunning.value
+                                ? Colors.grey.shade300
+                                : Theme.of(context).primaryColor,
+                          ),
+                          textAlign: TextAlign.center,
+                        );
+                      }));
+                })
               ],
             ),
           ),

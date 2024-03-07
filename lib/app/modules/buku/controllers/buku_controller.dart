@@ -46,13 +46,14 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
 
   Future<void> getGenre() async {
     status.value = RxStatus.loading();
+    String token = StorageProvider.read(StorageKey.token);
     print(StorageProvider.read('token'));
     try {
       var responses = await Future.wait([
         ApiProvider.instance().get(EndPoint.genre,
             options: Options(headers: {
               'Authorization':
-                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
+                  'Bearer $token'
             })),
       ]);
       final ResponseGenre responseGenre =
@@ -80,13 +81,14 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
 
   Future<void> getKategori() async {
     status.value = RxStatus.loading();
+    String token = StorageProvider.read(StorageKey.token);
     print(StorageProvider.read('token'));
     try {
       var responses = await Future.wait([
         ApiProvider.instance().get(EndPoint.kategori,
             options: Options(headers: {
               'Authorization':
-                  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IlJhaXNzYW4iLCJlbWFpbCI6InJhaXNhcmlhMzQxQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcwOTE3ODQxNywiZXhwIjoxNzA5MjY0ODE3fQ.woR6sItRCiShph__Zc4PLs-sZfwnK4QDC7MbXOzwZ_4'
+                  'Bearer $token'
             })),
       ]);
       final ResponseKategori responseKategori =

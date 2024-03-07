@@ -21,9 +21,10 @@ class HomeController extends GetxController {
   final rating = 0.0.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    getBuku();
+    await getBuku();
+    checkStatus();
   }
 
   @override
@@ -54,11 +55,15 @@ class HomeController extends GetxController {
       return 'Selamat Malam';
     }
   }
+  void checkStatus() {
+    print(status.value == RxStatus.loading());
+  }
 
   Future<void> getBuku() async {
     status.value = RxStatus.loading();
+    await Future.delayed(Duration(seconds: 5));
     String token = StorageProvider.read(StorageKey.token);
-    print(StorageProvider.read(StorageKey.token));
+    print("Token: $token");
     try {
       var responses = await Future.wait([
         ApiProvider.instance().get(EndPoint.book,

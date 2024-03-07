@@ -63,11 +63,11 @@ class LoginController extends GetxController {
         if (response.statusCode == 200) {
           if (response.data != null) {
             ResponseLogin responseLogin = ResponseLogin.fromJson(response.data);
-            print(responseLogin.data!.name);
+            print(responseLogin.data!.namaLengkap);
             if (responseLogin.data != null &&
-                responseLogin.data!.name != null) {
+                responseLogin.data!.namaLengkap != null) {
               await StorageProvider.write(
-                  StorageKey.name, responseLogin.data!.name!);
+                  StorageKey.name, responseLogin.data!.namaLengkap!);
               log("Name Now: ${StorageProvider.read(StorageKey.name)}");
             }
             String? token = response.data['token'];
