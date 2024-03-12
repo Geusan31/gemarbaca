@@ -61,6 +61,7 @@ class DataBook {
     this.updateAt,
     this.genreBuku,
     this.ulasan,
+    this.avgRating,
   });
 
   DataBook.fromJson(dynamic json) {
@@ -81,6 +82,7 @@ class DataBook {
       });
     }
     ulasan = json['ulasan'];
+    avgRating = json['avgRating'];
   }
 
   int? bukuID;
@@ -95,6 +97,7 @@ class DataBook {
   String? updateAt;
   List<GenreBukuRelasi>? genreBuku;
   dynamic ulasan;
+  int? avgRating;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -112,6 +115,7 @@ class DataBook {
       map['genreBuku'] = genreBuku?.map((v) => v.toJson()).toList();
     }
     map['ulasan'] = ulasan;
+    map['avgRating'] = avgRating;
     return map;
   }
 }
@@ -138,7 +142,7 @@ class GenreBukuRelasi {
     genreBukuId = json['genreBukuId'];
     createAt = json['createAt'];
     updateAt = json['updateAt'];
-    genreBuku = (json['genreBuku'] != null ? GenreBuku.fromJson(json['genreBuku']) : null);
+    genreBuku = json['genreBuku'] != null ? GenreBuku.fromJson(json['genreBuku']) : null;
   }
   int? id;
   int? bukuId;

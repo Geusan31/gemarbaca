@@ -6,21 +6,23 @@ import 'package:gemarbaca/app/modules/home/controllers/home_controller.dart';
 import 'package:gemarbaca/app/modules/home/views/home_view.dart';
 import 'package:gemarbaca/app/modules/koleksi/controllers/koleksi_controller.dart';
 import 'package:gemarbaca/app/modules/koleksi/views/koleksi_view.dart';
+import 'package:gemarbaca/app/modules/profile/controllers/profile_controller.dart';
+import 'package:gemarbaca/app/modules/profile/views/profile_view.dart';
 import 'package:get/get.dart';
-import 'package:iconsax_flutter/iconsax_flutter.dart';
 
 class LayoutController extends GetxController {
   //TODO: Implement LayoutController
   HomeController homeController = Get.put(HomeController(), permanent: true);
   BukuController bukuController = Get.put(BukuController(), permanent: true);
   KoleksiController koleksiController = Get.put(KoleksiController(), permanent: true);
+  ProfileController profileController = Get.put(ProfileController(), permanent: true);
 
   var index = 0.obs;
   final screen = [
     HomeView(),
     BukuView(),
     KoleksiView(),
-    HomeView(),
+    ProfileView(),
   ];
   final items = [
     const BottomNavigationBarItem(

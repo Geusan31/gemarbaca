@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
@@ -10,24 +12,55 @@ import 'package:get/get.dart';
 
 class BukuController extends GetxController with GetTickerProviderStateMixin {
   //TODO: Implement BukuController
-  TabController? tabController;
-  TabController? subTabController;
   var dataGenreList = RxList<DataGenre>();
   var dataKategoriList = RxList<DataKategori>();
+  TabController? tabController;
+  TabController? genreTabController;
+  TabController? categoryTabController;
+  List<TabController>? genreBookControllers;
+  List<TabController>? categoryBookControllers;
   var status = Rx<RxStatus>(RxStatus.loading());
+
+  var appBarTitles = ['Kategori', 'Genre'];
 
   final count = 0.obs;
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
-    getGenre().then((_) {
-      tabController = TabController(length: dataGenreList.length, vsync: this);
-      print("Genre: ${dataGenreList.length}");
+    await getGenre().then((_) {
+      genreBookControllers = dataGenreList.map((genre) {
+        return TabController(
+          length: genre.buku!.length,
+          vsync: this,
+        );
+      }).toList();
     });
-    getKategori().then((_) {
-      print("Kategori: ${dataKategoriList.length}");
-      tabController = TabController(length: dataKategoriList.length, vsync: this);
+
+    await getKategori().then((_) {
+      categoryBookControllers = dataKategoriList.map((category) {
+        return TabController(
+          length: category.buku!.length,
+          vsync: this,
+        );
+      }).toList();
     });
+
+    genreTabController = TabController(length: dataGenreList.length, vsync: this);
+    categoryTabController = TabController(length: dataKategoriList.length, vsync: this);
+    tabController = TabController(length: appBarTitles.length, vsync: this);
+
+
+    // Get argumen genre
+    String genreName = Get.arguments as String;
+
+    int tabIndex = dataGenreList.indexWhere((genre) => genre.nama == genreName);
+
+    // pindah ke tab sesuai dengan genre nama
+    if(tabIndex != -1) {
+      Future.delayed(Duration.zero, () {
+        genreTabController!.animateTo(tabIndex);
+      });
+    }
   }
 
   @override
@@ -35,10 +68,17 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
     super.onReady();
   }
 
+  void disposeTabControllers(List<TabController>? controllers) {
+    controllers?.forEach((controller) {
+      controller.dispose();
+    });
+  }
+
   @override
   void onClose() {
-    tabController?.dispose();
-    subTabController?.dispose();
+    disposeTabControllers(genreBookControllers);
+    disposeTabControllers(categoryBookControllers);
+    genreTabController?.dispose();
     super.onClose();
   }
 
@@ -51,10 +91,7 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
     try {
       var responses = await Future.wait([
         ApiProvider.instance().get(EndPoint.genre,
-            options: Options(headers: {
-              'Authorization':
-                  'Bearer $token'
-            })),
+            options: Options(headers: {'Authorization': 'Bearer $token'})),
       ]);
       final ResponseGenre responseGenre =
           ResponseGenre.fromJson(responses[0].data);
@@ -65,6 +102,7 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
       } else {
         print("Response Genre: ${responseGenre.data!}");
         dataGenreList.value = responseGenre.data!;
+        status.value = RxStatus.success();
       }
     } on DioException catch (e) {
       if (e.response != null) {
@@ -86,10 +124,7 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
     try {
       var responses = await Future.wait([
         ApiProvider.instance().get(EndPoint.kategori,
-            options: Options(headers: {
-              'Authorization':
-                  'Bearer $token'
-            })),
+            options: Options(headers: {'Authorization': 'Bearer $token'})),
       ]);
       final ResponseKategori responseKategori =
           ResponseKategori.fromJson(responses[0].data);

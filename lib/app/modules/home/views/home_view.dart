@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:gemarbaca/app/data/model/response_book.dart';
+import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:gemarbaca/app/widget/base64/base64_widget.dart';
 import 'package:gemarbaca/app/widget/genre/genre_widget.dart';
 import 'package:gemarbaca/app/widget/highratebookloading/highratebookloading_widget.dart';
@@ -149,142 +151,155 @@ class HomeView extends GetView<HomeController> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 15),
-                                          width: 350,
-                                          height: 190,
-                                          padding: const EdgeInsets.all(10),
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(10)),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.5),
-                                                    blurRadius: 1,
-                                                    spreadRadius: 0,
-                                                    offset: const Offset(2, 2))
-                                              ]),
-                                          child: Row(
-                                            children: [
-                                              Container(
-                                                width: 115,
-                                                height: 190,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(8)),
-                                                  image: DecorationImage(
-                                                    image: (controller
-                                                                    .dataBookList[
-                                                                        index]
-                                                                    .cover !=
-                                                                null &&
-                                                            controller
-                                                                .dataBookList[
-                                                                    index]
-                                                                .cover!
-                                                                .isNotEmpty)
-                                                        ? base64Widget(controller
-                                                                .dataBookList[
-                                                                    index]
-                                                                .cover ??
-                                                            "")
-                                                        : const AssetImage(
-                                                            "assets/img/default/default_image.png"),
-                                                    fit: BoxFit.cover,
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Get.toNamed(Routes.DETAIL_BUKU,
+                                                parameters: {
+                                                  'id': controller
+                                                      .dataBookList[index]
+                                                      .bukuID
+                                                      .toString()
+                                                });
+                                          },
+                                          child: Container(
+                                            margin: const EdgeInsets.only(
+                                                right: 15),
+                                            width: 350,
+                                            height: 190,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(10)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                      color: Colors.grey
+                                                          .withOpacity(0.5),
+                                                      blurRadius: 1,
+                                                      spreadRadius: 0,
+                                                      offset:
+                                                      const Offset(2, 2))
+                                                ]),
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  width: 115,
+                                                  height: 190,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(8)),
+                                                    image: DecorationImage(
+                                                      image: (controller
+                                                          .dataBookList[
+                                                      index]
+                                                          .cover !=
+                                                          null &&
+                                                          controller
+                                                              .dataBookList[
+                                                          index]
+                                                              .cover!
+                                                              .isNotEmpty)
+                                                          ? base64Widget(controller
+                                                          .dataBookList[
+                                                      index]
+                                                          .cover ??
+                                                          "")
+                                                          : const AssetImage(
+                                                          "assets/img/default/default_image.png"),
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                width: 20,
-                                              ),
-                                              Flexible(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                        controller
-                                                                .dataBookList[
-                                                                    index]
-                                                                .judul ??
-                                                            "",
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                            fontSize: 20,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold)),
-                                                    RatingBarIndicator(
-                                                      rating: (controller
-                                                                      .dataBookList[
-                                                                          index]
-                                                                      .ulasan !=
-                                                                  null &&
-                                                              controller
-                                                                  .dataBookList[
-                                                                      index]
-                                                                  .ulasan!
-                                                                  .isNotEmpty)
-                                                          ? (controller
-                                                                      .dataBookList[
-                                                                          index]
-                                                                      .ulasan![0]['rating']
-                                                                  as double?) ??
-                                                              0
-                                                          : 0,
-                                                      itemBuilder:
-                                                          (context, index) =>
-                                                              const Icon(
-                                                        Icons.star,
-                                                        color: Colors.amber,
+                                                const SizedBox(
+                                                  width: 20,
+                                                ),
+                                                Flexible(
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      Text(
+                                                          controller
+                                                              .dataBookList[
+                                                          index]
+                                                              .judul ??
+                                                              "",
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .bold)),
+                                                      RatingBarIndicator(
+                                                        rating: controller.dataBookList[index].avgRating != null
+                                                            ? (controller.dataBookList[index].avgRating! >= 0 && controller.dataBookList[index].avgRating! <= 5)
+                                                            ? controller.dataBookList[index].avgRating!.toDouble()
+                                                            : 0.0
+                                                            : 0.0,
+                                                        itemBuilder: (context, index) => const Icon(
+                                                          Icons.star,
+                                                          color: Colors.amber,
+                                                        ),
+                                                        itemCount: 5,
+                                                        itemSize: 20.0,
+                                                        direction: Axis.horizontal,
                                                       ),
-                                                      itemCount: 5,
-                                                      itemSize: 20.0,
-                                                      direction:
-                                                          Axis.horizontal,
-                                                    ),
-                                                    Container(
-                                                      margin: const EdgeInsets
-                                                          .symmetric(
-                                                          vertical: 5),
-                                                      height: 19,
-                                                      child: GenreWidget(
-                                                        genres: controller
+                                                      Visibility(
+                                                        visible: controller
+                                                            .dataBookList[
+                                                        index]
+                                                            .genreBuku
+                                                            ?.isNotEmpty ??
+                                                            false,
+                                                        child: Container(
+                                                          margin:
+                                                          const EdgeInsets
+                                                              .symmetric(
+                                                              vertical: 5),
+                                                          height: 19,
+                                                          child: GenreWidget<
+                                                              GenreBukuRelasi>(
+                                                            genres: controller
                                                                 .dataBookList[
-                                                                    index]
+                                                            index]
                                                                 .genreBuku ??
-                                                            [],
+                                                                [],
+                                                          ),
+                                                        ),
                                                       ),
-                                                    ),
-                                                    Text(
-                                                        controller
+                                                      Container(
+                                                        margin: EdgeInsets.only(
+                                                            top: 3),
+                                                        child: Text(
+                                                            controller
                                                                 .dataBookList[
-                                                                    index]
+                                                            index]
                                                                 .deskripsi ??
-                                                            "",
-                                                        maxLines: 4,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
+                                                                "",
+                                                            maxLines: 3,
+                                                            overflow:
+                                                            TextOverflow
+                                                                .ellipsis,
+                                                            style: const TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
                                                                 FontWeight
                                                                     .normal)),
-                                                  ],
-                                                ),
-                                              )
-                                            ],
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         );
                                       },
-                                    ),
+                                    )
                                   );
                       }),
                       const SizedBox(
@@ -348,7 +363,7 @@ class HomeView extends GetView<HomeController> {
                       Obx(() {
                         return controller.status.value.isLoading
                             ? const RiwayatLoading()
-                            : controller.dataRiwayatList.isEmpty
+                            : controller.dataUserPeminjamanRiwayatList.isEmpty
                                 ? const Center(
                                     child: Text(
                                       'Data tidak ada',
@@ -361,77 +376,89 @@ class HomeView extends GetView<HomeController> {
                                     height: 190,
                                     child: ListView.builder(
                                       padding: const EdgeInsets.all(5),
-                                      itemCount:
-                                          controller.dataRiwayatList.length,
+                                      itemCount: controller
+                                          .dataUserPeminjamanRiwayatList.length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 15),
-                                          padding: const EdgeInsets.all(7),
-                                          decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: Container(
-                                                  width: 100,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(8)),
-                                                    image: DecorationImage(
-                                                      image: (controller
-                                                                      .dataRiwayatList[
-                                                                          index]
-                                                                      .peminjaman
-                                                                      ?.buku
-                                                                      ?.cover !=
-                                                                  null &&
-                                                              controller
-                                                                  .dataRiwayatList[
-                                                                      index]
-                                                                  .peminjaman
-                                                                  ?.buku
-                                                                  ?.cover!
-                                                                  .isNotEmpty)
-                                                          ? base64Widget(controller
-                                                                  .dataRiwayatList[
-                                                                      index]
-                                                                  .peminjaman
-                                                                  ?.buku
-                                                                  ?.cover ??
-                                                              "")
-                                                          : const AssetImage(
-                                                              "assets/img/default/default_image.png"),
-                                                      fit: BoxFit.cover,
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Get.toNamed(Routes.DETAIL_BUKU,
+                                                parameters: {
+                                                  'id': controller
+                                                      .dataUserPeminjamanRiwayatList[index]
+                                                      .id
+                                                      .toString()
+                                                });
+                                          },
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.only(right: 15),
+                                            padding: const EdgeInsets.all(7),
+                                            decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          const BorderRadius.all(
+                                                              Radius.circular(8)),
+                                                      image: DecorationImage(
+                                                        image: (controller
+                                                                        .dataUserPeminjamanRiwayatList[
+                                                                            index]
+                                                                        .peminjaman
+                                                                        ?.buku
+                                                                        ?.cover !=
+                                                                    null &&
+                                                                controller
+                                                                    .dataUserPeminjamanRiwayatList[
+                                                                        index]
+                                                                    .peminjaman
+                                                                    ?.buku
+                                                                    ?.cover!
+                                                                    .isNotEmpty)
+                                                            ? base64Widget(controller
+                                                                    .dataUserPeminjamanRiwayatList[
+                                                                        index]
+                                                                    .peminjaman
+                                                                    ?.buku
+                                                                    ?.cover ??
+                                                                "")
+                                                            : const AssetImage(
+                                                                "assets/img/default/default_image.png"),
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                height: 7,
-                                              ),
-                                              Text(
-                                                controller
-                                                        .dataRiwayatList[index]
-                                                        .peminjaman
-                                                        ?.buku
-                                                        ?.judul ??
-                                                    "",
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              )
-                                            ],
+                                                const SizedBox(
+                                                  height: 7,
+                                                ),
+                                                Text(
+                                                  controller
+                                                          .dataUserPeminjamanRiwayatList[
+                                                              index]
+                                                          .peminjaman
+                                                          ?.buku
+                                                          ?.judul ??
+                                                      "",
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         );
                                       },
@@ -513,71 +540,82 @@ class HomeView extends GetView<HomeController> {
                                                                 .peminjaman![0]
                                                                 .buku !=
                                                             null) {
-                                                      return Container(
-                                                        margin: const EdgeInsets
-                                                            .only(right: 15),
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(7),
-                                                        decoration: const BoxDecoration(
-                                                            color: Colors.white,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            10))),
-                                                        child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Expanded(
-                                                              child: Container(
-                                                                width: 120,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      const BorderRadius
-                                                                          .all(
-                                                                          Radius.circular(
-                                                                              8)),
-                                                                  image:
-                                                                      DecorationImage(
-                                                                    image: (controller.dataPopulerBookList[index].peminjaman![0].buku!.cover != null && controller.dataPopulerBookList[index].peminjaman![0].buku!.cover!.isNotEmpty)
-                                                                        ? base64Widget(
-                                                                            controller.dataPopulerBookList[index].peminjaman![0].buku!.cover ??
-                                                                                "")
-                                                                        : const AssetImage(
-                                                                            "assets/img/default/default_image.png"),
-                                                                    fit: BoxFit
-                                                                        .cover,
+                                                      return GestureDetector(
+                                                        onTap: () {
+                                                          Get.toNamed(Routes.DETAIL_BUKU,
+                                                              parameters: {
+                                                                'id': controller
+                                                                    .dataPopulerBookList[index]
+                                                                    .bukuID
+                                                                    .toString()
+                                                              });
+                                                        },
+                                                        child: Container(
+                                                          margin: const EdgeInsets
+                                                              .only(right: 15),
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(7),
+                                                          decoration: const BoxDecoration(
+                                                              color: Colors.white,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .all(Radius
+                                                                          .circular(
+                                                                              10))),
+                                                          child: Column(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            children: [
+                                                              Expanded(
+                                                                child: Container(
+                                                                  width: 120,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        const BorderRadius
+                                                                            .all(
+                                                                            Radius.circular(
+                                                                                8)),
+                                                                    image:
+                                                                        DecorationImage(
+                                                                      image: (controller.dataPopulerBookList[index].peminjaman![0].buku!.cover != null && controller.dataPopulerBookList[index].peminjaman![0].buku!.cover!.isNotEmpty)
+                                                                          ? base64Widget(
+                                                                              controller.dataPopulerBookList[index].peminjaman![0].buku!.cover ??
+                                                                                  "")
+                                                                          : const AssetImage(
+                                                                              "assets/img/default/default_image.png"),
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
                                                                   ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                            const SizedBox(
-                                                              height: 7,
-                                                            ),
-                                                            Text(
-                                                              controller
-                                                                      .dataPopulerBookList[
-                                                                          index]
-                                                                      .peminjaman![
-                                                                          0]
-                                                                      .buku!
-                                                                      .judul ??
-                                                                  "",
-                                                              maxLines: 2,
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
-                                                              style: const TextStyle(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            )
-                                                          ],
+                                                              const SizedBox(
+                                                                height: 7,
+                                                              ),
+                                                              Text(
+                                                                controller
+                                                                        .dataPopulerBookList[
+                                                                            index]
+                                                                        .peminjaman![
+                                                                            0]
+                                                                        .buku!
+                                                                        .judul ??
+                                                                    "",
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style: const TextStyle(
+                                                                    fontSize: 16,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                              )
+                                                            ],
+                                                          ),
                                                         ),
                                                       );
                                                     } else {
@@ -633,69 +671,80 @@ class HomeView extends GetView<HomeController> {
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder:
                                           (BuildContext context, int index) {
-                                        return Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 15),
-                                          padding: const EdgeInsets.all(7),
-                                          decoration: const BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(10))),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Expanded(
-                                                child: Container(
-                                                  width: 120,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        const BorderRadius.all(
-                                                            Radius.circular(8)),
-                                                    image: DecorationImage(
-                                                      image: (controller
-                                                                      .dataHighRateBookList[
-                                                                          index]
-                                                                      .buku
-                                                                      ?.cover !=
-                                                                  null &&
-                                                              controller
-                                                                  .dataHighRateBookList[
-                                                                      index]
-                                                                  .buku
-                                                                  ?.cover!
-                                                                  .isNotEmpty)
-                                                          ? base64Widget(controller
-                                                                  .dataHighRateBookList[
-                                                                      index]
-                                                                  .buku
-                                                                  ?.cover ??
-                                                              "")
-                                                          : const AssetImage(
-                                                              "assets/img/default/default_image.png"),
-                                                      fit: BoxFit.cover,
+                                        return GestureDetector(
+                                          onTap: () {
+                                            Get.toNamed(Routes.DETAIL_BUKU,
+                                                parameters: {
+                                                  'id': controller
+                                                      .dataHighRateBookList[index]
+                                                      .buku!.bukuID
+                                                      .toString()
+                                                });
+                                          },
+                                          child: Container(
+                                            margin:
+                                                const EdgeInsets.only(right: 15),
+                                            padding: const EdgeInsets.all(7),
+                                            decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(10))),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Expanded(
+                                                  child: Container(
+                                                    width: 120,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          const BorderRadius.all(
+                                                              Radius.circular(8)),
+                                                      image: DecorationImage(
+                                                        image: (controller
+                                                                        .dataHighRateBookList[
+                                                                            index]
+                                                                        .buku
+                                                                        ?.cover !=
+                                                                    null &&
+                                                                controller
+                                                                    .dataHighRateBookList[
+                                                                        index]
+                                                                    .buku
+                                                                    ?.cover!
+                                                                    .isNotEmpty)
+                                                            ? base64Widget(controller
+                                                                    .dataHighRateBookList[
+                                                                        index]
+                                                                    .buku
+                                                                    ?.cover ??
+                                                                "")
+                                                            : const AssetImage(
+                                                                "assets/img/default/default_image.png"),
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                height: 7,
-                                              ),
-                                              Text(
-                                                controller
-                                                        .dataHighRateBookList[
-                                                            index]
-                                                        .buku
-                                                        ?.judul ??
-                                                    "",
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: const TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              )
-                                            ],
+                                                const SizedBox(
+                                                  height: 7,
+                                                ),
+                                                Text(
+                                                  controller
+                                                          .dataHighRateBookList[
+                                                              index]
+                                                          .buku
+                                                          ?.judul ??
+                                                      "",
+                                                  maxLines: 2,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: const TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w500),
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         );
                                       },

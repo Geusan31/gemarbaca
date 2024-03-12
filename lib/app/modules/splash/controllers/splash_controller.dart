@@ -13,6 +13,7 @@ import 'package:gemarbaca/app/data/provider/api_provider.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class SplashController extends GetxController with SingleGetTickerProviderMixin {
@@ -176,25 +177,31 @@ class SplashController extends GetxController with SingleGetTickerProviderMixin 
       log("Sudah Onboarding $onboarding");
       return Get.offAllNamed(Routes.ONBOARDING);
     } else if(onboarding == 'true') {
+      print("Status: $status");
       if(status == 'logged') {
-        try {
-          final response = await ApiProvider.instance().get(EndPoint.validate, options:
-            Options(headers: {'Authorization': 'Bearer $token'})
-          );
-          if(response.statusCode == 200) {
-            return Get.offAllNamed(Routes.HOME);
-          } else {
-            return Get.offAllNamed(Routes.LOGIN);
-          }
-        } catch(e) {
-          log(e.toString());
-          if (e is DioError) {
-            log("DioError occurred: ${e.message}");
-            log("DioError request info: ${e.requestOptions.path}");
-            log("DioError response info: ${e.response?.statusCode} ${e.response?.statusMessage}");
-          }
-          return Get.offAllNamed(Routes.LOGIN);
+        if(JwtDecoder.isExpired(token)) {
+          Get.offAllNamed(Routes.LOGIN);
+        } else {
+          Get.offAllNamed(Routes.LAYOUT);
         }
+        // try {
+        //   final response = await ApiProvider.instance().get(EndPoint.validate, options:
+        //     Options(headers: {'Authorization': 'Bearer $token'})
+        //   );
+        //   if(response.statusCode == 200) {
+        //     return Get.offAllNamed(Routes.LAYOUT);
+        //   } else {
+        //     return Get.offAllNamed(Routes.LOGIN);
+        //   }
+        // } catch(e) {
+        //   log(e.toString());
+        //   if (e is DioError) {
+        //     log("DioError occurred: ${e.message}");
+        //     log("DioError request info: ${e.requestOptions.path}");
+        //     log("DioError response info: ${e.response?.statusCode} ${e.response?.statusMessage}");
+        //   }
+        //   return Get.offAllNamed(Routes.LOGIN);
+        // }
       } else {
         return Get.offAllNamed(Routes.LOGIN);
       }

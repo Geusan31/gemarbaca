@@ -56,7 +56,7 @@ class DataKategori {
     if (json['buku'] != null) {
       buku = [];
       json['buku'].forEach((v) {
-        buku?.add(Buku.fromJson(v));
+        buku?.add(KategoriBukuRelasi.fromJson(v));
       });
     }
   }
@@ -64,7 +64,7 @@ class DataKategori {
   String? namaKategori;
   String? createAt;
   String? updateAt;
-  List<Buku>? buku;
+  List<KategoriBukuRelasi>? buku;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

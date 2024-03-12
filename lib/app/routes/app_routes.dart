@@ -12,6 +12,9 @@ abstract class Routes {
   static const OTP = _Paths.OTP;
   static const BUKU = _Paths.BUKU;
   static const KOLEKSI = _Paths.KOLEKSI;
+  static const PROFILE = _Paths.PROFILE;
+  static const SEARCH = _Paths.SEARCH;
+  static const DETAIL_BUKU = _Paths.DETAIL_BUKU;
 }
 
 abstract class _Paths {
@@ -25,4 +28,7 @@ abstract class _Paths {
   static const OTP = '/otp';
   static const BUKU = '/buku';
   static const KOLEKSI = '/koleksi';
+  static const PROFILE = '/profile';
+  static const SEARCH = '/search';
+  static const DETAIL_BUKU = '/detail-buku';
 }
