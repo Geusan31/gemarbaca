@@ -108,5 +108,6 @@ class RegisterController extends GetxController {
     } catch (e) {
       showToastError(e.toString());
     }
+    loading(false);
   }
 }

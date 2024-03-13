@@ -159,11 +159,13 @@ class LoginView extends GetView<LoginController> {
                             onPressed: () {
                               controller.login();
                             },
-                            child: const Text("Login"),
+                            child: Obx(() {
+                              return controller.loading.value ? const CircularProgressIndicator() : const Text("Login");
+                            }),
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.symmetric(vertical: 20),
+                          margin: const EdgeInsets.symmetric(vertical: 20),
                           alignment: Alignment.center,
                           child: Text(
                             '- Or sign in with -',

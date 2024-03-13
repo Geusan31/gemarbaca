@@ -82,7 +82,7 @@ class DataBook {
       });
     }
     ulasan = json['ulasan'];
-    avgRating = json['avgRating'];
+    avgRating = json['averageRating'];
   }
 
   int? bukuID;

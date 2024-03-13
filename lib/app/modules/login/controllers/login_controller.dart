@@ -50,7 +50,7 @@ class LoginController extends GetxController {
   }
 
   login() async {
-    loading(false);
+    loading(true);
     try {
       FocusScope.of(Get.context!).unfocus();
       formKey.currentState!.save();
@@ -100,5 +100,6 @@ class LoginController extends GetxController {
       print("Error: ${e.toString()}");
       showToastError(e.toString());
     }
+    loading(false);
   }
 }

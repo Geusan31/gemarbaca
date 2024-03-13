@@ -117,14 +117,13 @@ class RegisterView extends GetView<RegisterController> {
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Email tidak boleh kosong!';
-                                  } else if(!GetUtils.isEmail(value)) {
+                                  } else if (!GetUtils.isEmail(value)) {
                                     return 'Masukkan email yang valid';
                                   }
                                   return null;
                                 },
                               );
-                            })
-                        ),
+                            })),
                         const SizedBox(height: 13.0),
                         Container(
                             margin: const EdgeInsets.only(bottom: 5),
@@ -180,19 +179,23 @@ class RegisterView extends GetView<RegisterController> {
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                backgroundColor: Theme.of(context).primaryColor,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(10.0))),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 20.0)),
-                            onPressed: () async {
-                              controller.register();
-                            },
-                            child: const Text("Register"),
-                          ),
+                              style: ElevatedButton.styleFrom(
+                                  foregroundColor: Colors.white,
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10.0))),
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20.0)),
+                              onPressed: () async {
+                                controller.register();
+                              },
+                              child: Obx(() {
+                                return controller.loading.value
+                                    ? const CircularProgressIndicator()
+                                    : const Text("Register");
+                              })),
                         )
                       ],
                     ),

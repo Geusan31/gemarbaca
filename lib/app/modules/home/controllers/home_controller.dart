@@ -24,8 +24,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getBuku();
-    print(dataBookList[0].avgRating);
+    // await getBuku();
   }
 
   @override

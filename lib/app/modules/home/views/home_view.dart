@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gemarbaca/app/data/model/response_book.dart';
@@ -20,103 +21,202 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60.0),
-          child: AppBar(
-            surfaceTintColor: Colors.transparent,
-            elevation: 0,
-            title: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 50.0),
-                        child: Image.asset(
-                          'assets/img/logo/logo.png',
-                          width: 35,
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 15),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            FutureBuilder<String>(
-                                future: controller.nameView(),
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<String> snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
-                                      child: Container(
-                                        width: 200,
-                                        height: 20,
-                                        color: Colors.grey,
-                                      ),
-                                    );
-                                  } else {
-                                    if (snapshot.hasError) {
-                                      return Text("Error: ${snapshot.error}");
-                                    } else {
-                                      return Text(snapshot.data!,
-                                          style: const TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold));
-                                    }
-                                  }
-                                }),
-                            Text(controller.welcome(),
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                )),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.search,
-                          size: 25,
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.white60))),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.notifications_none_outlined,
-                          size: 25,
-                        ),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Colors.white60))),
-                  ],
-                )
-              ],
-            ),
-          ),
-        ),
+        // appBar: PreferredSize(
+        //   preferredSize: Size.fromHeight(60.0),
+        //   child: AppBar(
+        //     surfaceTintColor: Colors.transparent,
+        //     elevation: 0,
+        //     title: Row(
+        //       // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //       crossAxisAlignment: CrossAxisAlignment.center,
+        //       children: [
+        //         Flexible(
+        //           child: Row(
+        //             crossAxisAlignment: CrossAxisAlignment.center,
+        //             children: [
+        //               Padding(
+        //                 padding: const EdgeInsets.symmetric(vertical: 50.0),
+        //                 child: Image.asset(
+        //                   'assets/img/logo/logo.png',
+        //                   width: 35,
+        //                 ),
+        //               ),
+        //               Container(
+        //                 margin: const EdgeInsets.only(left: 15),
+        //                 child: Column(
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   mainAxisAlignment: MainAxisAlignment.center,
+        //                   children: [
+        //                     FutureBuilder<String>(
+        //                         future: controller.nameView(),
+        //                         builder: (BuildContext context,
+        //                             AsyncSnapshot<String> snapshot) {
+        //                           if (snapshot.connectionState ==
+        //                               ConnectionState.waiting) {
+        //                             return Shimmer.fromColors(
+        //                               baseColor: Colors.grey[300]!,
+        //                               highlightColor: Colors.grey[100]!,
+        //                               child: Container(
+        //                                 width: 200,
+        //                                 height: 20,
+        //                                 color: Colors.grey,
+        //                               ),
+        //                             );
+        //                           } else {
+        //                             if (snapshot.hasError) {
+        //                               return Text("Error: ${snapshot.error}");
+        //                             } else {
+        //                               return Text(snapshot.data!,
+        //                                   style: const TextStyle(
+        //                                       fontSize: 18,
+        //                                       fontWeight: FontWeight.bold));
+        //                             }
+        //                           }
+        //                         }),
+        //                     Text(controller.welcome(),
+        //                         style: const TextStyle(
+        //                           fontSize: 14,
+        //                         )),
+        //                   ],
+        //                 ),
+        //               )
+        //             ],
+        //           ),
+        //         ),
+        //         Row(
+        //           crossAxisAlignment: CrossAxisAlignment.center,
+        //           children: [
+        //             IconButton(
+        //                 onPressed: () {},
+        //                 icon: const Icon(
+        //                   Icons.search,
+        //                   size: 25,
+        //                 ),
+        //                 style: ButtonStyle(
+        //                     backgroundColor: MaterialStateProperty.all<Color>(
+        //                         Colors.white60))),
+        //             const SizedBox(
+        //               width: 5,
+        //             ),
+        //             IconButton(
+        //                 onPressed: () {},
+        //                 icon: const Icon(
+        //                   Icons.notifications_none_outlined,
+        //                   size: 25,
+        //                 ),
+        //                 style: ButtonStyle(
+        //                     backgroundColor: MaterialStateProperty.all<Color>(
+        //                         Colors.white60))),
+        //           ],
+        //         )
+        //       ],
+        //     ),
+        //   ),
+        // ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Container(
+                  margin:EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 100, vertical: 15),
+                            width: 65,
+                            height: 65,
+                            decoration: BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.circular(100),
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        "https://i.pinimg.com/736x/07/33/ba/0733ba760b29378474dea0fdbcb97107.jpg"))),
+                          ),
+                          SizedBox(
+                            width: 8,
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                FutureBuilder<String>(
+                                    future: controller.nameView(),
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<String> snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: 200,
+                                            height: 20,
+                                            color: Colors.grey,
+                                          ),
+                                        );
+                                      } else {
+                                        if (snapshot.hasError) {
+                                          return Text(
+                                              "Error: ${snapshot.error}");
+                                        } else {
+                                          return Text(snapshot.data!,
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold));
+                                        }
+                                      }
+                                    }),
+                                Text(controller.welcome(),
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    )),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Get.toNamed(Routes.SEARCH);
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.search,
+                                size: 25,
+                              ),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white60))),
+                          SizedBox(width: 10,),
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                CupertinoIcons.bell,
+                                size: 25,
+                              ),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white60))),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: Column(
@@ -135,11 +235,14 @@ class HomeView extends GetView<HomeController> {
                             ? const ShimmerList()
                             : controller.dataBookList.isEmpty
                                 ? const Center(
-                                    child: Text(
-                                      'Data tidak ada',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                    child: SizedBox(
+                                      height: 190,
+                                      child: Text(
+                                        'Data tidak ada',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   )
                                 : SizedBox(
@@ -170,8 +273,8 @@ class HomeView extends GetView<HomeController> {
                                             decoration: BoxDecoration(
                                                 color: Colors.white,
                                                 borderRadius:
-                                                const BorderRadius.all(
-                                                    Radius.circular(10)),
+                                                    const BorderRadius.all(
+                                                        Radius.circular(10)),
                                                 boxShadow: [
                                                   BoxShadow(
                                                       color: Colors.grey
@@ -179,7 +282,7 @@ class HomeView extends GetView<HomeController> {
                                                       blurRadius: 1,
                                                       spreadRadius: 0,
                                                       offset:
-                                                      const Offset(2, 2))
+                                                          const Offset(2, 2))
                                                 ]),
                                             child: Row(
                                               children: [
@@ -188,26 +291,26 @@ class HomeView extends GetView<HomeController> {
                                                   height: 190,
                                                   decoration: BoxDecoration(
                                                     borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(8)),
+                                                        const BorderRadius.all(
+                                                            Radius.circular(8)),
                                                     image: DecorationImage(
                                                       image: (controller
-                                                          .dataBookList[
-                                                      index]
-                                                          .cover !=
-                                                          null &&
-                                                          controller
-                                                              .dataBookList[
-                                                          index]
-                                                              .cover!
-                                                              .isNotEmpty)
+                                                                      .dataBookList[
+                                                                          index]
+                                                                      .cover !=
+                                                                  null &&
+                                                              controller
+                                                                  .dataBookList[
+                                                                      index]
+                                                                  .cover!
+                                                                  .isNotEmpty)
                                                           ? base64Widget(controller
-                                                          .dataBookList[
-                                                      index]
-                                                          .cover ??
-                                                          "")
+                                                                  .dataBookList[
+                                                                      index]
+                                                                  .cover ??
+                                                              "")
                                                           : const AssetImage(
-                                                          "assets/img/default/default_image.png"),
+                                                              "assets/img/default/default_image.png"),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
@@ -218,14 +321,14 @@ class HomeView extends GetView<HomeController> {
                                                 Flexible(
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
                                                       Text(
                                                           controller
-                                                              .dataBookList[
-                                                          index]
-                                                              .judul ??
+                                                                  .dataBookList[
+                                                                      index]
+                                                                  .judul ??
                                                               "",
                                                           maxLines: 2,
                                                           overflow: TextOverflow
@@ -233,41 +336,61 @@ class HomeView extends GetView<HomeController> {
                                                           style: const TextStyle(
                                                               fontSize: 20,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .bold)),
+                                                                  FontWeight
+                                                                      .bold)),
                                                       RatingBarIndicator(
-                                                        rating: controller.dataBookList[index].avgRating != null
-                                                            ? (controller.dataBookList[index].avgRating! >= 0 && controller.dataBookList[index].avgRating! <= 5)
-                                                            ? controller.dataBookList[index].avgRating!.toDouble()
-                                                            : 0.0
+                                                        rating: controller
+                                                                    .dataBookList[
+                                                                        index]
+                                                                    .avgRating !=
+                                                                null
+                                                            ? (controller
+                                                                            .dataBookList[
+                                                                                index]
+                                                                            .avgRating! >=
+                                                                        0 &&
+                                                                    controller
+                                                                            .dataBookList[
+                                                                                index]
+                                                                            .avgRating! <=
+                                                                        5)
+                                                                ? controller
+                                                                    .dataBookList[
+                                                                        index]
+                                                                    .avgRating!
+                                                                    .toDouble()
+                                                                : 0.0
                                                             : 0.0,
-                                                        itemBuilder: (context, index) => const Icon(
+                                                        itemBuilder:
+                                                            (context, index) =>
+                                                                const Icon(
                                                           Icons.star,
                                                           color: Colors.amber,
                                                         ),
                                                         itemCount: 5,
                                                         itemSize: 20.0,
-                                                        direction: Axis.horizontal,
+                                                        direction:
+                                                            Axis.horizontal,
                                                       ),
                                                       Visibility(
                                                         visible: controller
-                                                            .dataBookList[
-                                                        index]
-                                                            .genreBuku
-                                                            ?.isNotEmpty ??
+                                                                .dataBookList[
+                                                                    index]
+                                                                .genreBuku
+                                                                ?.isNotEmpty ??
                                                             false,
                                                         child: Container(
                                                           margin:
-                                                          const EdgeInsets
-                                                              .symmetric(
-                                                              vertical: 5),
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  vertical: 5),
                                                           height: 19,
                                                           child: GenreWidget<
                                                               GenreBukuRelasi>(
                                                             genres: controller
-                                                                .dataBookList[
-                                                            index]
-                                                                .genreBuku ??
+                                                                    .dataBookList[
+                                                                        index]
+                                                                    .genreBuku ??
                                                                 [],
                                                           ),
                                                         ),
@@ -277,19 +400,19 @@ class HomeView extends GetView<HomeController> {
                                                             top: 3),
                                                         child: Text(
                                                             controller
-                                                                .dataBookList[
-                                                            index]
-                                                                .deskripsi ??
+                                                                    .dataBookList[
+                                                                        index]
+                                                                    .deskripsi ??
                                                                 "",
                                                             maxLines: 3,
                                                             overflow:
-                                                            TextOverflow
-                                                                .ellipsis,
+                                                                TextOverflow
+                                                                    .ellipsis,
                                                             style: const TextStyle(
                                                                 fontSize: 14,
                                                                 fontWeight:
-                                                                FontWeight
-                                                                    .normal)),
+                                                                    FontWeight
+                                                                        .normal)),
                                                       ),
                                                     ],
                                                   ),
@@ -299,8 +422,7 @@ class HomeView extends GetView<HomeController> {
                                           ),
                                         );
                                       },
-                                    )
-                                  );
+                                    ));
                       }),
                       const SizedBox(
                         height: 10,
@@ -365,11 +487,14 @@ class HomeView extends GetView<HomeController> {
                             ? const RiwayatLoading()
                             : controller.dataUserPeminjamanRiwayatList.isEmpty
                                 ? const Center(
-                                    child: Text(
-                                      'Data tidak ada',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                    child: SizedBox(
+                                      height: 190,
+                                      child: Text(
+                                        'Data tidak ada',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   )
                                 : SizedBox(
@@ -386,14 +511,15 @@ class HomeView extends GetView<HomeController> {
                                             Get.toNamed(Routes.DETAIL_BUKU,
                                                 parameters: {
                                                   'id': controller
-                                                      .dataUserPeminjamanRiwayatList[index]
+                                                      .dataUserPeminjamanRiwayatList[
+                                                          index]
                                                       .id
                                                       .toString()
                                                 });
                                           },
                                           child: Container(
-                                            margin:
-                                                const EdgeInsets.only(right: 15),
+                                            margin: const EdgeInsets.only(
+                                                right: 15),
                                             padding: const EdgeInsets.all(7),
                                             decoration: const BoxDecoration(
                                                 color: Colors.white,
@@ -408,8 +534,10 @@ class HomeView extends GetView<HomeController> {
                                                     width: 100,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          const BorderRadius.all(
-                                                              Radius.circular(8)),
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  8)),
                                                       image: DecorationImage(
                                                         image: (controller
                                                                         .dataUserPeminjamanRiwayatList[
@@ -451,7 +579,8 @@ class HomeView extends GetView<HomeController> {
                                                           ?.judul ??
                                                       "",
                                                   maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: const TextStyle(
                                                       fontSize: 14,
                                                       fontWeight:
@@ -496,134 +625,145 @@ class HomeView extends GetView<HomeController> {
                               ? const PopulerLoadingWidget()
                               : controller.dataPopulerBookList.isEmpty
                                   ? const Center(
-                                      child: Text(
-                                        'Data tidak ada',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
+                                      child: SizedBox(
+                                        height: 190,
+                                        child: Text(
+                                          'Data tidak ada',
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold),
+                                        ),
                                       ),
                                     )
                                   : SizedBox(
                                       height: 190,
-                                      child:
-                                          controller.status.value ==
-                                                  RxStatus.loading()
-                                              ? const ShimmerList()
-                                              : ListView.builder(
-                                                  padding:
-                                                      const EdgeInsets.all(5),
-                                                  itemCount: controller
-                                                      .dataPopulerBookList
-                                                      .length,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    if (index <
-                                                            controller
-                                                                .dataPopulerBookList
-                                                                .length &&
+                                      child: controller.status.value ==
+                                              RxStatus.loading()
+                                          ? const ShimmerList()
+                                          : ListView.builder(
+                                              padding: const EdgeInsets.all(5),
+                                              itemCount: controller
+                                                  .dataPopulerBookList.length,
+                                              scrollDirection: Axis.horizontal,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                if (index <
                                                         controller
-                                                                .dataPopulerBookList[
-                                                                    index]
-                                                                .peminjaman !=
-                                                            null &&
-                                                        controller
+                                                            .dataPopulerBookList
+                                                            .length &&
+                                                    controller
                                                             .dataPopulerBookList[
                                                                 index]
-                                                            .peminjaman!
-                                                            .isNotEmpty &&
-                                                        controller
+                                                            .peminjaman !=
+                                                        null &&
+                                                    controller
+                                                        .dataPopulerBookList[
+                                                            index]
+                                                        .peminjaman!
+                                                        .isNotEmpty &&
+                                                    controller
+                                                            .dataPopulerBookList[
+                                                                index]
+                                                            .peminjaman![0]
+                                                            .buku !=
+                                                        null) {
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      Get.toNamed(
+                                                          Routes.DETAIL_BUKU,
+                                                          parameters: {
+                                                            'id': controller
                                                                 .dataPopulerBookList[
                                                                     index]
-                                                                .peminjaman![0]
-                                                                .buku !=
-                                                            null) {
-                                                      return GestureDetector(
-                                                        onTap: () {
-                                                          Get.toNamed(Routes.DETAIL_BUKU,
-                                                              parameters: {
-                                                                'id': controller
-                                                                    .dataPopulerBookList[index]
-                                                                    .bukuID
-                                                                    .toString()
-                                                              });
-                                                        },
-                                                        child: Container(
-                                                          margin: const EdgeInsets
-                                                              .only(right: 15),
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(7),
-                                                          decoration: const BoxDecoration(
-                                                              color: Colors.white,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .all(Radius
-                                                                          .circular(
-                                                                              10))),
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Expanded(
-                                                                child: Container(
-                                                                  width: 120,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        const BorderRadius
-                                                                            .all(
-                                                                            Radius.circular(
-                                                                                8)),
-                                                                    image:
-                                                                        DecorationImage(
-                                                                      image: (controller.dataPopulerBookList[index].peminjaman![0].buku!.cover != null && controller.dataPopulerBookList[index].peminjaman![0].buku!.cover!.isNotEmpty)
-                                                                          ? base64Widget(
-                                                                              controller.dataPopulerBookList[index].peminjaman![0].buku!.cover ??
-                                                                                  "")
-                                                                          : const AssetImage(
-                                                                              "assets/img/default/default_image.png"),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    ),
-                                                                  ),
+                                                                .bukuID
+                                                                .toString()
+                                                          });
+                                                    },
+                                                    child: Container(
+                                                      margin:
+                                                          const EdgeInsets.only(
+                                                              right: 15),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              7),
+                                                      decoration: const BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Expanded(
+                                                            child: Container(
+                                                              width: 120,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                borderRadius:
+                                                                    const BorderRadius
+                                                                        .all(
+                                                                        Radius.circular(
+                                                                            8)),
+                                                                image:
+                                                                    DecorationImage(
+                                                                  image: (controller.dataPopulerBookList[index].peminjaman![0].buku!.cover !=
+                                                                              null &&
+                                                                          controller
+                                                                              .dataPopulerBookList[
+                                                                                  index]
+                                                                              .peminjaman![
+                                                                                  0]
+                                                                              .buku!
+                                                                              .cover!
+                                                                              .isNotEmpty)
+                                                                      ? base64Widget(
+                                                                          controller.dataPopulerBookList[index].peminjaman![0].buku!.cover ??
+                                                                              "")
+                                                                      : const AssetImage(
+                                                                          "assets/img/default/default_image.png"),
+                                                                  fit: BoxFit
+                                                                      .cover,
                                                                 ),
                                                               ),
-                                                              const SizedBox(
-                                                                height: 7,
-                                                              ),
-                                                              Text(
-                                                                controller
-                                                                        .dataPopulerBookList[
-                                                                            index]
-                                                                        .peminjaman![
-                                                                            0]
-                                                                        .buku!
-                                                                        .judul ??
-                                                                    "",
-                                                                maxLines: 2,
-                                                                overflow:
-                                                                    TextOverflow
-                                                                        .ellipsis,
-                                                                style: const TextStyle(
-                                                                    fontSize: 16,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500),
-                                                              )
-                                                            ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    } else {
-                                                      return const SizedBox
-                                                          .shrink();
-                                                    }
-                                                  },
-                                                ),
+                                                          const SizedBox(
+                                                            height: 7,
+                                                          ),
+                                                          Text(
+                                                            controller
+                                                                    .dataPopulerBookList[
+                                                                        index]
+                                                                    .peminjaman![
+                                                                        0]
+                                                                    .buku!
+                                                                    .judul ??
+                                                                "",
+                                                            maxLines: 2,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: const TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return const SizedBox
+                                                      .shrink();
+                                                }
+                                              },
+                                            ),
                                     );
                         }),
                       ),
@@ -655,11 +795,14 @@ class HomeView extends GetView<HomeController> {
                             ? const HighRateLoading()
                             : controller.dataHighRateBookList.isEmpty
                                 ? const Center(
-                                    child: Text(
-                                      'Data tidak ada',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
+                                    child: SizedBox(
+                                      height: 190,
+                                      child: Text(
+                                        'Data tidak ada',
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
                                   )
                                 : SizedBox(
@@ -676,14 +819,16 @@ class HomeView extends GetView<HomeController> {
                                             Get.toNamed(Routes.DETAIL_BUKU,
                                                 parameters: {
                                                   'id': controller
-                                                      .dataHighRateBookList[index]
-                                                      .buku!.bukuID
+                                                      .dataHighRateBookList[
+                                                          index]
+                                                      .buku!
+                                                      .bukuID
                                                       .toString()
                                                 });
                                           },
                                           child: Container(
-                                            margin:
-                                                const EdgeInsets.only(right: 15),
+                                            margin: const EdgeInsets.only(
+                                                right: 15),
                                             padding: const EdgeInsets.all(7),
                                             decoration: const BoxDecoration(
                                                 color: Colors.white,
@@ -698,8 +843,10 @@ class HomeView extends GetView<HomeController> {
                                                     width: 120,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          const BorderRadius.all(
-                                                              Radius.circular(8)),
+                                                          const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  8)),
                                                       image: DecorationImage(
                                                         image: (controller
                                                                         .dataHighRateBookList[
@@ -737,7 +884,8 @@ class HomeView extends GetView<HomeController> {
                                                           ?.judul ??
                                                       "",
                                                   maxLines: 2,
-                                                  overflow: TextOverflow.ellipsis,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                   style: const TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:
