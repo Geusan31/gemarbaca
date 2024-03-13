@@ -63,10 +63,15 @@ class DetailBukuView extends GetView<DetailBukuController> {
                           children: [
                             Row(
                               children: [
-                                Text(controller
-                                        .dataDetailBukuList.value?.avgRating
-                                        .toString() ??
-                                    '', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                                Text(
+                                  (controller.dataDetailBukuList.value
+                                              ?.avgRating ??
+                                          '0')
+                                      .toString(),
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
                                 Icon(CupertinoIcons.star_fill,
                                     color: Colors.amber)
                               ],
@@ -117,7 +122,7 @@ class DetailBukuView extends GetView<DetailBukuController> {
                             ),
                             Text(
                               controller.dataDetailBukuList.value?.deskripsi ??
-                                  '',
+                                  '-',
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
@@ -133,7 +138,7 @@ class DetailBukuView extends GetView<DetailBukuController> {
                             ),
                             Text(
                               controller.dataDetailBukuList.value?.penulis ??
-                                  '',
+                                  '-',
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
@@ -165,7 +170,7 @@ class DetailBukuView extends GetView<DetailBukuController> {
                             Text(
                               controller.dataDetailBukuList.value?.tahunTerbit
                                       .toString() ??
-                                  '',
+                                  '-',
                               style: TextStyle(fontSize: 16),
                             ),
                             SizedBox(
@@ -192,28 +197,40 @@ class DetailBukuView extends GetView<DetailBukuController> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            Row(crossAxisAlignment:CrossAxisAlignment.center,children: [
-                                              Text(ulasan.user!.namaLengkap ??
-                                                  '', style: TextStyle(fontWeight: FontWeight.w600)),
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              RatingBarIndicator(
-                                                rating: ulasan.rating?.toDouble() ?? 0,
-                                                itemBuilder: (context, index) => const Icon(
-                                                  Icons.star,
-                                                  color: Colors.amber,
-                                                ),
-                                                itemCount: 5,
-                                                itemSize: 15.0,
-                                                direction: Axis.horizontal,
-                                              ),
-                                            ]),
+                                            Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                      ulasan.user!
+                                                              .namaLengkap ??
+                                                          '-',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600)),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  RatingBarIndicator(
+                                                    rating: ulasan.rating
+                                                            ?.toDouble() ??
+                                                        0,
+                                                    itemBuilder:
+                                                        (context, index) =>
+                                                            const Icon(
+                                                      Icons.star,
+                                                      color: Colors.amber,
+                                                    ),
+                                                    itemCount: 5,
+                                                    itemSize: 15.0,
+                                                    direction: Axis.horizontal,
+                                                  ),
+                                                ]),
                                             Text(ulasan.ulasan ?? '')
                                           ])
                                     ]);
                                   }).toList() ??
-                                  [],
+                                  [const Text('No reviews available')],
                             )
                           ],
                         ),
@@ -262,7 +279,8 @@ class DetailBukuView extends GetView<DetailBukuController> {
               padding: EdgeInsets.all(8.0),
               child: TextButton(
                 onPressed: () {},
-                child: Text('Pinjam Buku', style: TextStyle(color: Colors.white)),
+                child:
+                    Text('Pinjam Buku', style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
