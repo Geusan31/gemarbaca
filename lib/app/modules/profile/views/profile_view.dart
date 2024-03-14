@@ -73,39 +73,44 @@ class ProfileView extends GetView<ProfileController> {
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          blurRadius: 1,
-                          spreadRadius: 0,
-                          offset: const Offset(2, 2))
-                    ]),
-                child: Row(
-                  children: <Widget>[
-                    Icon(CupertinoIcons.person),
-                    SizedBox(width: 10),
-                    Text(
-                      'Account',
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            blurRadius: 1,
+                            spreadRadius: 0,
+                            offset: const Offset(2, 2))
+                      ]),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(CupertinoIcons.person),
+                      SizedBox(width: 10),
+                      Text(
+                        'Edit Account',
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
                     boxShadow: [
                       BoxShadow(
                           color: Colors.grey.withOpacity(0.5),

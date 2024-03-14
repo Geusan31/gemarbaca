@@ -184,54 +184,68 @@ class DetailBukuView extends GetView<DetailBukuController> {
                             SizedBox(
                               height: 8,
                             ),
-                            Column(
-                              children: controller
-                                      .dataDetailBukuList.value?.ulasan
-                                      ?.map((ulasan) {
-                                    return Row(children: [
-                                      CircleAvatar(),
-                                      SizedBox(
-                                        width: 20,
-                                      ),
-                                      Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                      ulasan.user!
-                                                              .namaLengkap ??
-                                                          '-',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600)),
-                                                  SizedBox(
-                                                    width: 10,
-                                                  ),
-                                                  RatingBarIndicator(
-                                                    rating: ulasan.rating
-                                                            ?.toDouble() ??
-                                                        0,
-                                                    itemBuilder:
-                                                        (context, index) =>
-                                                            const Icon(
-                                                      Icons.star,
-                                                      color: Colors.amber,
-                                                    ),
-                                                    itemCount: 5,
-                                                    itemSize: 15.0,
-                                                    direction: Axis.horizontal,
-                                                  ),
-                                                ]),
-                                            Text(ulasan.ulasan ?? '')
-                                          ])
-                                    ]);
-                                  }).toList() ??
-                                  [const Text('No reviews available')],
-                            )
+                            Obx(() {
+                              return (controller.dataDetailBukuList.value
+                                          ?.ulasan?.isEmpty ??
+                                      true)
+                                  ? Container(
+                                      height: 10,
+                                    )
+                                  : Column(
+                                      children: controller
+                                              .dataDetailBukuList.value?.ulasan
+                                              ?.map((ulasan) {
+                                            return Row(children: [
+                                              CircleAvatar(),
+                                              SizedBox(
+                                                width: 20,
+                                              ),
+                                              Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                              ulasan.user!
+                                                                      .namaLengkap ??
+                                                                  '-',
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600)),
+                                                          SizedBox(
+                                                            width: 10,
+                                                          ),
+                                                          RatingBarIndicator(
+                                                            rating: ulasan
+                                                                    .rating
+                                                                    ?.toDouble() ??
+                                                                0,
+                                                            itemBuilder:
+                                                                (context,
+                                                                        index) =>
+                                                                    const Icon(
+                                                              Icons.star,
+                                                              color:
+                                                                  Colors.amber,
+                                                            ),
+                                                            itemCount: 5,
+                                                            itemSize: 15.0,
+                                                            direction:
+                                                                Axis.horizontal,
+                                                          ),
+                                                        ]),
+                                                    Text(ulasan.ulasan ?? '')
+                                                  ])
+                                            ]);
+                                          }).toList() ??
+                                          [const Text('No reviews available')],
+                                    );
+                            }),
                           ],
                         ),
                       ),

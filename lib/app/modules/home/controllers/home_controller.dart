@@ -24,7 +24,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    // await getBuku();
+    await getBuku();
   }
 
   @override

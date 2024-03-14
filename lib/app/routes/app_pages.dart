@@ -4,6 +4,8 @@ import '../modules/buku/bindings/buku_binding.dart';
 import '../modules/buku/views/buku_view.dart';
 import '../modules/detail_buku/bindings/detail_buku_binding.dart';
 import '../modules/detail_buku/views/detail_buku_view.dart';
+import '../modules/edit_profile/bindings/edit_profile_binding.dart';
+import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/koleksi/bindings/koleksi_binding.dart';
@@ -92,6 +94,11 @@ class AppPages {
       name: _Paths.DETAIL_BUKU,
       page: () => const DetailBukuView(),
       binding: DetailBukuBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PROFILE,
+      page: () => const EditProfileView(),
+      binding: EditProfileBinding(),
     ),
   ];
 }

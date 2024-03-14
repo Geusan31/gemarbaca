@@ -15,7 +15,10 @@ class DetailBukuController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getDetailBook();
+    await getDetailBook().then((_) {
+      print(
+          "Data Detail Buku List: ${dataDetailBukuList.value?.ulasan?.isEmpty}");
+    });
   }
 
   @override
@@ -36,13 +39,14 @@ class DetailBukuController extends GetxController {
     var idBuku = Get.parameters['id'];
     // var idBuku = 5;
     try {
-      var response = await ApiProvider.instance().get("${EndPoint.book}/$idBuku", options: Options(
-        headers: {'Authorization': 'Bearer $token'}
-      ));
+      var response = await ApiProvider.instance().get(
+          "${EndPoint.book}/$idBuku",
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
 
-      final ResponseDetailBook responseDetailBook = ResponseDetailBook.fromJson(response.data!);
+      final ResponseDetailBook responseDetailBook =
+          ResponseDetailBook.fromJson(response.data!);
 
-      if(responseDetailBook.data == null) {
+      if (responseDetailBook.data == null) {
         print("Empty Book");
         status.value = RxStatus.empty();
       } else {
@@ -50,8 +54,7 @@ class DetailBukuController extends GetxController {
         dataDetailBukuList.value = responseDetailBook.data!;
         status.value = RxStatus.success();
       }
-
-    }on DioException catch (e) {
+    } on DioException catch (e) {
       if (e.response != null) {
         if (e.response?.data != null) {
           status.value = RxStatus.error("${e.response?.data['message']}");
