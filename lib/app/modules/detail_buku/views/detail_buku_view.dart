@@ -91,7 +91,6 @@ class DetailBukuView extends GetView<DetailBukuController> {
                       ],
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height,
                       width: MediaQuery.of(context).size.width,
                       padding: EdgeInsets.symmetric(horizontal: 30),
                       margin: const EdgeInsets.only(top: 90.0),
@@ -188,9 +187,7 @@ class DetailBukuView extends GetView<DetailBukuController> {
                               return (controller.dataDetailBukuList.value
                                           ?.ulasan?.isEmpty ??
                                       true)
-                                  ? Container(
-                                      height: 10,
-                                    )
+                                  ? const Text('No reviews available')
                                   : Column(
                                       children: controller
                                               .dataDetailBukuList.value?.ulasan
@@ -243,7 +240,7 @@ class DetailBukuView extends GetView<DetailBukuController> {
                                                   ])
                                             ]);
                                           }).toList() ??
-                                          [const Text('No reviews available')],
+                                          [],
                                     );
                             }),
                           ],
@@ -292,7 +289,9 @@ class DetailBukuView extends GetView<DetailBukuController> {
             child: Padding(
               padding: EdgeInsets.all(8.0),
               child: TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  controller.alertShow();
+                },
                 child:
                     Text('Pinjam Buku', style: TextStyle(color: Colors.white)),
                 style: TextButton.styleFrom(
