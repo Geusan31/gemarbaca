@@ -119,7 +119,7 @@ class HomeView extends GetView<HomeController> {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
+              margin: EdgeInsets.only(top: 45),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white,

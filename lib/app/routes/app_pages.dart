@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 
+import '../modules/baca/bindings/baca_binding.dart';
+import '../modules/baca/views/baca_view.dart';
 import '../modules/buku/bindings/buku_binding.dart';
 import '../modules/buku/views/buku_view.dart';
 import '../modules/detail_buku/bindings/detail_buku_binding.dart';
@@ -99,6 +101,11 @@ class AppPages {
       name: _Paths.EDIT_PROFILE,
       page: () => const EditProfileView(),
       binding: EditProfileBinding(),
+    ),
+    GetPage(
+      name: _Paths.BACA,
+      page: () => const BacaView(),
+      binding: BacaBinding(),
     ),
   ];
 }

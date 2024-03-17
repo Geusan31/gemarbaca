@@ -63,6 +63,8 @@ class DataDetailBook {
     deskripsi = json['deskripsi'];
     stok = json['stok'];
     cover = json['cover'];
+    file = json['file'];
+    status = json['status'];
     createAt = json['createAt'];
     updateAt = json['updateAt'];
     if (json['genreBuku'] != null) {
@@ -87,6 +89,8 @@ class DataDetailBook {
   dynamic deskripsi;
   int? stok;
   dynamic cover;
+  dynamic file;
+  String? status;
   String? createAt;
   String? updateAt;
   List<DetailBukuGenreBukuRelasi>? genreBuku;

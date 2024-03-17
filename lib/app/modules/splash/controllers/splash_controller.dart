@@ -67,13 +67,12 @@ class SplashController extends GetxController with SingleGetTickerProviderMixin 
         await permissionHandler(Permission.mediaLibrary, "Media Library is denied");
       } else if(await Permission.camera.isDenied) {
         await permissionHandler(Permission.camera, "Camera is denied");
+      } else if(await Permission.notification.isDenied) {
+        await permissionHandler(Permission.notification, "Notification is denied");
       }
-
     } else {
       if(await Permission.storage.isDenied) {
         await permissionHandler(Permission.storage, "Storage is denied");
-      } else if(await Permission.camera.isDenied) {
-        await permissionHandler(Permission.camera, "Camera is denied");
       }
     }
   }

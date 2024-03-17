@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gemarbaca/app/data/model/response_detail_book.dart';
+import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:gemarbaca/app/widget/base64/base64_widget.dart';
 import 'package:gemarbaca/app/widget/genre/genre_widget.dart';
 
@@ -82,11 +84,16 @@ class DetailBukuView extends GetView<DetailBukuController> {
                         SizedBox(
                           width: 100,
                         ),
-                        Column(
-                          children: [
-                            Icon(CupertinoIcons.bookmark),
-                            Text('Bookmark')
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            controller.koleksi();
+                          },
+                          child: Column(
+                            children: [
+                              Icon(CupertinoIcons.bookmark),
+                              Text('Bookmark')
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -290,10 +297,18 @@ class DetailBukuView extends GetView<DetailBukuController> {
               padding: EdgeInsets.all(8.0),
               child: TextButton(
                 onPressed: () {
-                  controller.alertShow();
+                  if (controller.statusPeminjaman.value) {
+                    Get.toNamed(Routes.BACA, parameters: {
+                      'judul': controller.dataDetailBukuList.value?.judul.toString() ?? '-',
+                      'file': controller.dataDetailBukuList.value?.file
+                    });
+                  } else {
+                    controller.alertShow();
+                  }
                 },
-                child:
-                    Text('Pinjam Buku', style: TextStyle(color: Colors.white)),
+                child: Obx(() {
+                  return Text(controller.statusPeminjaman.value ? 'Baca Buku' : 'Pinjam Buku', style: TextStyle(color: Colors.white));
+                }),
                 style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,
                     shape: RoundedRectangleBorder(
