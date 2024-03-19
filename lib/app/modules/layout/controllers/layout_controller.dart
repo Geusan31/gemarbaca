@@ -18,41 +18,11 @@ class LayoutController extends GetxController {
   ProfileController profileController = Get.put(ProfileController(), permanent: true);
 
   var index = 0.obs;
-  final screen = [
+  final screen = const [
     HomeView(),
     BukuView(),
     KoleksiView(),
     ProfileView(),
-  ];
-  final items = [
-    const BottomNavigationBarItem(
-      label: 'Home',
-      icon: Icon(
-        Icons.home_outlined,
-        size: 30,
-      ),
-    ),
-    const BottomNavigationBarItem(
-      label: 'Book',
-      icon: Icon(
-        Icons.book_outlined,
-        size: 30,
-      ),
-    ),
-    const BottomNavigationBarItem(
-      label: 'Bookmark',
-      icon: Icon(
-        Icons.bookmark_border_outlined,
-        size: 30,
-      ),
-    ),
-    const BottomNavigationBarItem(
-      label: 'Profile',
-      icon: Icon(
-        Icons.account_circle_outlined,
-        size: 30,
-      ),
-    ),
   ];
 
   final destination = [

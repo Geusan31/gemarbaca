@@ -19,6 +19,7 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class DetailBukuController extends GetxController {
   KoleksiController koleksiController = Get.put(KoleksiController(), permanent: true);
+  LayoutController layoutController = Get.put(LayoutController(), permanent: true);
   //TODO: Implement DetailBukuController
   final dataDetailBukuList = Rx<DataDetailBook?>(null);
   var status = Rx<RxStatus>(RxStatus.loading());
@@ -141,12 +142,9 @@ class DetailBukuController extends GetxController {
           if (peminjamanID != null && judulBuku != null) {
             koleksiController.startTimer(dueDate, peminjamanID, judulBuku);
           } else {
-            print("Error: peminjamanID or bookTitle is null");
+            print("Error: peminjamanID or  bookTitle is null");
           }
-          Get.offAllNamed(Routes.LAYOUT)?.then((_) {
-            LayoutController layoutController = Get.find();
-            layoutController.onTap(2);
-          });
+          layoutController.onTap(2);
         } else {
           showToastError("Pinjam buku Gagal");
         }
@@ -196,10 +194,10 @@ class DetailBukuController extends GetxController {
           } else {
             print("Error: koleksiID or bookTitle is null");
           }
-          Get.offAllNamed(Routes.LAYOUT)?.then((_) {
-            LayoutController layoutController = Get.find();
-            layoutController.onTap(2);
-          });
+          if (Get.isRegistered<DetailBukuController>()) {
+            Get.delete<DetailBukuController>();
+          }
+          layoutController.onTap(2);
         } else {
           showToastError("Pinjam buku Gagal");
         }

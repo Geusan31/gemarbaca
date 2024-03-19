@@ -28,18 +28,7 @@ class LayoutView extends GetView<LayoutController> {
                 selectedIndex: controller.index.value,
                 onDestinationSelected: (index) => controller.onTap(index),
                 destinations:controller.destination
-              ),
-              // child: BottomNavigationBar(
-              //   selectedItemColor: Theme.of(context).primaryColor,
-              //   unselectedItemColor: Colors.grey.withOpacity(0.5),
-              //   showSelectedLabels: false,
-              //   showUnselectedLabels: false,
-              //   elevation: 0,
-              //   currentIndex: controller.index.value,
-              //   backgroundColor: Colors.transparent,
-              //   items: controller.items,
-              //   onTap: (index) => controller.onTap(index),
-              // ),
+              )
             ),
           );
         }));

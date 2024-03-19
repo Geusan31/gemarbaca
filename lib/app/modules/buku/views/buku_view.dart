@@ -85,7 +85,7 @@ class BukuView extends GetView<BukuController> {
                                       .toList(),
                                 ),
                                 controller.categoryBookControllers!.isEmpty
-                                    ? const Text("KOCAKKKKKK")
+                                    ? const Text("Data Kategori Tidak ada.")
                                     : Expanded(
                                   child: TabBarView(
                                       controller: controller
