@@ -4,6 +4,8 @@ import '../modules/baca/bindings/baca_binding.dart';
 import '../modules/baca/views/baca_view.dart';
 import '../modules/buku/bindings/buku_binding.dart';
 import '../modules/buku/views/buku_view.dart';
+import '../modules/dashboard/bindings/dashboard_binding.dart';
+import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/detail_buku/bindings/detail_buku_binding.dart';
 import '../modules/detail_buku/views/detail_buku_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
@@ -106,6 +108,11 @@ class AppPages {
       name: _Paths.BACA,
       page: () => const BacaView(),
       binding: BacaBinding(),
+    ),
+    GetPage(
+      name: _Paths.DASHBOARD,
+      page: () => const DashboardView(),
+      binding: DashboardBinding(),
     ),
   ];
 }
