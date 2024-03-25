@@ -1,5 +1,5 @@
 /// message : 200
-/// data : {"BukuID":5,"Judul":"Solo Leveling","Penulis":"Chugong","Penerbit":"Gemar Baca","TahunTerbit":2018,"deskripsi":null,"stok":10,"cover":null,"createAt":"2024-03-08T21:07:51.212Z","updateAt":"2024-03-08T21:07:51.212Z","genreBuku":[{"id":7,"bukuId":5,"genreBukuId":1,"createAt":"2024-03-08T21:07:51.228Z","updateAt":"2024-03-08T21:07:51.228Z","genreBuku":{"id":1,"nama":"Fantasy","createAt":"2024-03-08T20:33:23.103Z","updateAt":"2024-03-08T20:33:23.103Z"}},{"id":8,"bukuId":5,"genreBukuId":2,"createAt":"2024-03-08T21:07:51.230Z","updateAt":"2024-03-08T21:07:51.230Z","genreBuku":{"id":2,"nama":"Action","createAt":"2024-03-08T20:33:27.181Z","updateAt":"2024-03-08T20:33:27.181Z"}},{"id":9,"bukuId":5,"genreBukuId":3,"createAt":"2024-03-08T21:07:51.231Z","updateAt":"2024-03-08T21:07:51.231Z","genreBuku":{"id":3,"nama":"Advanture","createAt":"2024-03-08T20:33:38.761Z","updateAt":"2024-03-08T20:33:38.761Z"}}],"ulasan":[{"UlasanID":2,"UserID":2,"BukuID":5,"Ulasan":"Awesome!","Rating":4,"createAt":"2024-03-12T03:11:50.129Z","updateAt":"2024-03-12T03:11:50.129Z","user":{"UserID":2,"Username":null,"Password":"$2b$10$pvjj4M3OdFlTuV/ymoK49OadzHMco3Z9QLTTQCV8xXup6hx3Tf6Ty","Email":"raisaria341@gmail.com","NamaLengkap":"Raissan","Alamat":null,"role":"admin","createAt":"2024-03-07T15:31:04.443Z","updateAt":"2024-03-07T15:31:04.443Z"}}],"avgRating":4}
+/// data : {"BukuID":1,"Judul":"Solo Leveling","Penulis":"Chugong","Penerbit":"Gemar Baca","TahunTerbit":2018,"deskripsi":null,"stok":10,"cover":null,"status":"belumDipinjam","createAt":"2024-03-22T09:21:27.936Z","updateAt":"2024-03-22T09:21:27.936Z","genreBuku":[{"id":1,"bukuId":1,"genreBukuId":1,"createAt":"2024-03-22T09:21:27.983Z","updateAt":"2024-03-22T09:21:27.983Z","genreBuku":{"id":1,"nama":"Action","createAt":"2024-03-22T09:20:45.322Z","updateAt":"2024-03-22T09:20:45.322Z"}},{"id":2,"bukuId":1,"genreBukuId":2,"createAt":"2024-03-22T09:21:28.002Z","updateAt":"2024-03-22T09:21:28.002Z","genreBuku":{"id":2,"nama":"Advanture","createAt":"2024-03-22T09:20:48.881Z","updateAt":"2024-03-22T09:20:48.881Z"}},{"id":3,"bukuId":1,"genreBukuId":3,"createAt":"2024-03-22T09:21:28.004Z","updateAt":"2024-03-22T09:21:28.004Z","genreBuku":{"id":3,"nama":"Fantasy","createAt":"2024-03-22T09:20:52.449Z","updateAt":"2024-03-22T09:20:52.449Z"}}],"ulasan":[{"UlasanID":1,"UserID":1,"BukuID":1,"Ulasan":"Awesome!","Rating":4,"createAt":"2024-03-24T06:03:35.484Z","updateAt":"2024-03-24T06:03:35.484Z","user":{"UserID":1,"Username":null,"Password":"$2b$10$Yx0Nah4zUQGjlrMgf4wLteEFYeUKuuKuaRHV96KNJLUkcAr3CtIjG","Email":"raisaria341@gmail.com","NamaLengkap":"Raissan","Alamat":null,"role":"admin","createAt":"2024-03-23T03:30:34.317Z","updateAt":"2024-03-23T03:30:34.317Z"}}],"episode":[{"id":1,"BukuID":1,"judul":"Chapter 1","file":null,"createAt":"2024-03-22T09:25:02.252Z","updateAt":"2024-03-22T09:25:02.252Z"}],"avgRating":null}
 
 class ResponseDetailBook {
   ResponseDetailBook({
@@ -24,7 +24,7 @@ class ResponseDetailBook {
 
 }
 
-/// BukuID : 5
+/// BukuID : 1
 /// Judul : "Solo Leveling"
 /// Penulis : "Chugong"
 /// Penerbit : "Gemar Baca"
@@ -32,11 +32,13 @@ class ResponseDetailBook {
 /// deskripsi : null
 /// stok : 10
 /// cover : null
-/// createAt : "2024-03-08T21:07:51.212Z"
-/// updateAt : "2024-03-08T21:07:51.212Z"
-/// genreBuku : [{"id":7,"bukuId":5,"genreBukuId":1,"createAt":"2024-03-08T21:07:51.228Z","updateAt":"2024-03-08T21:07:51.228Z","genreBuku":{"id":1,"nama":"Fantasy","createAt":"2024-03-08T20:33:23.103Z","updateAt":"2024-03-08T20:33:23.103Z"}},{"id":8,"bukuId":5,"genreBukuId":2,"createAt":"2024-03-08T21:07:51.230Z","updateAt":"2024-03-08T21:07:51.230Z","genreBuku":{"id":2,"nama":"Action","createAt":"2024-03-08T20:33:27.181Z","updateAt":"2024-03-08T20:33:27.181Z"}},{"id":9,"bukuId":5,"genreBukuId":3,"createAt":"2024-03-08T21:07:51.231Z","updateAt":"2024-03-08T21:07:51.231Z","genreBuku":{"id":3,"nama":"Advanture","createAt":"2024-03-08T20:33:38.761Z","updateAt":"2024-03-08T20:33:38.761Z"}}]
-/// ulasan : [{"UlasanID":2,"UserID":2,"BukuID":5,"Ulasan":"Awesome!","Rating":4,"createAt":"2024-03-12T03:11:50.129Z","updateAt":"2024-03-12T03:11:50.129Z","user":{"UserID":2,"Username":null,"Password":"$2b$10$pvjj4M3OdFlTuV/ymoK49OadzHMco3Z9QLTTQCV8xXup6hx3Tf6Ty","Email":"raisaria341@gmail.com","NamaLengkap":"Raissan","Alamat":null,"role":"admin","createAt":"2024-03-07T15:31:04.443Z","updateAt":"2024-03-07T15:31:04.443Z"}}]
-/// avgRating : 4
+/// status : "belumDipinjam"
+/// createAt : "2024-03-22T09:21:27.936Z"
+/// updateAt : "2024-03-22T09:21:27.936Z"
+/// genreBuku : [{"id":1,"bukuId":1,"genreBukuId":1,"createAt":"2024-03-22T09:21:27.983Z","updateAt":"2024-03-22T09:21:27.983Z","genreBuku":{"id":1,"nama":"Action","createAt":"2024-03-22T09:20:45.322Z","updateAt":"2024-03-22T09:20:45.322Z"}},{"id":2,"bukuId":1,"genreBukuId":2,"createAt":"2024-03-22T09:21:28.002Z","updateAt":"2024-03-22T09:21:28.002Z","genreBuku":{"id":2,"nama":"Advanture","createAt":"2024-03-22T09:20:48.881Z","updateAt":"2024-03-22T09:20:48.881Z"}},{"id":3,"bukuId":1,"genreBukuId":3,"createAt":"2024-03-22T09:21:28.004Z","updateAt":"2024-03-22T09:21:28.004Z","genreBuku":{"id":3,"nama":"Fantasy","createAt":"2024-03-22T09:20:52.449Z","updateAt":"2024-03-22T09:20:52.449Z"}}]
+/// ulasan : [{"UlasanID":1,"UserID":1,"BukuID":1,"Ulasan":"Awesome!","Rating":4,"createAt":"2024-03-24T06:03:35.484Z","updateAt":"2024-03-24T06:03:35.484Z","user":{"UserID":1,"Username":null,"Password":"$2b$10$Yx0Nah4zUQGjlrMgf4wLteEFYeUKuuKuaRHV96KNJLUkcAr3CtIjG","Email":"raisaria341@gmail.com","NamaLengkap":"Raissan","Alamat":null,"role":"admin","createAt":"2024-03-23T03:30:34.317Z","updateAt":"2024-03-23T03:30:34.317Z"}}]
+/// episode : [{"id":1,"BukuID":1,"judul":"Chapter 1","file":null,"createAt":"2024-03-22T09:25:02.252Z","updateAt":"2024-03-22T09:25:02.252Z"}]
+/// avgRating : null
 
 class DataDetailBook {
   DataDetailBook({
@@ -48,10 +50,12 @@ class DataDetailBook {
       this.deskripsi, 
       this.stok, 
       this.cover, 
+      this.status, 
       this.createAt, 
       this.updateAt, 
       this.genreBuku, 
       this.ulasan, 
+      this.episode, 
       this.avgRating,});
 
   DataDetailBook.fromJson(dynamic json) {
@@ -63,7 +67,6 @@ class DataDetailBook {
     deskripsi = json['deskripsi'];
     stok = json['stok'];
     cover = json['cover'];
-    file = json['file'];
     status = json['status'];
     createAt = json['createAt'];
     updateAt = json['updateAt'];
@@ -79,6 +82,12 @@ class DataDetailBook {
         ulasan?.add(Ulasan.fromJson(v));
       });
     }
+    if (json['episode'] != null) {
+      episode = [];
+      json['episode'].forEach((v) {
+        episode?.add(Episode.fromJson(v));
+      });
+    }
     avgRating = json['avgRating'];
   }
   int? bukuID;
@@ -89,13 +98,13 @@ class DataDetailBook {
   dynamic deskripsi;
   int? stok;
   dynamic cover;
-  dynamic file;
   String? status;
   String? createAt;
   String? updateAt;
   List<DetailBukuGenreBukuRelasi>? genreBuku;
   List<Ulasan>? ulasan;
-  int? avgRating;
+  List<Episode>? episode;
+  dynamic avgRating;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -107,6 +116,7 @@ class DataDetailBook {
     map['deskripsi'] = deskripsi;
     map['stok'] = stok;
     map['cover'] = cover;
+    map['status'] = status;
     map['createAt'] = createAt;
     map['updateAt'] = updateAt;
     if (genreBuku != null) {
@@ -115,20 +125,67 @@ class DataDetailBook {
     if (ulasan != null) {
       map['ulasan'] = ulasan?.map((v) => v.toJson()).toList();
     }
+    if (episode != null) {
+      map['episode'] = episode?.map((v) => v.toJson()).toList();
+    }
     map['avgRating'] = avgRating;
     return map;
   }
 
 }
 
-/// UlasanID : 2
-/// UserID : 2
-/// BukuID : 5
+/// id : 1
+/// BukuID : 1
+/// judul : "Chapter 1"
+/// file : null
+/// createAt : "2024-03-22T09:25:02.252Z"
+/// updateAt : "2024-03-22T09:25:02.252Z"
+
+class Episode {
+  Episode({
+      this.id, 
+      this.bukuID, 
+      this.judul, 
+      this.file, 
+      this.createAt, 
+      this.updateAt,});
+
+  Episode.fromJson(dynamic json) {
+    id = json['id'];
+    bukuID = json['BukuID'];
+    judul = json['judul'];
+    file = json['file'];
+    createAt = json['createAt'];
+    updateAt = json['updateAt'];
+  }
+  int? id;
+  int? bukuID;
+  String? judul;
+  dynamic file;
+  String? createAt;
+  String? updateAt;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['BukuID'] = bukuID;
+    map['judul'] = judul;
+    map['file'] = file;
+    map['createAt'] = createAt;
+    map['updateAt'] = updateAt;
+    return map;
+  }
+
+}
+
+/// UlasanID : 1
+/// UserID : 1
+/// BukuID : 1
 /// Ulasan : "Awesome!"
 /// Rating : 4
-/// createAt : "2024-03-12T03:11:50.129Z"
-/// updateAt : "2024-03-12T03:11:50.129Z"
-/// user : {"UserID":2,"Username":null,"Password":"$2b$10$pvjj4M3OdFlTuV/ymoK49OadzHMco3Z9QLTTQCV8xXup6hx3Tf6Ty","Email":"raisaria341@gmail.com","NamaLengkap":"Raissan","Alamat":null,"role":"admin","createAt":"2024-03-07T15:31:04.443Z","updateAt":"2024-03-07T15:31:04.443Z"}
+/// createAt : "2024-03-24T06:03:35.484Z"
+/// updateAt : "2024-03-24T06:03:35.484Z"
+/// user : {"UserID":1,"Username":null,"Password":"$2b$10$Yx0Nah4zUQGjlrMgf4wLteEFYeUKuuKuaRHV96KNJLUkcAr3CtIjG","Email":"raisaria341@gmail.com","NamaLengkap":"Raissan","Alamat":null,"role":"admin","createAt":"2024-03-23T03:30:34.317Z","updateAt":"2024-03-23T03:30:34.317Z"}
 
 class Ulasan {
   Ulasan({
@@ -177,15 +234,15 @@ class Ulasan {
 
 }
 
-/// UserID : 2
+/// UserID : 1
 /// Username : null
-/// Password : "$2b$10$pvjj4M3OdFlTuV/ymoK49OadzHMco3Z9QLTTQCV8xXup6hx3Tf6Ty"
+/// Password : "$2b$10$Yx0Nah4zUQGjlrMgf4wLteEFYeUKuuKuaRHV96KNJLUkcAr3CtIjG"
 /// Email : "raisaria341@gmail.com"
 /// NamaLengkap : "Raissan"
 /// Alamat : null
 /// role : "admin"
-/// createAt : "2024-03-07T15:31:04.443Z"
-/// updateAt : "2024-03-07T15:31:04.443Z"
+/// createAt : "2024-03-23T03:30:34.317Z"
+/// updateAt : "2024-03-23T03:30:34.317Z"
 
 class User {
   User({
@@ -236,12 +293,12 @@ class User {
 
 }
 
-/// id : 7
-/// bukuId : 5
+/// id : 1
+/// bukuId : 1
 /// genreBukuId : 1
-/// createAt : "2024-03-08T21:07:51.228Z"
-/// updateAt : "2024-03-08T21:07:51.228Z"
-/// genreBuku : {"id":1,"nama":"Fantasy","createAt":"2024-03-08T20:33:23.103Z","updateAt":"2024-03-08T20:33:23.103Z"}
+/// createAt : "2024-03-22T09:21:27.983Z"
+/// updateAt : "2024-03-22T09:21:27.983Z"
+/// genreBuku : {"id":1,"nama":"Action","createAt":"2024-03-22T09:20:45.322Z","updateAt":"2024-03-22T09:20:45.322Z"}
 
 class DetailBukuGenreBukuRelasi {
   DetailBukuGenreBukuRelasi({
@@ -283,9 +340,9 @@ class DetailBukuGenreBukuRelasi {
 }
 
 /// id : 1
-/// nama : "Fantasy"
-/// createAt : "2024-03-08T20:33:23.103Z"
-/// updateAt : "2024-03-08T20:33:23.103Z"
+/// nama : "Action"
+/// createAt : "2024-03-22T09:20:45.322Z"
+/// updateAt : "2024-03-22T09:20:45.322Z"
 
 class DetailBukuGenreBuku {
   DetailBukuGenreBuku({

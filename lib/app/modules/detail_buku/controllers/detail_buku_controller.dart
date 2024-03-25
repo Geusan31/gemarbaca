@@ -21,6 +21,7 @@ class DetailBukuController extends GetxController {
   KoleksiController koleksiController = Get.put(KoleksiController(), permanent: true);
   LayoutController layoutController = Get.put(LayoutController(), permanent: true);
   //TODO: Implement DetailBukuController
+  int currentChapterIndex = 0;
   final dataDetailBukuList = Rx<DataDetailBook?>(null);
   var status = Rx<RxStatus>(RxStatus.loading());
   final TextEditingController dateController = TextEditingController();
@@ -46,7 +47,6 @@ class DetailBukuController extends GetxController {
   }
 
   void increment() => count.value++;
-
 
   void alertShow() {
     if (Get.context != null) {

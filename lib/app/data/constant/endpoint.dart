@@ -1,7 +1,7 @@
 class EndPoint {
   // static const String BaseUrlApi = "https://gemarbaca-api.onrender.com/";
-  // static const String BaseUrlApi = "http://192.168.1.10:3000/";
-  static const String BaseUrlApi = "http://localhost:3000/";
+  static const String BaseUrlApi = "http://192.168.1.10:3000/";
+  // static const String BaseUrlApi = "http://localhost:3000/";
 
   // Authentication
   static const String login = "${BaseUrlApi}auth/login";

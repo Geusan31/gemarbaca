@@ -16,7 +16,7 @@ class BacaView extends GetView<BacaController> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Obx(() {
-          return Text(controller.judul.value,style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white));
+          return Text(controller.judul.value ?? '-',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white));
         }),
         actions: [
           IconButton(onPressed: () {
@@ -30,11 +30,35 @@ class BacaView extends GetView<BacaController> {
           }, icon: Icon(CupertinoIcons.arrow_down_circle, color: Colors.white,))
         ],
       ),
-      body: SfPdfViewer.memory(
-        controller: controller.pdfViewerController,
-        base64.decode(controller.file.value),
-        canShowScrollHead: false,
-        canShowScrollStatus: false,
+      body: Stack(
+        children: <Widget>[
+          SfPdfViewer.memory(
+            controller: controller.pdfViewerController,
+            base64.decode(controller.file.value),
+            canShowScrollHead: false,
+            canShowScrollStatus: false,
+          ),
+          Positioned(
+            bottom: 20.0,
+            right: 20.0,
+            child: FloatingActionButton(
+              child: Icon(Icons.arrow_forward),
+              onPressed: controller.detailBukuController.currentChapterIndex < (controller.detailBukuController.dataDetailBukuList.value?.episode?.length ?? 0) - 1 ? controller.nextChapter : null,
+              backgroundColor: controller.detailBukuController.currentChapterIndex < (controller.detailBukuController.dataDetailBukuList.value?.episode?.length ?? 0) - 1 ? Theme.of(context).primaryColor : Colors.grey,
+              foregroundColor: controller.detailBukuController.currentChapterIndex < (controller.detailBukuController.dataDetailBukuList.value?.episode?.length ?? 0) - 1 ? Colors.white : Colors.black,
+            ),
+          ),
+          Positioned(
+            bottom: 20.0,
+            left: 20.0,
+            child: FloatingActionButton(
+              child: Icon(Icons.arrow_back),
+              onPressed: controller.detailBukuController.currentChapterIndex > 0 ? controller.previousChapter : null,
+              backgroundColor: controller.detailBukuController.currentChapterIndex > 0 ? Theme.of(context).primaryColor : Colors.grey,
+              foregroundColor: controller.detailBukuController.currentChapterIndex > 0 ? Colors.white : Colors.black,
+            ),
+          ),
+        ],
       ),
     );
   }
