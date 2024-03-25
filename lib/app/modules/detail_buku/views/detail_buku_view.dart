@@ -299,7 +299,9 @@ class DetailBukuView extends GetView<DetailBukuController> {
                 onPressed: () {
                   if (controller.statusPeminjaman.value) {
                     Get.toNamed(Routes.BACA, parameters: {
-                      'judul': controller.dataDetailBukuList.value?.judul.toString() ?? '-',
+                      'judul': controller.dataDetailBukuList.value?.judul
+                              .toString() ??
+                          '-',
                       'file': controller.dataDetailBukuList.value?.file
                     });
                   } else {
@@ -307,7 +309,11 @@ class DetailBukuView extends GetView<DetailBukuController> {
                   }
                 },
                 child: Obx(() {
-                  return Text(controller.statusPeminjaman.value ? 'Baca Buku' : 'Pinjam Buku', style: TextStyle(color: Colors.white));
+                  return Text(
+                      controller.statusPeminjaman.value
+                          ? 'Baca Buku'
+                          : 'Pinjam Buku',
+                      style: TextStyle(color: Colors.white));
                 }),
                 style: TextButton.styleFrom(
                     backgroundColor: Theme.of(context).primaryColor,

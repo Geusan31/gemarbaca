@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart' as dio;
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
+import 'package:gemarbaca/app/data/model/response_detail_profile.dart';
 import 'package:gemarbaca/app/data/provider/api_provider.dart';
+import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
 
@@ -13,21 +16,32 @@ class EditProfileController extends GetxController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController tanggalLahirController = TextEditingController();
   final TextEditingController alamatController = TextEditingController();
+  final TextEditingController bioController = TextEditingController();
+  final TextEditingController jenisKelaminController = TextEditingController();
   final FocusNode nameFocusNode = FocusNode();
   final FocusNode usernameFocusNode = FocusNode();
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode alamatFocusNode = FocusNode();
   final FocusNode tanggalLahirFocusNode = FocusNode();
+  final FocusNode bioFocusNode = FocusNode();
+  final FocusNode jenisKelaminFocusNode = FocusNode();
   var isObscure = true.obs;
   var nameIsFocused = false.obs;
   var usernameIsFocused = false.obs;
   var emailIsFocused = false.obs;
   var alamatIsFocused = false.obs;
+  var bioIsFocused = false.obs;
+  var tanggalLahirIsFocused = false.obs;
+  var jenisKelaminIsFocused = false.obs;
   final loading = false.obs;
   final count = 0.obs;
+  final dataDetailProfile = Rx<DataDetailProfile?>(null);
+  var status = Rx<RxStatus>(RxStatus.loading());
+
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
+    await getDetailProfile();
     nameFocusNode.addListener(() {
       nameIsFocused.value = nameFocusNode.hasFocus;
     });
@@ -41,7 +55,13 @@ class EditProfileController extends GetxController {
       alamatIsFocused.value = alamatFocusNode.hasFocus;
     });
     tanggalLahirFocusNode.addListener(() {
-      alamatIsFocused.value = alamatFocusNode.hasFocus;
+      tanggalLahirIsFocused.value = tanggalLahirFocusNode.hasFocus;
+    });
+    bioFocusNode.addListener(() {
+      bioIsFocused.value = bioFocusNode.hasFocus;
+    });
+    jenisKelaminFocusNode.addListener(() {
+      jenisKelaminIsFocused.value = jenisKelaminFocusNode.hasFocus;
     });
   }
 
@@ -56,6 +76,45 @@ class EditProfileController extends GetxController {
   }
 
   void increment() => count.value++;
+
+  Future<void> getDetailProfile() async {
+    status.value = RxStatus.loading();
+    String token = StorageProvider.read(StorageKey.token);
+    var id = Get.parameters['id'];
+    try {
+      var response = await ApiProvider.instance().get("${EndPoint.profile}/$id",
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      final ResponseDetailProfile responseDetailProfile =
+          ResponseDetailProfile.fromJson(response.data!);
+
+      if (responseDetailProfile.data == null) {
+        print("Empty Profile");
+        status.value = RxStatus.empty();
+      } else {
+        nameController.text = responseDetailProfile.data!.user!.namaLengkap!;
+        usernameController.text = responseDetailProfile.data!.user!.username!;
+        alamatController.text = responseDetailProfile.data!.user!.alamat!;
+        tanggalLahirController.text = responseDetailProfile.data!.tanggalLahir!;
+        bioController.text = responseDetailProfile.data!.bio!;
+        jenisKelaminController.text = responseDetailProfile.data!.jenisKelamin!;
+        print("Response Profile: ${responseDetailProfile.data!}");
+        dataDetailProfile.value = responseDetailProfile.data!;
+        status.value = RxStatus.success();
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          status.value = RxStatus.error("${e.response?.data['message']}");
+        }
+      } else {
+        status.value = RxStatus.error(e.message ?? "");
+      }
+    } catch (e) {
+      print(e.toString());
+      showToastError(e.toString());
+    }
+  }
 
   editProfile() async {
     print(usernameController.text.toString());

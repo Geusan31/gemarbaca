@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/modules/buku/controllers/buku_controller.dart';
 import 'package:gemarbaca/app/modules/buku/views/buku_view.dart';
+import 'package:gemarbaca/app/modules/dashboard/controllers/dashboard_controller.dart';
 import 'package:gemarbaca/app/modules/dashboard/views/dashboard_view.dart';
 import 'package:gemarbaca/app/modules/home/controllers/home_controller.dart';
 import 'package:gemarbaca/app/modules/home/views/home_view.dart';
@@ -17,6 +18,8 @@ class LayoutController extends GetxController {
   //TODO: Implement LayoutController
   HomeController homeController = Get.put(HomeController(), permanent: true);
   BukuController bukuController = Get.put(BukuController(), permanent: true);
+  DashboardController dashboardController =
+      Get.put(DashboardController(), permanent: true);
   KoleksiController koleksiController =
       Get.put(KoleksiController(), permanent: true);
   ProfileController profileController =
@@ -29,44 +32,6 @@ class LayoutController extends GetxController {
     BukuView(),
     KoleksiView(),
     ProfileView(),
-  ];
-
-  final screenAdmin = [
-    DashboardView(),
-    DashboardView(),
-    DashboardView(),
-    DashboardView(),
-  ];
-
-  final items = [
-    const BottomNavigationBarItem(
-      label: 'Home',
-      icon: Icon(
-        Icons.home_outlined,
-        size: 30,
-      ),
-    ),
-    const BottomNavigationBarItem(
-      label: 'Book',
-      icon: Icon(
-        Icons.book_outlined,
-        size: 30,
-      ),
-    ),
-    const BottomNavigationBarItem(
-      label: 'Bookmark',
-      icon: Icon(
-        Icons.bookmark_border_outlined,
-        size: 30,
-      ),
-    ),
-    const BottomNavigationBarItem(
-      label: 'Profile',
-      icon: Icon(
-        Icons.account_circle_outlined,
-        size: 30,
-      ),
-    ),
   ];
 
   final destination = [

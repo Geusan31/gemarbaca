@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gemarbaca/app/data/provider/storage_provider.dart';
+import 'package:gemarbaca/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 
@@ -74,7 +76,9 @@ class ProfileView extends GetView<ProfileController> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(Routes.EDIT_PROFILE);
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(

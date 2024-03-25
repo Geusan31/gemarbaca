@@ -39,4 +39,7 @@ class EndPoint {
 
   // Koleksi Url
   static const String koleksi = "${BaseUrlApi}bookmark";
+
+  // Profile Url
+  static const String profile = "${BaseUrlApi}profile";
 }
