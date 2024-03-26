@@ -733,10 +733,8 @@ class DetailBukuView extends GetView<DetailBukuController> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10))),
                 ),
-              ),
-            ),
           ),
-        );
+        )));
       }
     });
   }

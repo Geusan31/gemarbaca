@@ -17,6 +17,7 @@ abstract class Routes {
   static const DETAIL_BUKU = _Paths.DETAIL_BUKU;
   static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
   static const BACA = _Paths.BACA;
+  static const DASHBOARD = _Paths.DASHBOARD;
 }
 
 abstract class _Paths {
@@ -35,4 +36,5 @@ abstract class _Paths {
   static const DETAIL_BUKU = '/detail-buku';
   static const EDIT_PROFILE = '/edit-profile';
   static const BACA = '/baca';
+  static const DASHBOARD = '/dashboard';
 }
