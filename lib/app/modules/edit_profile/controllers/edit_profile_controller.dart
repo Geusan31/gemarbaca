@@ -1,9 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
 import 'package:gemarbaca/app/data/model/response_detail_profile.dart';
@@ -88,31 +88,39 @@ class EditProfileController extends GetxController {
   void increment() => count.value++;
 
   Future<void> getImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      imagePath.value = image.path;
-      imageSize.value =
-      "${((File(imagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
-      return showToastSuccess(
-          "Profile picture changed successfully");
-    } else {
-      return showToastInfo("Cancel profile image selection");
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        imagePath.value = image.path;
+        File imageFile = File(imagePath.value);
+        print("${imagePath.value}");
+        var fileStat = await imageFile.stat();
+        double fileSizeInBytes = fileStat.size.toDouble();
+        double fileSizeInMb = fileSizeInBytes / (1024 * 1024);
+        print("Size $fileSizeInMb");
+        print("${fileSizeInMb.toStringAsFixed(2)}");
+        imageSize.value = fileSizeInMb.toStringAsFixed(2) + "Mb";
+        print("base64: ${imagePath.value}");
+        showToastSuccess("Profile picture changed successfully");
+      } else {
+        showToastInfo("Cancel profile image selection");
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 
-  selectedDate() async {
+  Future<DateTime?> selectedDate() async {
     if (Get.context != null) {
       DateTime? picked = await showDatePicker(
-          context: Get.context!,
-          firstDate: DateTime(2000),
-          initialDate: DateTime.now(),
-          lastDate: DateTime(2100));
-      if (picked != null) {
-        tanggalLahirController.text = picked.toString().split(" ")[0];
-        log(tanggalLahirController.text);
-      }
+        context: Get.context!,
+        firstDate: DateTime(2000),
+        initialDate: DateTime.now(),
+        lastDate: DateTime(2100),
+      );
+      return picked;
     }
+    return null;
   }
 
   void check() {
@@ -136,12 +144,16 @@ class EditProfileController extends GetxController {
         print("Empty Profile");
         status.value = RxStatus.empty();
       } else {
-        nameController.text = (responseDetailProfile.data!.user!.namaLengkap ?? '');
-        usernameController.text = responseDetailProfile.data!.user!.username ?? '';
+        nameController.text =
+            (responseDetailProfile.data!.user!.namaLengkap ?? '');
+        usernameController.text =
+            responseDetailProfile.data!.user!.username ?? '';
         alamatController.text = responseDetailProfile.data!.user!.alamat ?? '';
-        tanggalLahirController.text = responseDetailProfile.data!.tanggalLahir?? '';
+        tanggalLahirController.text =
+            responseDetailProfile.data!.tanggalLahir ?? '';
         bioController.text = responseDetailProfile.data!.bio ?? '';
-        jenisKelaminController.text = responseDetailProfile.data!.jenisKelamin ?? '';
+        jenisKelaminController.text =
+            responseDetailProfile.data!.jenisKelamin ?? '';
         print("Response Profile: ${responseDetailProfile.data!}");
         dataDetailProfile.value = responseDetailProfile.data!;
         status.value = RxStatus.success();
@@ -161,29 +173,47 @@ class EditProfileController extends GetxController {
   }
 
   editProfile() async {
-    print(usernameController.text.toString());
-    loading(true);
     try {
+      String token = StorageProvider.read(StorageKey.token);
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+      var id = decodedToken['id'];
+      print("Id Profile $id");
+      print(usernameController.text.toString());
+      loading(true);
+      var file = File(imagePath.value);
+      List<int> imageBytes = await file.readAsBytes();
+      print(imageBytes);
+      String base64Image = base64Encode(imageBytes);
+      profilePict = base64Image;
+
+      if (Get.context == null) {
+        print("Error: Context is null");
+        return;
+      }
+
       FocusScope.of(Get.context!).unfocus();
       formKey.currentState!.save();
       if (formKey.currentState!.validate()) {
-        String email = emailController.text.toString();
-        if (email.isEmpty) {
-          showToastError("Email is required");
+        String name = nameController.text.toString();
+        if (name.isEmpty) {
+          showToastError("Name is required");
           return;
         }
         final response =
-            await ApiProvider.instance().post(EndPoint.register, data: {
-          "nama_lengkap": nameController.text.toString(),
-          "username": usernameController.text.toString(),
-          "email": emailController.text.toString(),
+            await ApiProvider.instance().post("${EndPoint.profile}/$id", data: {
+          "NamaLengkap": nameController.text.toString(),
+          "Username": usernameController.text.toString(),
+          "Alamat": emailController.text.toString(),
           "tanggal_lahir": tanggalLahirController.text.toString(),
+          "jenisKelamin": jenisKelaminController.text.toString(),
+          "fotoProfile": profilePict,
+          "bio": bioController.text.toString(),
         });
         if (response.statusCode == 200) {
           showToastSuccess(response.data['message']);
           Get.back();
         } else {
-          showToastError("Register Gagal!");
+          showToastError("Edit Profile Gagal!");
         }
       }
       loading(false);
@@ -191,12 +221,14 @@ class EditProfileController extends GetxController {
       loading(false);
       if (e.response != null) {
         if (e.response!.data != null) {
+          print(e.response!.data['message']);
           showToastError(e.response!.data['message']);
         } else {
           showToastError(e.message ?? "");
         }
       }
     } catch (e) {
+      print(e.toString());
       showToastError(e.toString());
     }
     loading(false);

@@ -10,7 +10,6 @@ import 'package:gemarbaca/app/data/provider/api_provider.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/modules/koleksi/controllers/koleksi_controller.dart';
 import 'package:gemarbaca/app/modules/layout/controllers/layout_controller.dart';
-import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -18,8 +17,10 @@ import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class DetailBukuController extends GetxController {
-  KoleksiController koleksiController = Get.put(KoleksiController(), permanent: true);
-  LayoutController layoutController = Get.put(LayoutController(), permanent: true);
+  KoleksiController koleksiController =
+      Get.put(KoleksiController(), permanent: true);
+  LayoutController layoutController =
+      Get.put(LayoutController(), permanent: true);
   //TODO: Implement DetailBukuController
   int currentChapterIndex = 0;
   final dataDetailBukuList = Rx<DataDetailBook?>(null);
@@ -103,9 +104,9 @@ class DetailBukuController extends GetxController {
     if (Get.context != null) {
       DateTime? picked = await showDatePicker(
           context: Get.context!,
-          firstDate: DateTime(2000),
-          initialDate: DateTime.now(),
-          lastDate: DateTime(2100));
+          firstDate: DateTime.now().add(Duration(days: 1)),
+          initialDate: DateTime.now().add(Duration(days: 1)),
+          lastDate: DateTime.now().add(Duration(days: 30)));
       if (picked != null) {
         dateController.text = picked.toString().split(" ")[0];
       }
@@ -136,7 +137,8 @@ class DetailBukuController extends GetxController {
             });
         if (response.statusCode == 200) {
           status.value = RxStatus.success();
-          ResponsePeminjaman responsePeminjaman = ResponsePeminjaman.fromJson(response.data);
+          ResponsePeminjaman responsePeminjaman =
+              ResponsePeminjaman.fromJson(response.data);
           var peminjamanID = responsePeminjaman.data!.peminjaman!.peminjamanID;
           var judulBuku = responsePeminjaman.data!.peminjaman!.buku?.judul;
           if (peminjamanID != null && judulBuku != null) {
@@ -186,7 +188,8 @@ class DetailBukuController extends GetxController {
             });
         if (response.statusCode == 200) {
           status.value = RxStatus.success();
-          ResponseKoleksiPribadi responseKoleksiPribadi = ResponseKoleksiPribadi.fromJson(response.data);
+          ResponseKoleksiPribadi responseKoleksiPribadi =
+              ResponseKoleksiPribadi.fromJson(response.data);
           var peminjamanID = responseKoleksiPribadi.data!.koleksiID;
           var judulBuku = responseKoleksiPribadi.data!.buku?.judul;
           if (peminjamanID != null && judulBuku != null) {
@@ -237,7 +240,7 @@ class DetailBukuController extends GetxController {
         print("Empty Book");
         status.value = RxStatus.empty();
       } else {
-        if(responseDetailBook.data!.status == 'diPinjamkan') {
+        if (responseDetailBook.data!.status == 'diPinjamkan') {
           statusPeminjaman.value = true;
           print("Status Peminjaman: ${responseDetailBook.data!.status}");
         }
