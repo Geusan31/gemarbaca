@@ -33,6 +33,12 @@ class LayoutController extends GetxController {
     KoleksiView(),
     ProfileView(),
   ];
+  final screenAdmin = const [
+    DashboardView(),
+    DashboardView(),
+    DashboardView(),
+    DashboardView(),
+  ];
 
   final destination = [
     const NavigationDestination(icon: Icon(CupertinoIcons.home), label: 'Home'),

@@ -4,9 +4,9 @@ import 'package:gemarbaca/app/routes/app_pages.dart';
 
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../controllers/dashboard_controller.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({Key? key}) : super(key: key);
@@ -117,6 +117,258 @@ class DashboardView extends GetView<DashboardController> {
                   ],
                 ),
               ),
+              SizedBox(height: 20),
+              GridView.count(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                mainAxisSpacing: 20.0,
+                crossAxisSpacing: 20.0,
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 1,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Users",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              SizedBox(height: 40),
+                              Center(
+                                child: Text("1",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 35)),
+                              ),
+                            ]),
+                      )),
+                  Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 1,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Buku",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              SizedBox(height: 40),
+                              Center(
+                                child: Text("1",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 35)),
+                              ),
+                            ]),
+                      )),
+                  Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 1,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Peminjaman",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              SizedBox(height: 40),
+                              Center(
+                                child: Text("1",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 35)),
+                              ),
+                            ]),
+                      )),
+                  Container(
+                      decoration: BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 1,
+                            offset: Offset(0, 1),
+                          ),
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Koleksi",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20)),
+                              SizedBox(height: 40),
+                              Center(
+                                child: Text("1",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 35)),
+                              ),
+                            ]),
+                      )),
+                ],
+              ),
+              Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Users",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17)),
+                        SizedBox(height: 20),
+                        SfCartesianChart(
+                            // Initialize category axis
+                            primaryXAxis: CategoryAxis(),
+                            series: <LineSeries<SalesData, String>>[
+                              LineSeries<SalesData, String>(
+                                  // Bind data source
+                                  dataSource: <SalesData>[
+                                    SalesData('Jan', 35),
+                                    SalesData('Feb', 28),
+                                    SalesData('Mar', 34),
+                                    SalesData('Apr', 32),
+                                    SalesData('May', 40)
+                                  ],
+                                  xValueMapper: (SalesData sales, _) =>
+                                      sales.year,
+                                  yValueMapper: (SalesData sales, _) =>
+                                      sales.sales)
+                            ]),
+                      ])),
+              Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Bukus",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17)),
+                        SizedBox(height: 20),
+                        SfCartesianChart(
+                            // Initialize category axis
+                            primaryXAxis: CategoryAxis(),
+                            series: <LineSeries<SalesData, String>>[
+                              LineSeries<SalesData, String>(
+                                  // Bind data source
+                                  dataSource: <SalesData>[
+                                    SalesData('Jan', 35),
+                                    SalesData('Feb', 28),
+                                    SalesData('Mar', 34),
+                                    SalesData('Apr', 32),
+                                    SalesData('May', 40)
+                                  ],
+                                  xValueMapper: (SalesData sales, _) =>
+                                      sales.year,
+                                  yValueMapper: (SalesData sales, _) =>
+                                      sales.sales)
+                            ]),
+                      ])),
+              Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Peminjaman",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17)),
+                        SizedBox(height: 20),
+                        SfCartesianChart(
+                            // Initialize category axis
+                            primaryXAxis: CategoryAxis(),
+                            series: <LineSeries<SalesData, String>>[
+                              LineSeries<SalesData, String>(
+                                  // Bind data source
+                                  dataSource: <SalesData>[
+                                    SalesData('Jan', 35),
+                                    SalesData('Feb', 28),
+                                    SalesData('Mar', 34),
+                                    SalesData('Apr', 32),
+                                    SalesData('May', 40)
+                                  ],
+                                  xValueMapper: (SalesData sales, _) =>
+                                      sales.year,
+                                  yValueMapper: (SalesData sales, _) =>
+                                      sales.sales)
+                            ]),
+                      ])),
+              Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Koleksi",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17)),
+                        SizedBox(height: 20),
+                        SfCartesianChart(
+                            // Initialize category axis
+                            primaryXAxis: CategoryAxis(),
+                            series: <LineSeries<SalesData, String>>[
+                              LineSeries<SalesData, String>(
+                                  // Bind data source
+                                  dataSource: <SalesData>[
+                                    SalesData('Jan', 35),
+                                    SalesData('Feb', 28),
+                                    SalesData('Mar', 34),
+                                    SalesData('Apr', 32),
+                                    SalesData('May', 40)
+                                  ],
+                                  xValueMapper: (SalesData sales, _) =>
+                                      sales.year,
+                                  yValueMapper: (SalesData sales, _) =>
+                                      sales.sales)
+                            ]),
+                      ])),
             ]))));
   }
+}
+
+class SalesData {
+  SalesData(this.year, this.sales);
+  final String year;
+  final double sales;
 }
