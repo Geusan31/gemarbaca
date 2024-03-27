@@ -106,7 +106,7 @@ class EditProfileController extends GetxController {
         showToastInfo("Cancel profile image selection");
       }
     } catch (e) {
-      print(e.toString());
+      print("Error Image: ${e.toString()}");
     }
   }
 
@@ -180,11 +180,16 @@ class EditProfileController extends GetxController {
       print("Id Profile $id");
       print(usernameController.text.toString());
       loading(true);
+      if(imagePath.value.isNotEmpty) {
+
       var file = File(imagePath.value);
       List<int> imageBytes = await file.readAsBytes();
       print(imageBytes);
       String base64Image = base64Encode(imageBytes);
       profilePict = base64Image;
+      } else {
+        showToastInfo("Image kosong");
+      }
 
       if (Get.context == null) {
         print("Error: Context is null");
@@ -200,12 +205,14 @@ class EditProfileController extends GetxController {
           return;
         }
         final response =
-            await ApiProvider.instance().post("${EndPoint.profile}/$id", data: {
+            await ApiProvider.instance().patch("${EndPoint.profile}/$id", options: Options(
+              headers: {"Authorization":"Bearer $token"}
+            ), data: {
           "NamaLengkap": nameController.text.toString(),
           "Username": usernameController.text.toString(),
-          "Alamat": emailController.text.toString(),
+          "Alamat": alamatController.text.toString(),
           "tanggal_lahir": tanggalLahirController.text.toString(),
-          "jenisKelamin": jenisKelaminController.text.toString(),
+          "jenisKelamin": selectedItem,
           "fotoProfile": profilePict,
           "bio": bioController.text.toString(),
         });
