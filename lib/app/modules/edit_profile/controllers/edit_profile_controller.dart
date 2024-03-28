@@ -40,7 +40,7 @@ class EditProfileController extends GetxController {
   var tanggalLahirIsFocused = false.obs;
   var jenisKelaminIsFocused = false.obs;
   final loading = false.obs;
-  String selectedItem = "Other";
+  String selectedItem = "other";
   var imagePath = ''.obs;
   var imageSize = ''.obs;
   String profilePict = 'nopicture';
@@ -88,25 +88,21 @@ class EditProfileController extends GetxController {
   void increment() => count.value++;
 
   Future<void> getImage() async {
-    try {
+    if (imagePath.value != '') {
+      return showToastInfo("Profile picture is already set");
+    } else {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
       if (image != null) {
         imagePath.value = image.path;
-        File imageFile = File(imagePath.value);
-        print("${imagePath.value}");
-        var fileStat = await imageFile.stat();
-        double fileSizeInBytes = fileStat.size.toDouble();
-        double fileSizeInMb = fileSizeInBytes / (1024 * 1024);
-        print("Size $fileSizeInMb");
-        print("${fileSizeInMb.toStringAsFixed(2)}");
-        imageSize.value = fileSizeInMb.toStringAsFixed(2) + "Mb";
-        print("base64: ${imagePath.value}");
-        showToastSuccess("Profile picture changed successfully");
+        imageSize.value =
+            "${((File(imagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
+        return showToastSuccess("Profile picture changed successfully");
       } else {
-        showToastInfo("Cancel profile image selection");
+        imagePath.value = '';
+        imageSize.value = '';
+        return showToastInfo("Cancel profile image selection");
       }
-    } catch (e) {
-      print("Error Image: ${e.toString()}");
     }
   }
 
@@ -152,8 +148,10 @@ class EditProfileController extends GetxController {
         tanggalLahirController.text =
             responseDetailProfile.data!.tanggalLahir ?? '';
         bioController.text = responseDetailProfile.data!.bio ?? '';
+        imagePath.value = responseDetailProfile.data!.fotoProfile ?? '';
         jenisKelaminController.text =
             responseDetailProfile.data!.jenisKelamin ?? '';
+        selectedItem = jenisKelaminController.text;
         print("Response Profile: ${responseDetailProfile.data!}");
         dataDetailProfile.value = responseDetailProfile.data!;
         status.value = RxStatus.success();
@@ -180,13 +178,19 @@ class EditProfileController extends GetxController {
       print("Id Profile $id");
       print(usernameController.text.toString());
       loading(true);
-      if(imagePath.value.isNotEmpty) {
-
-      var file = File(imagePath.value);
-      List<int> imageBytes = await file.readAsBytes();
-      print(imageBytes);
-      String base64Image = base64Encode(imageBytes);
-      profilePict = base64Image;
+      if (imagePath.value.isNotEmpty) {
+        try {
+          FileSystemEntity.typeSync(imagePath.value);
+          // If the above line does not throw an exception, imagePath.value is a valid file path
+          File imageFile = File(imagePath.value);
+          List<int> imageBytes = await imageFile.readAsBytes();
+          String base64Image = base64Encode(imageBytes);
+          profilePict = base64Image;
+        } catch (e) {
+          profilePict = imagePath.value;
+          log("Error converting image to base64: $e");
+          return null;
+        }
       } else {
         showToastInfo("Image kosong");
       }
@@ -204,18 +208,18 @@ class EditProfileController extends GetxController {
           showToastError("Name is required");
           return;
         }
-        final response =
-            await ApiProvider.instance().patch("${EndPoint.profile}/$id", options: Options(
-              headers: {"Authorization":"Bearer $token"}
-            ), data: {
-          "NamaLengkap": nameController.text.toString(),
-          "Username": usernameController.text.toString(),
-          "Alamat": alamatController.text.toString(),
-          "tanggal_lahir": tanggalLahirController.text.toString(),
-          "jenisKelamin": selectedItem,
-          "fotoProfile": profilePict,
-          "bio": bioController.text.toString(),
-        });
+        final response = await ApiProvider.instance().patch(
+            "${EndPoint.profile}/$id",
+            options: Options(headers: {"Authorization": "Bearer $token"}),
+            data: {
+              "NamaLengkap": nameController.text.toString(),
+              "Username": usernameController.text.toString(),
+              "Alamat": alamatController.text.toString(),
+              "tanggal_lahir": tanggalLahirController.text.toString(),
+              "jenisKelamin": selectedItem,
+              "fotoProfile": profilePict,
+              "bio": bioController.text.toString(),
+            });
         if (response.statusCode == 200) {
           showToastSuccess(response.data['message']);
           Get.back();

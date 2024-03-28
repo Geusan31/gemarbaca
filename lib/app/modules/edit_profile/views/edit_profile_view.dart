@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gemarbaca/app/widget/base64/base64_widget.dart';
 
 import 'package:get/get.dart';
 
@@ -45,12 +44,13 @@ class EditProfileView extends GetView<EditProfileController> {
                                     width: 100,
                                     height: 100,
                                   )
-                                : Image.file(
-                                    File(controller.imagePath.value),
-                                    fit: BoxFit.cover,
-                                    width: 100,
-                                    height: 100,
-                                  ),
+                                :  Image(
+                                        image: base64Widget(
+                                            controller.imagePath.value),
+                                        fit: BoxFit.cover,
+                                        width: 100,
+                                        height: 100,
+                                      )
                       ),
                     ),
                   ),
@@ -252,7 +252,7 @@ class EditProfileView extends GetView<EditProfileController> {
                           controller.selectedItem = newValue!;
                           controller.check();
                         },
-                        items: <String>['Male', 'Female', 'Other']
+                        items: <String>['male', 'female', 'other']
                             .map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
