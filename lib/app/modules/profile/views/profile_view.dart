@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/routes/app_pages.dart';
+import 'package:gemarbaca/app/widget/base64/base64_widget.dart';
 
 import 'package:get/get.dart';
 
@@ -41,9 +42,24 @@ class ProfileView extends GetView<ProfileController> {
                       height: 70,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  "https://i.pinimg.com/736x/07/33/ba/0733ba760b29378474dea0fdbcb97107.jpg"))),
+                        image: DecorationImage(
+                          image: (controller
+                              .dataDetailProfile
+                              .value?.fotoProfile !=
+                              null &&
+                              controller
+                                  .dataDetailProfile.value
+                                  ?.fotoProfile!
+                                  .isNotEmpty)
+                              ? base64Widget(controller
+                              .dataDetailProfile.value
+                              ?.fotoProfile ??
+                              "")
+                              : const AssetImage(
+                              "assets/img/default/person.png"),
+                          fit: BoxFit.cover,
+                        )),
+                      child: controller.dataDetailProfile.value?.fotoProfile != null ? null : CircularProgressIndicator(),
                     ),
                     SizedBox(
                       width: 30,

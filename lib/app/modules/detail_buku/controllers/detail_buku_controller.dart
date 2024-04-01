@@ -117,9 +117,9 @@ class DetailBukuController extends GetxController {
     status.value = RxStatus.loading();
     String token = StorageProvider.read(StorageKey.token);
     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-    // DateTime dueDate = DateTime.parse(dateController.text);
+    DateTime dueDate = DateTime.parse(dateController.text);
     // print("Tanggal $dueDate");
-    DateTime dueDate = DateTime.now().add(Duration(minutes: 1));
+    // DateTime dueDate = DateTime.now().add(Duration(minutes: 1));
     print("Tanggal $dueDate");
     var idBuku = Get.parameters['id'];
     print("Decoded Token Id User: ${decodedToken['id']}");
@@ -196,9 +196,6 @@ class DetailBukuController extends GetxController {
             showToastSuccess(response.data['message']);
           } else {
             print("Error: koleksiID or bookTitle is null");
-          }
-          if (Get.isRegistered<DetailBukuController>()) {
-            Get.delete<DetailBukuController>();
           }
           layoutController.onTap(2);
         } else {

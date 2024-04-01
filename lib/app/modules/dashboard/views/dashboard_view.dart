@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/routes/app_pages.dart';
+import 'package:gemarbaca/app/widget/base64/base64_widget.dart';
 
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -30,16 +31,30 @@ class DashboardView extends GetView<DashboardController> {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 100, vertical: 15),
-                          width: 65,
-                          height: 65,
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                          width: 70,
+                          height: 70,
                           decoration: BoxDecoration(
-                              color: Colors.grey,
                               borderRadius: BorderRadius.circular(100),
                               image: DecorationImage(
-                                  image: NetworkImage(
-                                      "https://i.pinimg.com/736x/07/33/ba/0733ba760b29378474dea0fdbcb97107.jpg"))),
+                                image: (controller
+                                    .dataDetailProfile
+                                    .value?.fotoProfile !=
+                                    null &&
+                                    controller
+                                        .dataDetailProfile.value
+                                        ?.fotoProfile!
+                                        .isNotEmpty)
+                                    ? base64Widget(controller
+                                    .dataDetailProfile.value
+                                    ?.fotoProfile ??
+                                    "")
+                                    : const AssetImage(
+                                    "assets/img/default/person.png"),
+                                fit: BoxFit.cover,
+                              )),
+                          child: controller.dataDetailProfile.value?.fotoProfile != null ? null : CircularProgressIndicator(),
                         ),
                         SizedBox(
                           width: 8,
@@ -149,7 +164,7 @@ class DashboardView extends GetView<DashboardController> {
                                       fontSize: 20)),
                               SizedBox(height: 40),
                               Center(
-                                child: Text("1",
+                                child: Text(controller.dataDashUserList.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 35)),
@@ -180,7 +195,7 @@ class DashboardView extends GetView<DashboardController> {
                                       fontSize: 20)),
                               SizedBox(height: 40),
                               Center(
-                                child: Text("1",
+                                child: Text(controller.dataBookList.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 35)),
@@ -211,7 +226,7 @@ class DashboardView extends GetView<DashboardController> {
                                       fontSize: 20)),
                               SizedBox(height: 40),
                               Center(
-                                child: Text("1",
+                                child: Text(controller.dataDashPeminjamanList.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 35)),
@@ -242,7 +257,7 @@ class DashboardView extends GetView<DashboardController> {
                                       fontSize: 20)),
                               SizedBox(height: 40),
                               Center(
-                                child: Text("1",
+                                child: Text(controller.dataDashKoleksiList.toString(),
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 35)),

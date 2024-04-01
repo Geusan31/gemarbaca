@@ -132,15 +132,29 @@ class HomeView extends GetView<HomeController> {
                     children: [
                       Container(
                         padding:
-                            EdgeInsets.symmetric(horizontal: 100, vertical: 15),
-                        width: 65,
-                        height: 65,
+                        EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                        width: 70,
+                        height: 70,
                         decoration: BoxDecoration(
-                            color: Colors.grey,
                             borderRadius: BorderRadius.circular(100),
                             image: DecorationImage(
-                                image: NetworkImage(
-                                    "https://i.pinimg.com/736x/07/33/ba/0733ba760b29378474dea0fdbcb97107.jpg"))),
+                              image: (controller
+                                  .dataDetailProfile
+                                  .value?.fotoProfile !=
+                                  null &&
+                                  controller
+                                      .dataDetailProfile.value
+                                      ?.fotoProfile!
+                                      .isNotEmpty)
+                                  ? base64Widget(controller
+                                  .dataDetailProfile.value
+                                  ?.fotoProfile ??
+                                  "")
+                                  : const AssetImage(
+                                  "assets/img/default/person.png"),
+                              fit: BoxFit.cover,
+                            )),
+                        child: controller.dataDetailProfile.value?.fotoProfile != null ? null : CircularProgressIndicator(),
                       ),
                       SizedBox(
                         width: 8,
