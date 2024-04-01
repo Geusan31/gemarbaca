@@ -19,8 +19,9 @@ class BukuView extends GetView<BukuController> {
     log("Category Book: ${controller.categoryBookControllers?.length}");
     log("Genre Book: ${controller.genreBookControllers?.length}");
 
-    return Obx(() {
-      return Scaffold(
+    return DefaultTabController(
+      length: controller.appBarTitles.length,
+      child: Scaffold(
         appBar: AppBar(
           elevation: 0,
           surfaceTintColor: Colors.transparent,
@@ -60,12 +61,11 @@ class BukuView extends GetView<BukuController> {
         body: TabBarView(
           controller: controller.tabController,
           children: [
-            // Kategori Tab
             if (controller.dataKategoriList.isNotEmpty)
-              ListView.builder(
-                  itemCount: controller.dataKategoriList.length,
+              ...controller.dataKategoriList.map((kategori) {
+                return ListView.builder(
+                  itemCount: kategori.buku!.length,
                   itemBuilder: (BuildContext context, index) {
-                    log("Index Atas: $index");
                     return Column(
                       children: [
                         Obx(() {
@@ -79,102 +79,263 @@ class BukuView extends GetView<BukuController> {
                                   onTap: (int a) {
                                     log('Kategori Index $a');
                                   },
-                                  tabs: controller.dataKategoriList
-                                      .map((kategori) =>
-                                      Tab(text: kategori.namaKategori))
-                                      .toList(),
+                                  tabs: controller.dataKategoriList.isNotEmpty
+                                      ? controller.dataKategoriList
+                                          .map((kategori) =>
+                                              Tab(text: kategori.namaKategori))
+                                          .toList()
+                                      : [Tab(text: "No Categories")],
                                 ),
                                 controller.categoryBookControllers!.isEmpty
                                     ? const Text("Data Kategori Tidak ada.")
                                     : Expanded(
-                                  child: TabBarView(
-                                      controller: controller
-                                          .categoryBookControllers![index],
-                                      children: controller.dataKategoriList
-                                          .map((kategori) {
-                                        return GridView.builder(
-                                          gridDelegate:
-                                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                                              maxCrossAxisExtent: 200,
-                                              childAspectRatio: 1,
-                                              crossAxisSpacing: 20,
-                                              mainAxisSpacing: 20),
-                                          itemCount:
-                                          kategori.buku?.length ?? 0,
-                                          itemBuilder:
-                                              (context, bukuIndex) {
-                                            log("Buku Index: $bukuIndex");
-                                            log("Index: $index");
-                                            log("${controller.dataKategoriList[index].buku?[bukuIndex].buku?.judul}");
-                                            return Container(
-                                              margin: const EdgeInsets.only(
-                                                  right: 15),
-                                              padding:
-                                              const EdgeInsets.all(7),
-                                              decoration:
-                                              const BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                  BorderRadius.all(
-                                                      Radius
-                                                          .circular(
-                                                          10))),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment
-                                                    .start,
-                                                children: [
-                                                  Expanded(
-                                                    child: Container(
-                                                      width: 100,
-                                                      decoration:
-                                                      BoxDecoration(
+                                        child: TabBarView(
+                                            controller: controller
+                                                    .categoryBookControllers![
+                                                index],
+                                            children: controller
+                                                .dataKategoriList
+                                                .map((kategori) {
+                                              return GridView.builder(
+                                                gridDelegate:
+                                                    const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                        maxCrossAxisExtent: 200,
+                                                        childAspectRatio: 1,
+                                                        crossAxisSpacing: 20,
+                                                        mainAxisSpacing: 20),
+                                                itemCount:
+                                                    kategori.buku?.length ?? 0,
+                                                itemBuilder:
+                                                    (context, bukuIndex) {
+                                                  log("Buku Index: $bukuIndex");
+                                                  log("Index: $index");
+                                                  log("${controller.dataKategoriList[index].buku?[bukuIndex].buku?.judul}");
+                                                  return Container(
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 15),
+                                                    padding:
+                                                        const EdgeInsets.all(7),
+                                                    decoration: const BoxDecoration(
+                                                        color: Colors.white,
                                                         borderRadius:
-                                                        const BorderRadius
-                                                            .all(Radius
-                                                            .circular(
-                                                            8)),
-                                                        image:
-                                                        DecorationImage(
-                                                          image: (controller.dataKategoriList[index].buku?[bukuIndex].buku?.cover != null &&
-                                                              controller.dataKategoriList[index].buku?[bukuIndex].buku?.cover!.isNotEmpty)
-                                                              ? base64Widget(controller.dataKategoriList[1].buku?[bukuIndex].buku?.cover ?? "")
-                                                              : const AssetImage("assets/img/default/default_image.png"),
-                                                          fit: BoxFit.cover,
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    10))),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Container(
+                                                            width: 100,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  const BorderRadius
+                                                                      .all(
+                                                                      Radius.circular(
+                                                                          8)),
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: (controller.dataKategoriList[index].buku?[bukuIndex].buku?.cover !=
+                                                                            null &&
+                                                                        controller
+                                                                            .dataKategoriList[
+                                                                                index]
+                                                                            .buku?[
+                                                                                bukuIndex]
+                                                                            .buku
+                                                                            ?.cover!
+                                                                            .isNotEmpty)
+                                                                    ? base64Widget(controller
+                                                                            .dataKategoriList[
+                                                                                1]
+                                                                            .buku?[
+                                                                                bukuIndex]
+                                                                            .buku
+                                                                            ?.cover ??
+                                                                        "")
+                                                                    : const AssetImage(
+                                                                        "assets/img/default/default_image.png"),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
+                                                        const SizedBox(
+                                                          height: 7,
+                                                        ),
+                                                        Text(
+                                                          controller
+                                                                  .dataKategoriList[
+                                                                      index]
+                                                                  .buku?[
+                                                                      bukuIndex]
+                                                                  .buku
+                                                                  ?.judul ??
+                                                              "",
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                          style: const TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                        )
+                                                      ],
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 7,
-                                                  ),
-                                                  Text(
-                                                    controller.dataKategoriList[index].buku?[bukuIndex].buku?.judul ?? "",
-                                                    maxLines: 2,
-                                                    overflow: TextOverflow.ellipsis,
-                                                    style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }).toList()),
-                                ),
+                                                  );
+                                                },
+                                              );
+                                            }).toList()),
+                                      ),
                               ],
                             ),
                           );
                         })
                       ],
                     );
-                  }),
+                  },
+                );
+              }).toList(),
             // Genre Tab
             if (controller.dataGenreList.isNotEmpty)
-              ListView.builder(
-                  itemCount: 1,
+              ...controller.dataGenreList.map((genre) {
+                return ListView.builder(
+                  itemCount: genre.buku!.length,
                   itemBuilder: (BuildContext context, index) {
                     return Column(
                       children: [
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          height: MediaQuery.of(context).size.height,
+                          child: Column(
+                            children: [
+                              TabBar(
+                                controller: controller.genreTabController!,
+                                onTap: (int a) {
+                                  log('Genre Index $a');
+                                },
+                                tabs: controller.dataGenreList.isNotEmpty
+                                    ? controller.dataGenreList
+                                        .map((genre) => Tab(text: genre.nama))
+                                        .toList()
+                                    : [Tab(text: "No Genres")],
+                              ),
+                              controller.genreBookControllers!.isEmpty
+                                  ? Text("KOCAKKKKKK")
+                                  : Expanded(
+                                      child: TabBarView(
+                                          controller: controller
+                                              .genreBookControllers![index],
+                                          children: controller.dataGenreList
+                                              .map((genre) {
+                                            return GridView.builder(
+                                              gridDelegate:
+                                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                      maxCrossAxisExtent: 200,
+                                                      childAspectRatio: 1,
+                                                      crossAxisSpacing: 20,
+                                                      mainAxisSpacing: 20),
+                                              itemCount:
+                                                  genre.buku?.length ?? 0,
+                                              itemBuilder:
+                                                  (context, bukuIndex) {
+                                                return Container(
+                                                  margin: const EdgeInsets.only(
+                                                      right: 15),
+                                                  padding:
+                                                      const EdgeInsets.all(7),
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          10))),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Container(
+                                                          width: 100,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                const BorderRadius
+                                                                    .all(Radius
+                                                                        .circular(
+                                                                            8)),
+                                                            image:
+                                                                DecorationImage(
+                                                              image: (controller
+                                                                              .dataGenreList[
+                                                                                  index]
+                                                                              .buku?[
+                                                                                  0]
+                                                                              .buku
+                                                                              ?.cover !=
+                                                                          null &&
+                                                                      controller
+                                                                          .dataGenreList[
+                                                                              index]
+                                                                          .buku?[
+                                                                              0]
+                                                                          .buku
+                                                                          ?.cover!
+                                                                          .isNotEmpty)
+                                                                  ? base64Widget(controller
+                                                                          .dataGenreList[
+                                                                              index]
+                                                                          .buku?[
+                                                                              0]
+                                                                          .buku
+                                                                          ?.cover ??
+                                                                      "")
+                                                                  : const AssetImage(
+                                                                      "assets/img/default/default_image.png"),
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: 7,
+                                                      ),
+                                                      Text(
+                                                        controller
+                                                                .dataGenreList[
+                                                                    index]
+                                                                .buku?[0]
+                                                                .buku
+                                                                ?.judul ??
+                                                            "",
+                                                        maxLines: 2,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: const TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      )
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          }).toList()),
+                                    ),
+                            ],
+                          ),
+                        ),
                         Container(
                           padding: EdgeInsets.all(10),
                           height: MediaQuery.of(context).size.height,
@@ -301,10 +462,12 @@ class BukuView extends GetView<BukuController> {
                         )
                       ],
                     );
-                  }),
+                  },
+                );
+              }).toList(),
           ],
         ),
-      );
-    });
+      ),
+    );
   }
 }

@@ -38,6 +38,7 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
 
     await getKategori().then((_) {
       categoryBookControllers = dataKategoriList.map((category) {
+        print("Category List: $category");
         return TabController(
           length: category.buku!.length,
           vsync: this,
@@ -45,22 +46,23 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
       }).toList();
     });
 
-    genreTabController = TabController(length: dataGenreList.length, vsync: this);
-    categoryTabController = TabController(length: dataKategoriList.length, vsync: this);
+    genreTabController =
+        TabController(length: dataGenreList.length, vsync: this);
+    categoryTabController =
+        TabController(length: dataKategoriList.length, vsync: this);
     tabController = TabController(length: appBarTitles.length, vsync: this);
 
-
     // Get argumen genre
-    String genreName = Get.arguments as String;
-
-    int tabIndex = dataGenreList.indexWhere((genre) => genre.nama == genreName);
-
-    // pindah ke tab sesuai dengan genre nama
-    if(tabIndex != -1) {
-      Future.delayed(Duration.zero, () {
-        genreTabController!.animateTo(tabIndex);
-      });
-    }
+    // String genreName = Get.arguments as String;
+    //
+    // int tabIndex = dataGenreList.indexWhere((genre) => genre.nama == genreName);
+    //
+    // // pindah ke tab sesuai dengan genre nama
+    // if(tabIndex != -1) {
+    //   Future.delayed(Duration.zero, () {
+    //     genreTabController!.animateTo(tabIndex);
+    //   });
+    // }
   }
 
   @override

@@ -16,16 +16,16 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class LayoutController extends GetxController {
   //TODO: Implement LayoutController
-  HomeController homeController = Get.put(HomeController(), permanent: true);
-  BukuController bukuController = Get.put(BukuController(), permanent: true);
+  var role = '';
   DashboardController dashboardController =
       Get.put(DashboardController(), permanent: true);
+  HomeController homeController = Get.put(HomeController(), permanent: true);
+  BukuController bukuController = Get.put(BukuController(), permanent: true);
   KoleksiController koleksiController =
       Get.put(KoleksiController(), permanent: true);
   ProfileController profileController =
       Get.put(ProfileController(), permanent: true);
 
-  var role = '';
   var index = 0.obs;
   final screen = const [
     HomeView(),
@@ -35,7 +35,7 @@ class LayoutController extends GetxController {
   ];
   final screenAdmin = const [
     DashboardView(),
-    DashboardView(),
+    BukuView(),
     DashboardView(),
     DashboardView(),
   ];
