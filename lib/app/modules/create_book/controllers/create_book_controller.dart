@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
 import 'package:gemarbaca/app/data/model/response_create_book.dart';
+import 'package:gemarbaca/app/data/model/response_genre.dart';
 import 'package:gemarbaca/app/data/model/response_kategori.dart';
 import 'package:gemarbaca/app/data/provider/api_provider.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
@@ -50,12 +51,15 @@ class CreateBookController extends GetxController {
   final status = Rx<RxStatus>(RxStatus.loading());
 
   List data = [];
+  List dataGenre = [];
+  List<String> selectedItems = [];
   int valueData = 1;
 
   @override
   void onInit() {
     super.onInit();
     getDataKategori();
+    getDataGenre();
   }
 
   @override
@@ -70,14 +74,41 @@ class CreateBookController extends GetxController {
 
   void increment() => count.value++;
 
-  getDataKategori() async {
+  void getDataKategori() async {
     String token = StorageProvider.read(StorageKey.token);
     var response = await ApiProvider.instance().get(EndPoint.kategori,
         options: Options(headers: {'Authorization': 'Bearer $token'}));
 
     final ResponseKategori responseKategori =
         ResponseKategori.fromJson(response.data!);
-    dataKategoriList.value = responseKategori.data!;
+    if (responseKategori.data!.isEmpty) {
+      print("Empty Kategori");
+      status.value = RxStatus.empty();
+    } else {
+      print("Response Kategori: ${responseKategori.data!}");
+      data = responseKategori.data!;
+      status.value = RxStatus.success();
+      update();
+    }
+    print(dataKategoriList);
+  }
+
+  void getDataGenre() async {
+    String token = StorageProvider.read(StorageKey.token);
+    var response = await ApiProvider.instance().get(EndPoint.genre,
+        options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+    final ResponseGenre responseGenre =
+        ResponseGenre.fromJson(response.data!);
+    if (responseGenre.data!.isEmpty) {
+      print("Empty Genre");
+      status.value = RxStatus.empty();
+    } else {
+      print("Response Genre: ${responseGenre.data!}");
+      dataGenre = responseGenre.data!;
+      status.value = RxStatus.success();
+      update();
+    }
     print(dataKategoriList);
   }
 
