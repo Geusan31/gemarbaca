@@ -15,11 +15,11 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class DashboardController extends GetxController {
   //TODO: Implement DashboardController
-  var dataDashUserList = 0;
-  var dataDashPeminjamanList = 0;
-  var dataDashKoleksiList = 0;
-  var dataBookList = 0;
-  var status = Rx<RxStatus>(RxStatus.loading());
+  late int dataDashUserList = 0;
+  late int dataDashPeminjamanList = 0;
+  late int dataDashKoleksiList = 0;
+  late int dataBookList = 0;
+  final status = Rx<RxStatus>(RxStatus.loading());
 
   final dataDetailProfile = Rx<DataDetailProfile?>(null);
 
@@ -71,8 +71,7 @@ class DashboardController extends GetxController {
       var responses = await Future.wait([
         ApiProvider.instance().get(EndPoint.user,
             options: Options(headers: {'Authorization': 'Bearer $token'})),
-        ApiProvider.instance().get(
-            EndPoint.book,
+        ApiProvider.instance().get(EndPoint.book,
             options: Options(headers: {'Authorization': 'Bearer $token'})),
         ApiProvider.instance().get(EndPoint.pinjam,
             options: Options(headers: {'Authorization': 'Bearer $token'})),
@@ -80,13 +79,13 @@ class DashboardController extends GetxController {
             options: Options(headers: {'Authorization': 'Bearer $token'})),
       ]);
       final ResponseDashUsers responseDashUsers =
-      ResponseDashUsers.fromJson(responses[0].data);
+          ResponseDashUsers.fromJson(responses[0].data);
       final ResponseBook responseBook =
-      ResponseBook.fromJson(responses[1].data);
+          ResponseBook.fromJson(responses[1].data);
       final ResponseDashPeminjaman responseDashPeminjaman =
-      ResponseDashPeminjaman.fromJson(responses[2].data);
+          ResponseDashPeminjaman.fromJson(responses[2].data);
       final ResponseDashKoleksi responseDashKoleksi =
-      ResponseDashKoleksi.fromJson(responses[3].data);
+          ResponseDashKoleksi.fromJson(responses[3].data);
 
       if (responseDashUsers.data!.isEmpty) {
         print("Empty Users");
@@ -101,10 +100,8 @@ class DashboardController extends GetxController {
         print("Empty Book");
         status.value = RxStatus.empty();
       } else {
-        print(
-            "Total Buku: ${responseBook.total!}");
-        dataBookList =
-        responseBook.total!;
+        print("Total Buku: ${responseBook.total!}");
+        dataBookList = responseBook.total!;
         status.value = RxStatus.success();
       }
 
@@ -146,12 +143,11 @@ class DashboardController extends GetxController {
     var id = decodedToken['id'];
     // var idBuku = 5;
     try {
-      var response = await ApiProvider.instance().get(
-          "${EndPoint.book}/$id",
+      var response = await ApiProvider.instance().get("${EndPoint.book}/$id",
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       final ResponseDetailProfile responseDetailProfile =
-      ResponseDetailProfile.fromJson(response.data!);
+          ResponseDetailProfile.fromJson(response.data!);
 
       if (responseDetailProfile.data == null) {
         print("Empty Profile");

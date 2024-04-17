@@ -15,11 +15,13 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
-  var dataBookList = RxList<DataBook>();
-  var dataUserPeminjamanRiwayatList = RxList<HistoryPeminjam>();
-  var dataPopulerBookList = RxList<DataPopulerBook>();
-  var dataHighRateBookList = RxList<DataHighRateBook>();
-  var status = Rx<RxStatus>(RxStatus.loading());
+  late RxList<DataBook> dataBookList = RxList<DataBook>();
+  late RxList<HistoryPeminjam> dataUserPeminjamanRiwayatList =
+      RxList<HistoryPeminjam>();
+  late RxList<DataPopulerBook> dataPopulerBookList = RxList<DataPopulerBook>();
+  late RxList<DataHighRateBook> dataHighRateBookList =
+      RxList<DataHighRateBook>();
+  final status = Rx<RxStatus>(RxStatus.loading());
 
   final dataDetailProfile = Rx<DataDetailProfile?>(null);
   final rating = 0.0.obs;
@@ -145,12 +147,11 @@ class HomeController extends GetxController {
     var id = decodedToken['id'];
     // var idBuku = 5;
     try {
-      var response = await ApiProvider.instance().get(
-          "${EndPoint.book}/$id",
+      var response = await ApiProvider.instance().get("${EndPoint.book}/$id",
           options: Options(headers: {'Authorization': 'Bearer $token'}));
 
       final ResponseDetailProfile responseDetailProfile =
-      ResponseDetailProfile.fromJson(response.data!);
+          ResponseDetailProfile.fromJson(response.data!);
 
       if (responseDetailProfile.data == null) {
         print("Empty Profile");

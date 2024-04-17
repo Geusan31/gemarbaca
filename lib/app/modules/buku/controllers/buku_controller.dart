@@ -9,6 +9,7 @@ import 'package:gemarbaca/app/data/provider/api_provider.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class BukuController extends GetxController with GetTickerProviderStateMixin {
   //TODO: Implement BukuController
@@ -22,6 +23,8 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
   var status = Rx<RxStatus>(RxStatus.loading());
 
   var appBarTitles = ['Kategori', 'Genre'];
+
+  var role = '';
 
   final count = 0.obs;
   @override
@@ -63,6 +66,7 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
     //     genreTabController!.animateTo(tabIndex);
     //   });
     // }
+    checkRole();
   }
 
   @override
@@ -85,6 +89,14 @@ class BukuController extends GetxController with GetTickerProviderStateMixin {
   }
 
   void increment() => count.value++;
+
+  void checkRole() async {
+    String token = StorageProvider.read(StorageKey.token);
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+
+    role = decodedToken['role'];
+    print("Role: ${decodedToken['role']}");
+  }
 
   Future<void> getGenre() async {
     status.value = RxStatus.loading();

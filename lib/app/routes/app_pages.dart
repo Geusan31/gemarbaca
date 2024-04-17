@@ -4,6 +4,8 @@ import '../modules/baca/bindings/baca_binding.dart';
 import '../modules/baca/views/baca_view.dart';
 import '../modules/buku/bindings/buku_binding.dart';
 import '../modules/buku/views/buku_view.dart';
+import '../modules/create_book/bindings/create_book_binding.dart';
+import '../modules/create_book/views/create_book_view.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/detail_buku/bindings/detail_buku_binding.dart';
@@ -18,6 +20,8 @@ import '../modules/layout/bindings/layout_binding.dart';
 import '../modules/layout/views/layout_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/manage_book/bindings/manage_book_binding.dart';
+import '../modules/manage_book/views/manage_book_view.dart';
 import '../modules/onboarding/bindings/onboarding_binding.dart';
 import '../modules/onboarding/views/onboarding_view.dart';
 import '../modules/otp/bindings/otp_binding.dart';
@@ -113,6 +117,16 @@ class AppPages {
       name: _Paths.DASHBOARD,
       page: () => const DashboardView(),
       binding: DashboardBinding(),
+    ),
+    GetPage(
+      name: _Paths.MANAGE_BOOK,
+      page: () => const ManageBookView(),
+      binding: ManageBookBinding(),
+    ),
+    GetPage(
+      name: _Paths.CREATE_BOOK,
+      page: () => const CreateBookView(),
+      binding: CreateBookBinding(),
     ),
   ];
 }

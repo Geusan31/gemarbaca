@@ -79,7 +79,7 @@ class LayoutController extends GetxController {
     print('New index: ${this.index.value}');
   }
 
-  checkRole() async {
+  void checkRole() async {
     String token = StorageProvider.read(StorageKey.token);
     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
 
