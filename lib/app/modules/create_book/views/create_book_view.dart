@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/widget/base64/base64_widget.dart';
 
 import 'package:get/get.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 // import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 // import 'package:multi_select_flutter/util/multi_select_item.dart';
 // import 'package:multiselect/multiselect.dart';
-import 'package:multiselect_dropdown_flutter/multiselect_dropdown_flutter.dart';
+// import 'package:multiselect_dropdown_flutter/multiselect_dropdown_flutter.dart';
 
 import '../controllers/create_book_controller.dart';
 
@@ -25,7 +28,7 @@ class CreateBookView extends GetView<CreateBookController> {
             child: Column(children: [
               Container(
                 margin: EdgeInsets.only(bottom: 50),
-                height: 150,
+                height: 200,
                 width: 150,
                 child: Obx(
                   () => InkWell(
@@ -37,24 +40,24 @@ class CreateBookView extends GetView<CreateBookController> {
                           color: Colors.grey,
                           child: controller.imagePath.value == ''
                               ? Image.asset(
-                                  "assets/img/default/person.png",
+                                  "assets/img/default/default_image.png",
                                   fit: BoxFit.cover,
                                   width: 100,
-                                  height: 100,
+                                  height: 200,
                                 )
                               : kIsWeb
                                   ? Image.network(
                                       controller.imagePath.value,
                                       fit: BoxFit.cover,
                                       width: 100,
-                                      height: 100,
+                                      height: 200,
                                     )
                                   : Image(
                                       image: base64Widget(
                                           controller.imagePath.value),
                                       fit: BoxFit.cover,
                                       width: 100,
-                                      height: 100,
+                                      height: 200,
                                     )),
                     ),
                   ),
@@ -275,44 +278,53 @@ class CreateBookView extends GetView<CreateBookController> {
                     const SizedBox(height: 13.0),
                     Container(
                       margin: const EdgeInsets.only(bottom: 5),
-                      child: Obx(() {
-                        return MultiSelectDropdown(
-                          list: controller.items,
-                          initiallySelected:
-                              controller.selectedItemsGenre.value,
-                          onChange: (selectedList) {
-                            controller.selectedItemsGenre.value =
-                                List<String>.from(selectedList);
-                          },
-                        );
-                        //     // return MultiSelectDialogField(
-                        //     //   items: controller.option
-                        //     //       .map((e) => MultiSelectItem(e.id, e.nama))
-                        //     //       .toList(),
-                        //     //   title: Text("Genre"),
-                        //     //   selectedColor: Colors.blue.shade700,
-                        //     //   decoration: BoxDecoration(
-                        //     //     borderRadius: BorderRadius.all(Radius.circular(5)),
-                        //     //     border: Border.all(
-                        //     //       color: Colors.grey,
-                        //     //       width: 1,
-                        //     //     ),
-                        //     //   ),
-                        //     //   buttonIcon: Icon(
-                        //     //     Icons.arrow_drop_down,
-                        //     //     color: Colors.black,
-                        //     //   ),
-                        //     //   buttonText: Text(
-                        //     //     "Pilih Genre",
-                        //     //     style: TextStyle(
-                        //     //       color: Colors.black,
-                        //     //     ),
-                        //     //   ),
-                        //     //   onConfirm: (values) {
-                        //     //     controller.selectedItems = values.cast<String>();
-                        //     //   },
-                        //     // );
-                      }),
+                      child: GetBuilder<CreateBookController>(
+                          init: CreateBookController(),
+                          builder: (controller) {
+                            return MultiSelectDialogField(
+                              items: controller.items.map((e) => MultiSelectItem(e, e.nama)).toList(),
+                              listType: MultiSelectListType.CHIP,
+                              onConfirm: (values) {
+                                controller.selectedItemsGenre = values;
+                              },
+                            );
+                            // return MultiSelectDropdown(
+                            //   list: controller.items.value,
+                            //   initiallySelected:
+                            //       controller.selectedItemsGenre.value,
+                            //   onChange: (selectedList) {
+                            //     controller.selectedItemsGenre.value =
+                            //         List.from(selectedList);
+                            //   },
+                            // );
+                            //     // return MultiSelectDialogField(
+                            //     //   items: controller.option
+                            //     //       .map((e) => MultiSelectItem(e.id, e.nama))
+                            //     //       .toList(),
+                            //     //   title: Text("Genre"),
+                            //     //   selectedColor: Colors.blue.shade700,
+                            //     //   decoration: BoxDecoration(
+                            //     //     borderRadius: BorderRadius.all(Radius.circular(5)),
+                            //     //     border: Border.all(
+                            //     //       color: Colors.grey,
+                            //     //       width: 1,
+                            //     //     ),
+                            //     //   ),
+                            //     //   buttonIcon: Icon(
+                            //     //     Icons.arrow_drop_down,
+                            //     //     color: Colors.black,
+                            //     //   ),
+                            //     //   buttonText: Text(
+                            //     //     "Pilih Genre",
+                            //     //     style: TextStyle(
+                            //     //       color: Colors.black,
+                            //     //     ),
+                            //     //   ),
+                            //     //   onConfirm: (values) {
+                            //     //     controller.selectedItems = values.cast<String>();
+                            //     //   },
+                            //     // );
+                          }),
                     ),
                     const SizedBox(height: 13.0),
                     const SizedBox(height: 16.0),

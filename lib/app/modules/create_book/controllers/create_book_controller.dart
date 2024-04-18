@@ -51,11 +51,11 @@ class CreateBookController extends GetxController {
   final status = Rx<RxStatus>(RxStatus.loading());
 
   List data = [];
-  List<String> selectedItems = [];
+  List selectedItems = [];
   final valueData = 1.obs;
 
-  RxList<String> selectedItemsGenre = <String>[].obs;
-  List<String> items = [];
+  List selectedItemsGenre = [].obs;
+  List items = [].obs;
 
   @override
   void onInit() {
@@ -92,7 +92,7 @@ class CreateBookController extends GetxController {
       status.value = RxStatus.success();
       update();
     }
-    print(dataKategoriList);
+    print("Item Kategori: $data");
   }
 
   void getDataGenre() async {
@@ -106,11 +106,11 @@ class CreateBookController extends GetxController {
       status.value = RxStatus.empty();
     } else {
       print("Response Genre: ${responseGenre.data!}");
-      items = responseGenre.data!.cast<String>();
+      items = responseGenre.data!;
       status.value = RxStatus.success();
       update();
     }
-    print(dataKategoriList);
+    print("Items Genre: $items");
   }
 
   Future<void> getImage() async {
