@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/widget/base64/base64_widget.dart';
 
 import 'package:get/get.dart';
-import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
-import 'package:multi_select_flutter/util/multi_select_item.dart';
+// import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+// import 'package:multi_select_flutter/util/multi_select_item.dart';
+// import 'package:multiselect/multiselect.dart';
+import 'package:multiselect_dropdown_flutter/multiselect_dropdown_flutter.dart';
 
 import '../controllers/create_book_controller.dart';
 
@@ -236,67 +238,82 @@ class CreateBookView extends GetView<CreateBookController> {
                           );
                         })),
                     const SizedBox(height: 13.0),
-                    Obx(() {
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 5),
-                        child: DropdownButtonFormField(
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 5),
+                      child: Obx(() {
+                        return DropdownButtonFormField(
                           style: TextStyle(color: Colors.black),
-                          value: controller.valueData,
+                          value: controller.valueData.value,
                           onChanged: (v) {
-                            controller.valueData = v as int;
+                            controller.valueData.value = v as int;
                           },
                           items: controller.data.map((e) {
                             return DropdownMenuItem(
-                                child: Text(e.namaKategori),
-                                value: e.kategoriID);
+                              value: e.kategoriID,
+                              child: Text(e.namaKategori),
+                            );
                           }).toList(),
                           decoration: InputDecoration(
                             labelText: "Kategori",
                             focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Colors.blue.shade700, width: 1)),
+                              borderSide: BorderSide(
+                                color: Colors.blue.shade700,
+                                width: 1,
+                              ),
+                            ),
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
-                                  width: 1, color: Colors.grey),
+                                width: 1,
+                                color: Colors.grey,
+                              ),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                    ),
                     const SizedBox(height: 13.0),
-                    Obx(() {
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: 5),
-                        child: MultiSelectDialogField(
-                          items: controller.data
-                              .map((e) => MultiSelectItem(e.id, e.nama))
-                              .toList(),
-                          title: Text("Genre"),
-                          selectedColor: Colors.blue.shade700,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                          ),
-                          buttonIcon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.black,
-                          ),
-                          buttonText: Text(
-                            "Pilih Genre",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                          onConfirm: (values) {
-                            controller.selectedItems = values.cast<String>();
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 5),
+                      child: Obx(() {
+                        return MultiSelectDropdown(
+                          list: controller.items,
+                          initiallySelected:
+                              controller.selectedItemsGenre.value,
+                          onChange: (selectedList) {
+                            controller.selectedItemsGenre.value =
+                                List<String>.from(selectedList);
                           },
-                        ),
-                      );
-                    }),
+                        );
+                        //     // return MultiSelectDialogField(
+                        //     //   items: controller.option
+                        //     //       .map((e) => MultiSelectItem(e.id, e.nama))
+                        //     //       .toList(),
+                        //     //   title: Text("Genre"),
+                        //     //   selectedColor: Colors.blue.shade700,
+                        //     //   decoration: BoxDecoration(
+                        //     //     borderRadius: BorderRadius.all(Radius.circular(5)),
+                        //     //     border: Border.all(
+                        //     //       color: Colors.grey,
+                        //     //       width: 1,
+                        //     //     ),
+                        //     //   ),
+                        //     //   buttonIcon: Icon(
+                        //     //     Icons.arrow_drop_down,
+                        //     //     color: Colors.black,
+                        //     //   ),
+                        //     //   buttonText: Text(
+                        //     //     "Pilih Genre",
+                        //     //     style: TextStyle(
+                        //     //       color: Colors.black,
+                        //     //     ),
+                        //     //   ),
+                        //     //   onConfirm: (values) {
+                        //     //     controller.selectedItems = values.cast<String>();
+                        //     //   },
+                        //     // );
+                      }),
+                    ),
                     const SizedBox(height: 13.0),
                     const SizedBox(height: 16.0),
                     SizedBox(

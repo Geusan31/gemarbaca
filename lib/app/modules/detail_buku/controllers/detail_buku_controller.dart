@@ -24,7 +24,8 @@ class DetailBukuController extends GetxController {
   //TODO: Implement DetailBukuController
   int currentChapterIndex = 0;
   final dataDetailBukuList = Rx<DataDetailBook?>(null);
-  var status = Rx<RxStatus>(RxStatus.loading());
+  final dataPeminjamanList = Rx<List<DataPeminjaman>?>(null);
+  final status = Rx<RxStatus>(RxStatus.loading());
   final TextEditingController dateController = TextEditingController();
   final count = 0.obs;
   var statusPeminjaman = RxBool(false);
@@ -220,10 +221,28 @@ class DetailBukuController extends GetxController {
     }
   }
 
+  void validasi(int idUserP, idBukuP) async {
+    String token = StorageProvider.read(StorageKey.token);
+    final idBuku = Get.parameters['id'];
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    print("Decoded Token Id User: ${decodedToken['id']}");
+    final idUser = decodedToken['id'];
+
+    if (idUser == idUserP && idBuku == idBukuP) {
+      print('Status Peminjaman BERHASIL: ${statusPeminjaman.value}');
+      statusPeminjaman.value = true;
+    } else {
+      print('Status Peminjaman GAGAL: ${statusPeminjaman.value}');
+      statusPeminjaman.value = false;
+    }
+  }
+
   Future<void> getDetailBook() async {
     status.value = RxStatus.loading();
     String token = StorageProvider.read(StorageKey.token);
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
     var idBuku = Get.parameters['id'];
+    var idUser = decodedToken['id'];
     // var idBuku = 5;
     try {
       var response = await ApiProvider.instance().get(
@@ -237,13 +256,59 @@ class DetailBukuController extends GetxController {
         print("Empty Book");
         status.value = RxStatus.empty();
       } else {
-        if (responseDetailBook.data!.status == 'diPinjamkan') {
-          statusPeminjaman.value = true;
-          print("Status Peminjaman: ${responseDetailBook.data!.status}");
-        }
+        validasi(idUser, responseDetailBook.data!.bukuID);
         print("Response Genre: ${responseDetailBook.data!}");
         dataDetailBukuList.value = responseDetailBook.data!;
         status.value = RxStatus.success();
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          status.value = RxStatus.error("${e.response?.data['message']}");
+        }
+      } else {
+        status.value = RxStatus.error(e.message ?? "");
+      }
+    } catch (e) {
+      print(e.toString());
+      showToastError(e.toString());
+    }
+  }
+
+  Future<void> getPeminjaman() async {
+    status.value = RxStatus.loading();
+    String token = StorageProvider.read(StorageKey.token);
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    var idBuku = Get.parameters['id'];
+    var idUser = decodedToken['id'];
+    // var idBuku = 5;
+    try {
+      var response = await ApiProvider.instance().get(EndPoint.peminjaman,
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      final ResponsePeminjaman responsePeminjaman =
+          ResponsePeminjaman.fromJson(response.data!);
+
+      if (responsePeminjaman.data == null) {
+        print("Empty Book");
+        status.value = RxStatus.empty();
+      } else {
+        print("Response Genre: ${responsePeminjaman.data!}");
+        dataPeminjamanList.value =
+            responsePeminjaman.data! as List<DataPeminjaman>?;
+        status.value = RxStatus.success();
+      }
+
+      if (dataPeminjamanList.value != null) {
+        for (var data in dataPeminjamanList.value!) {
+          if (data.peminjaman?.bukuID == idBuku &&
+              data.peminjaman?.userID != idUser &&
+              data.peminjaman?.statusPeminjaman == "dipinjam") {
+            print("Buku sudah dipinjam oleh pengguna lain");
+            statusPeminjaman.value = false;
+            break;
+          }
+        }
       }
     } on DioException catch (e) {
       if (e.response != null) {

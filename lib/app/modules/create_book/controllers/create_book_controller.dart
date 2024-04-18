@@ -51,9 +51,11 @@ class CreateBookController extends GetxController {
   final status = Rx<RxStatus>(RxStatus.loading());
 
   List data = [];
-  List dataGenre = [];
   List<String> selectedItems = [];
-  int valueData = 1;
+  final valueData = 1.obs;
+
+  RxList<String> selectedItemsGenre = <String>[].obs;
+  List<String> items = [];
 
   @override
   void onInit() {
@@ -98,14 +100,13 @@ class CreateBookController extends GetxController {
     var response = await ApiProvider.instance().get(EndPoint.genre,
         options: Options(headers: {'Authorization': 'Bearer $token'}));
 
-    final ResponseGenre responseGenre =
-        ResponseGenre.fromJson(response.data!);
+    final ResponseGenre responseGenre = ResponseGenre.fromJson(response.data!);
     if (responseGenre.data!.isEmpty) {
       print("Empty Genre");
       status.value = RxStatus.empty();
     } else {
       print("Response Genre: ${responseGenre.data!}");
-      dataGenre = responseGenre.data!;
+      items = responseGenre.data!.cast<String>();
       status.value = RxStatus.success();
       update();
     }
