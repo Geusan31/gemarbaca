@@ -5,8 +5,10 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
-import 'package:gemarbaca/app/data/model/response_create_book.dart';
+// import 'package:gemarbaca/app/data/model/response_create_book.dart';
+import 'package:gemarbaca/app/data/model/response_detail_book.dart';
 import 'package:gemarbaca/app/data/model/response_genre.dart';
 import 'package:gemarbaca/app/data/model/response_kategori.dart';
 import 'package:gemarbaca/app/data/provider/api_provider.dart';
@@ -15,8 +17,10 @@ import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
-class EditBookController extends GetxController {
+class EditBookController extends GetxController
+    with SingleGetTickerProviderMixin {
   //TODO: Implement EditBookController
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final GlobalKey<FormState> formKeyEpisode = GlobalKey<FormState>();
@@ -54,9 +58,12 @@ class EditBookController extends GetxController {
   final imageSize = ''.obs;
   String profilePict = 'nopicture';
   final count = 0.obs;
-  final dataCreateBook = Rx<DataCreateBook?>(null);
+  final dataDetailBuku = Rx<DataDetailBook?>(null);
   late RxList<DataKategori> dataKategoriList = RxList<DataKategori>();
   final status = Rx<RxStatus>(RxStatus.loading());
+
+  late final TabController tabController =
+      TabController(length: 2, vsync: this);
 
   List data = [];
   List selectedItems = [];
@@ -193,9 +200,55 @@ class EditBookController extends GetxController {
     }
   }
 
-  createBook() async {
+  Future<void> getDetailProfile() async {
+    status.value = RxStatus.loading();
+    String token = StorageProvider.read(StorageKey.token);
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+    var idBuku = Get.parameters['id'];
+    print("Id Profile $idBuku");
+    try {
+      var response = await ApiProvider.instance().get(
+          "${EndPoint.book}/$idBuku",
+          options: Options(headers: {'Authorization': 'Bearer $token'}));
+
+      final ResponseDetailBook responseDetailBuku =
+          ResponseDetailBook.fromJson(response.data!);
+
+      if (responseDetailBuku.data == null) {
+        print("Empty Profile");
+        status.value = RxStatus.empty();
+      } else {
+        judulController.text = (responseDetailBuku.data!.judul! ?? '');
+        penulisController.text = responseDetailBuku.data!.penulis! ?? '';
+        penerbitController.text = responseDetailBuku.data!.penerbit ?? '';
+        deskripsiController.text = responseDetailBuku.data!.deskripsi ?? '';
+        tahunTerbitController.text =
+            responseDetailBuku.data!.tahunTerbit.toString() ?? '';
+        imagePath.value = responseDetailBuku.data!.cover ?? '';
+        stokController.text = responseDetailBuku.data!.stok.toString() ?? '';
+        selectedItems = kategoriController.text as List;
+        print("Response Profile: ${responseDetailBuku.data!}");
+        dataDetailBuku.value = responseDetailBuku.data!;
+        status.value = RxStatus.success();
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response?.data != null) {
+          status.value = RxStatus.error("${e.response?.data['message']}");
+        }
+      } else {
+        status.value = RxStatus.error(e.message ?? "");
+      }
+    } catch (e) {
+      print(e.toString());
+      showToastError(e.toString());
+    }
+  }
+
+  editBook() async {
     try {
       String token = StorageProvider.read(StorageKey.token);
+      var idBuku = Get.parameters['id'];
       loading(true);
       if (imagePath.value.isNotEmpty) {
         try {
@@ -221,7 +274,8 @@ class EditBookController extends GetxController {
       FocusScope.of(Get.context!).unfocus();
       formKey.currentState!.save();
       if (formKey.currentState!.validate()) {
-        final response = await ApiProvider.instance().post(EndPoint.book,
+        final response = await ApiProvider.instance().post(
+            "${EndPoint.book}/$idBuku",
             options: Options(headers: {"Authorization": "Bearer $token"}),
             data: {
               "judul": judulController.text.toString(),

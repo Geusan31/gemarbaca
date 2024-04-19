@@ -18,13 +18,15 @@ class EditBookView extends GetView<EditBookController> {
             title: const Text('Edit Buku'),
             centerTitle: true,
             bottom: TabBar(
-              tabs: [Tab(text: "Buku"), Tab(text: "Edpisode")],
+              controller: controller.tabController,
+              tabs: const [Tab(text: "Buku"), Tab(text: "Episode")],
             )),
-        body: TabBarView(children: [
+        body: TabBarView(controller: controller.tabController, children: [
           controller.status.value.isLoading
               ? Center(child: CircularProgressIndicator())
               : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: SingleChildScrollView(
                     child: Column(children: [
                       Container(
@@ -331,7 +333,7 @@ class EditBookView extends GetView<EditBookController> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 20.0)),
                                   onPressed: () {
-                                    controller.createBook();
+                                    controller.editBook();
                                   },
                                   child: Obx(() {
                                     return controller.loading.value
@@ -346,109 +348,109 @@ class EditBookView extends GetView<EditBookController> {
                   ),
                 ),
           Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Text('Form Episode'),
-            Form(
-              key: controller.formKeyEpisode,
-              child: Column(
-                children: [
-                  Container(
-                      margin: const EdgeInsets.only(bottom: 5),
-                      child: Obx(() {
-                        return TextFormField(
-                          controller: controller.judulController,
-                          focusNode: controller.judulFocusNode,
-                          decoration: InputDecoration(
-                            labelText: "Nama Episode",
-                            labelStyle: TextStyle(
-                                color: controller.judulIsFocused.value
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.grey),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0)),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            prefixIcon: Icon(Icons.person_outline,
-                                color: controller.judulIsFocused.value
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.grey),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Nama Episode tidak boleh kosong!';
-                            }
-                            return null;
-                          },
-                        );
-                      })),
-                  const SizedBox(height: 13.0),
-                  Container(
-                      margin: const EdgeInsets.only(bottom: 5),
-                      child: Obx(() {
-                        return TextFormField(
-                          controller: controller.penulisController,
-                          focusNode: controller.penulisFocusNode,
-                          readOnly: true,
-                          onTap: () {
-                            controller.getFile();
-                          },
-                          decoration: InputDecoration(
-                            labelText: "Episode",
-                            labelStyle: TextStyle(
-                                color: controller.penulisIsFocused.value
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.grey),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0))),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0)),
-                                borderSide: BorderSide(
-                                    color: Theme.of(context).primaryColor)),
-                            prefixIcon: Icon(Icons.person,
-                                color: controller.penulisIsFocused.value
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.grey),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'File tidak boleh kosong!';
-                            }
-                            return null;
-                          },
-                        );
-                      })),
-                  const SizedBox(height: 13.0),
-                  const SizedBox(height: 16.0),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Theme.of(context).primaryColor,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10.0))),
-                            padding:
-                                const EdgeInsets.symmetric(vertical: 20.0)),
-                        onPressed: () {
-                          controller.createBook();
-                        },
+            const Text('Form Episode',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Form(
+                key: controller.formKeyEpisode,
+                child: Column(
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(bottom: 5),
                         child: Obx(() {
-                          return controller.loading.value
-                              ? const CircularProgressIndicator()
-                              : const Text("Submit");
+                          return TextFormField(
+                            controller: controller.judulController,
+                            focusNode: controller.judulFocusNode,
+                            decoration: InputDecoration(
+                              labelText: "Nama Episode",
+                              labelStyle: TextStyle(
+                                  color: controller.judulIsFocused.value
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.grey),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0)),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor)),
+                              prefixIcon: Icon(Icons.person_outline,
+                                  color: controller.judulIsFocused.value
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.grey),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Nama Episode tidak boleh kosong!';
+                              }
+                              return null;
+                            },
+                          );
                         })),
-                  )
-                ],
+                    const SizedBox(height: 13.0),
+                    Container(
+                        margin: const EdgeInsets.only(bottom: 5),
+                        child: Obx(() {
+                          return TextFormField(
+                            controller: controller.penulisController,
+                            focusNode: controller.penulisFocusNode,
+                            readOnly: true,
+                            onTap: () {
+                              controller.getFile();
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Tidak ada file',
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0))),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0)),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor)),
+                              prefixIcon: Icon(Icons.person,
+                                  color: controller.penulisIsFocused.value
+                                      ? Theme.of(context).primaryColor
+                                      : Colors.grey),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'File tidak boleh kosong!';
+                              }
+                              return null;
+                            },
+                          );
+                        })),
+                    const SizedBox(height: 13.0),
+                    const SizedBox(height: 16.0),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Theme.of(context).primaryColor,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10.0))),
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 20.0)),
+                          onPressed: () {
+                            controller.editBook();
+                          },
+                          child: Obx(() {
+                            return controller.loading.value
+                                ? const CircularProgressIndicator()
+                                : const Text("Submit");
+                          })),
+                    )
+                  ],
+                ),
               ),
             ),
           ])
