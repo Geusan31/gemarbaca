@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
+import 'package:gemarbaca/app/modules/book/controllers/book_controller.dart';
+import 'package:gemarbaca/app/modules/book/views/book_view.dart';
 import 'package:gemarbaca/app/modules/buku/controllers/buku_controller.dart';
 import 'package:gemarbaca/app/modules/buku/views/buku_view.dart';
 import 'package:gemarbaca/app/modules/dashboard/controllers/dashboard_controller.dart';
@@ -20,7 +22,8 @@ class LayoutController extends GetxController {
   DashboardController dashboardController =
       Get.put(DashboardController(), permanent: true);
   HomeController homeController = Get.put(HomeController(), permanent: true);
-  BukuController bukuController = Get.put(BukuController(), permanent: true);
+  // BukuController bukuController = Get.put(BukuController(), permanent: true);
+  BookController bookController = Get.put(BookController(), permanent: true);
   KoleksiController koleksiController =
       Get.put(KoleksiController(), permanent: true);
   ProfileController profileController =
@@ -35,7 +38,7 @@ class LayoutController extends GetxController {
   ];
   final screenAdmin = const [
     DashboardView(),
-    BukuView(),
+    BookView(),
     DashboardView(),
     DashboardView(),
   ];

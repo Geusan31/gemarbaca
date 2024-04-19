@@ -294,22 +294,23 @@ class DetailBukuController extends GetxController {
         status.value = RxStatus.empty();
       } else {
         print("Response Genre: ${responsePeminjaman.data!}");
-        dataPeminjamanList.value = responsePeminjaman.data?.peminjaman! as List<Peminjaman>;
+        dataPeminjamanList.value =
+            responsePeminjaman.data?.peminjaman! as List<Peminjaman>;
         status.value = RxStatus.success();
       }
 
-      if (dataPeminjamanList.value != null) {
-        for (var data in dataPeminjamanList.value!) {
-          if (data.bukuID == idBuku &&
-              data.userID == idUser &&
-              data.statusPeminjaman == "dipinjam") {
-            print("Buku sudah dipinjam oleh pengguna ini");
-            statusPeminjaman.value = true;
-            break;
-          } else {
-            print('Buku WII');
-            statusPeminjaman.value = false;
-          }
+      for (var data in dataPeminjamanList) {
+        int? parsedIdBuku = int.tryParse(idBuku ?? '');
+        if (parsedIdBuku != null &&
+            data.bukuID == parsedIdBuku &&
+            data.userID == idUser &&
+            data.statusPeminjaman == "dipinjam") {
+          print("Buku sudah dipinjam oleh pengguna ini");
+          statusPeminjaman.value = true;
+          break;
+        } else {
+          print('Buku WII');
+          statusPeminjaman.value = false;
         }
       }
     } on DioException catch (e) {

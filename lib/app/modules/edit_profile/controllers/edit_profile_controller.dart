@@ -88,21 +88,22 @@ class EditProfileController extends GetxController {
   void increment() => count.value++;
 
   Future<void> getImage() async {
-    if (imagePath.value != '') {
-      return showToastInfo("Profile picture is already set");
-    } else {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    // if (imagePath.value != '') {
+    //   return showToastInfo("Profile picture is already set");
+    // } else {
+    //
+    // }
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-      if (image != null) {
-        imagePath.value = image.path;
-        imageSize.value =
-            "${((File(imagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
-        return showToastSuccess("Profile picture changed successfully");
-      } else {
-        imagePath.value = '';
-        imageSize.value = '';
-        return showToastInfo("Cancel profile image selection");
-      }
+    if (image != null) {
+      imagePath.value = image.path;
+      imageSize.value =
+          "${((File(imagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
+      return showToastSuccess("Profile picture changed successfully");
+    } else {
+      imagePath.value = '';
+      imageSize.value = '';
+      return showToastInfo("Cancel profile image selection");
     }
   }
 
@@ -181,7 +182,6 @@ class EditProfileController extends GetxController {
       if (imagePath.value.isNotEmpty) {
         try {
           FileSystemEntity.typeSync(imagePath.value);
-          // If the above line does not throw an exception, imagePath.value is a valid file path
           File imageFile = File(imagePath.value);
           List<int> imageBytes = await imageFile.readAsBytes();
           String base64Image = base64Encode(imageBytes);

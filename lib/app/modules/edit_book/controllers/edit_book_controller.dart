@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
 import 'package:gemarbaca/app/data/model/response_create_book.dart';
@@ -15,10 +16,10 @@ import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateBookController extends GetxController {
-  //TODO: Implement CreateBookController
-
+class EditBookController extends GetxController {
+  //TODO: Implement EditBookController
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKeyEpisode = GlobalKey<FormState>();
   final TextEditingController judulController = TextEditingController();
   final TextEditingController penulisController = TextEditingController();
   final TextEditingController penerbitController = TextEditingController();
@@ -27,6 +28,8 @@ class CreateBookController extends GetxController {
   final TextEditingController stokController = TextEditingController();
   final TextEditingController kategoriController = TextEditingController();
   final TextEditingController genreController = TextEditingController();
+  final TextEditingController namaEpisodeController = TextEditingController();
+  final FileController = ''.obs;
   final FocusNode judulFocusNode = FocusNode();
   final FocusNode penulisFocusNode = FocusNode();
   final FocusNode penerbitFocusNode = FocusNode();
@@ -35,6 +38,7 @@ class CreateBookController extends GetxController {
   final FocusNode stokFocusNode = FocusNode();
   final FocusNode kategoriFocusNode = FocusNode();
   final FocusNode genreFocusNode = FocusNode();
+  final FocusNode namaEpisodeFocusNode = FocusNode();
   final isObscure = true.obs;
   final judulIsFocused = false.obs;
   final penulisIsFocused = false.obs;
@@ -44,6 +48,7 @@ class CreateBookController extends GetxController {
   final stokIsFocused = false.obs;
   final kategoriIsFocused = false.obs;
   final genreIsFocused = false.obs;
+  final namaEpisodeIsFocused = false.obs;
   final loading = false.obs;
   final imagePath = ''.obs;
   final imageSize = ''.obs;
@@ -80,6 +85,9 @@ class CreateBookController extends GetxController {
     stokFocusNode.addListener(() {
       stokIsFocused.value = stokFocusNode.hasFocus;
     });
+    namaEpisodeFocusNode.addListener(() {
+      namaEpisodeIsFocused.value = namaEpisodeFocusNode.hasFocus;
+    });
   }
 
   @override
@@ -93,7 +101,6 @@ class CreateBookController extends GetxController {
   }
 
   void increment() => count.value++;
-
   getDataKategori() async {
     status.value = RxStatus.loading();
     try {
@@ -151,16 +158,38 @@ class CreateBookController extends GetxController {
   Future<void> getImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    try {
+      if (image != null) {
+        imagePath.value = image.path;
+        imageSize.value =
+            "${((File(imagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
+        showToastSuccess("Profile picture changed successfully");
+      } else {
+        imagePath.value = '';
+        imageSize.value = '';
+        showToastInfo("Cancel profile image selection");
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 
-    if (image != null) {
-      imagePath.value = image.path;
-      imageSize.value =
-          "${((File(imagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
-      showToastSuccess("Profile picture changed successfully");
-    } else {
-      imagePath.value = '';
-      imageSize.value = '';
-      showToastInfo("Cancel profile image selection");
+  Future<void> getFile() async {
+    try {
+      final fileResult = await FilePicker.platform.pickFiles(
+          allowedExtensions: ['pdf'],
+          type: FileType.custom,
+          allowCompression: true,
+          allowMultiple: false);
+
+      if (fileResult != null) {
+        final file = fileResult.files.first;
+        log("Path file: ${file.path}");
+        FileController.value = file.path!;
+        namaEpisodeController.value = TextEditingValue(text: file.name);
+      }
+    } catch (e) {
+      log(e.toString());
     }
   }
 

@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/baca/bindings/baca_binding.dart';
 import '../modules/baca/views/baca_view.dart';
+import '../modules/book/bindings/book_binding.dart';
+import '../modules/book/views/book_view.dart';
 import '../modules/buku/bindings/buku_binding.dart';
 import '../modules/buku/views/buku_view.dart';
 import '../modules/create_book/bindings/create_book_binding.dart';
@@ -10,6 +12,8 @@ import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
 import '../modules/detail_buku/bindings/detail_buku_binding.dart';
 import '../modules/detail_buku/views/detail_buku_view.dart';
+import '../modules/edit_book/bindings/edit_book_binding.dart';
+import '../modules/edit_book/views/edit_book_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -127,6 +131,16 @@ class AppPages {
       name: _Paths.CREATE_BOOK,
       page: () => const CreateBookView(),
       binding: CreateBookBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOOK,
+      page: () => const BookView(),
+      binding: BookBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_BOOK,
+      page: () => const EditBookView(),
+      binding: EditBookBinding(),
     ),
   ];
 }
