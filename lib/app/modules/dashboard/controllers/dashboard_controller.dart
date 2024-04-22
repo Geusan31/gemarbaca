@@ -85,7 +85,7 @@ class DashboardController extends GetxController {
       final ResponseDashPeminjaman responseDashPeminjaman =
           ResponseDashPeminjaman.fromJson(responses[2].data);
       final ResponseDashKoleksi responseDashKoleksi =
-          ResponseDashKoleksi.fromJson(responses[3].data);
+          ResponseDashKoleksi.fromJson(responses[2].data);
 
       if (responseDashUsers.data!.isEmpty) {
         print("Empty Users");
@@ -132,7 +132,7 @@ class DashboardController extends GetxController {
       }
     } catch (e) {
       log(e.toString());
-      showToastError(e.toString());
+      // showToastError(e.toString());
     }
   }
 
@@ -167,7 +167,7 @@ class DashboardController extends GetxController {
       }
     } catch (e) {
       print(e.toString());
-      showToastError(e.toString());
+      // showToastError(e.toString());
     }
   }
 }

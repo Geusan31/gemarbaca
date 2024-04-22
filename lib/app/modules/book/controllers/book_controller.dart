@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gemarbaca/app/data/constant/endpoint.dart';
@@ -7,6 +9,9 @@ import 'package:gemarbaca/app/data/provider/api_provider.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class BookController extends GetxController with SingleGetTickerProviderMixin {
   //TODO: Implement BookController
@@ -17,6 +22,7 @@ class BookController extends GetxController with SingleGetTickerProviderMixin {
   var dataKategoriList = RxList<DataKategori>();
   var status = Rx<RxStatus>(RxStatus.loading());
   final count = 0.obs;
+  var role = '';
   @override
   void onInit() {
     super.onInit();
@@ -27,6 +33,7 @@ class BookController extends GetxController with SingleGetTickerProviderMixin {
     );
     getGenre();
     getKategori();
+    checkRole();
   }
 
   @override
@@ -40,6 +47,54 @@ class BookController extends GetxController with SingleGetTickerProviderMixin {
   }
 
   void increment() => count.value++;
+  void checkRole() async {
+    String token = StorageProvider.read(StorageKey.token);
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+
+    role = decodedToken['role'];
+    print("Role: ${decodedToken['role']}");
+  }
+
+  void deleteBook(String idBuku) async {
+    print('deleteBook called with id: $idBuku');
+    status.value = RxStatus.loading();
+    String token = StorageProvider.read(StorageKey.token);
+    try {
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.confirm,
+        showCancelBtn: true,
+        showConfirmBtn: true,
+        title: "Hapus Buku",
+        text: "Apakah anda yakin?.",
+        onConfirmBtnTap: () async {
+          print("ID Buku: $idBuku");
+          // Navigator.of(Get.context!, rootNavigator: true).pop('dialog');
+
+          final response = await ApiProvider.instance().delete(
+              "${EndPoint.book}/$idBuku",
+              options: Options(headers: {"authorization": "Bearer $token"}));
+          print('API response: ${response.statusCode}');
+
+          if (response.statusCode == 200) {
+            status.value = RxStatus.success();
+            QuickAlert.show(
+                context: Get.context!,
+                type: QuickAlertType.success,
+                autoCloseDuration: const Duration(seconds: 3),
+                title: "Berhasil Dihapus!",
+                text: "Buku berhasil dihapus");
+            await getKategori();
+            await getGenre();
+            update();
+          }
+        },
+      );
+    } catch (e) {
+      print('Error in deleteBook: $e');
+      log(e.toString());
+    }
+  }
 
   Future<void> getGenre() async {
     status.value = RxStatus.loading();

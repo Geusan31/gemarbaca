@@ -136,7 +136,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       log(e.toString());
-      showToastError(e.toString());
+      // showToastError(e.toString());
     }
   }
 

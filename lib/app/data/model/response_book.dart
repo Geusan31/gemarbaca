@@ -82,7 +82,7 @@ class DataBook {
       });
     }
     ulasan = json['ulasan'];
-    avgRating = json['averageRating'];
+    avgRating = json['averageRating'].toDouble();
   }
 
   int? bukuID;
@@ -97,7 +97,7 @@ class DataBook {
   String? updateAt;
   List<GenreBukuRelasi>? genreBuku;
   dynamic ulasan;
-  int? avgRating;
+  double? avgRating;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

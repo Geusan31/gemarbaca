@@ -14,6 +14,8 @@ import '../modules/detail_buku/bindings/detail_buku_binding.dart';
 import '../modules/detail_buku/views/detail_buku_view.dart';
 import '../modules/edit_book/bindings/edit_book_binding.dart';
 import '../modules/edit_book/views/edit_book_view.dart';
+import '../modules/edit_episode/bindings/edit_episode_binding.dart';
+import '../modules/edit_episode/views/edit_episode_view.dart';
 import '../modules/edit_profile/bindings/edit_profile_binding.dart';
 import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -22,6 +24,8 @@ import '../modules/koleksi/bindings/koleksi_binding.dart';
 import '../modules/koleksi/views/koleksi_view.dart';
 import '../modules/layout/bindings/layout_binding.dart';
 import '../modules/layout/views/layout_view.dart';
+import '../modules/list_book_edit/bindings/list_book_edit_binding.dart';
+import '../modules/list_book_edit/views/list_book_edit_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/manage_book/bindings/manage_book_binding.dart';
@@ -141,6 +145,16 @@ class AppPages {
       name: _Paths.EDIT_BOOK,
       page: () => const EditBookView(),
       binding: EditBookBinding(),
+    ),
+    GetPage(
+      name: _Paths.LIST_BOOK_EDIT,
+      page: () => const ListBookEditView(),
+      binding: ListBookEditBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_EPISODE,
+      page: () => const EditEpisodeView(),
+      binding: EditEpisodeBinding(),
     ),
   ];
 }

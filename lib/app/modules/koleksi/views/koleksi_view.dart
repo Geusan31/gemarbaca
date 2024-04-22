@@ -97,7 +97,10 @@ class KoleksiView extends GetView<KoleksiController> {
                       ),
                     )
                         : RefreshIndicator(
-                      onRefresh: controller.getKoleksi,
+                      onRefresh: () async {
+                        controller.getKoleksi;
+                        controller.update();
+                      },
                       child: Obx(() {
                         return ListView.builder(
                           padding: const EdgeInsets.all(5),
@@ -108,6 +111,9 @@ class KoleksiView extends GetView<KoleksiController> {
                             log("Index: $index");
                             log("Length: ${controller.dataUserKoleksiList.length}");
                             return GestureDetector(
+                              onLongPress: () {
+                                controller.deleteKoleksi(controller.dataUserKoleksiList[index].bukuID.toString());
+                              },
                               onTap: () {
                                 Get.toNamed(Routes.DETAIL_BUKU,
                                     parameters: {
@@ -232,7 +238,10 @@ class KoleksiView extends GetView<KoleksiController> {
                     ),
                     controller.dataUserPeminjamanList.isEmpty
                         ? RefreshIndicator(
-                      onRefresh: controller.getKoleksi,
+                      onRefresh: () async {
+                        await controller.getKoleksi();
+                        controller.update();
+                      },
                       child: SizedBox(
                         height: MediaQuery.of(context).size.height,
                         child: Center(

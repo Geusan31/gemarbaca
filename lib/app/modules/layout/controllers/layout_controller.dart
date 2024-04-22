@@ -39,8 +39,8 @@ class LayoutController extends GetxController {
   final screenAdmin = const [
     DashboardView(),
     BookView(),
-    DashboardView(),
-    DashboardView(),
+    KoleksiView(),
+    ProfileView(),
   ];
 
   final destination = [

@@ -13,6 +13,8 @@ import 'package:gemarbaca/app/widget/toast/toast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_ticket_provider_mixin.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:workmanager/workmanager.dart';
 
 void callbackDispatcher() {
@@ -160,6 +162,39 @@ class KoleksiController extends GetxController
     } catch (e) {
       log(e.toString());
       showToastError(e.toString());
+    }
+  }
+
+  Future<void> deleteKoleksi(index) async {
+    String token = StorageProvider.read(StorageKey.token);
+    try {
+      QuickAlert.show(
+        context: Get.context!,
+        type: QuickAlertType.confirm,
+        showCancelBtn: true,
+        showConfirmBtn: true,
+        title: "Apakah anda yakin?",
+        text:
+        "Anda akan menghapus buku ${dataUserKoleksiList[index].buku!.judul} dari daftar koleksi pribadi.",
+        onConfirmBtnTap: () async {
+          Navigator.pop(Get.context!);
+          final response = await ApiProvider.instance().delete("${EndPoint.koleksi}/$index",
+              options: Options(headers: {"Authorization": "Bearer $token"}));
+
+          if (response.statusCode == 200) {
+            QuickAlert.show(
+                context: Get.context!,
+                type: QuickAlertType.success,
+                autoCloseDuration: const Duration(seconds: 3),
+                title: "Berhasil Dihapus!",
+                text: "Buku berhasil dihapus dari daftar koleksi pribadi.");
+            await getKoleksi();
+            update();
+          }
+        },
+      );
+    } catch (e) {
+      log(e.toString());
     }
   }
 

@@ -33,7 +33,9 @@ class ManageBookView extends GetView<ManageBookController> {
               ),
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Get.toNamed(Routes.LIST_BOOK_EDIT);
+              },
               child: const Card(
                 child: ListTile(
                   leading: Icon(CupertinoIcons.book_fill, color: Colors.yellow),
@@ -41,17 +43,7 @@ class ManageBookView extends GetView<ManageBookController> {
                   subtitle: Text('Update buku apapun di aplikasi Gemar Baca.'),
                 ),
               ),
-            ),
-            GestureDetector(
-              onTap: () {},
-              child: const Card(
-                child: ListTile(
-                  leading: Icon(CupertinoIcons.book_fill, color: Colors.red),
-                  title: Text('Delete Buku'),
-                  subtitle: Text('Hapus buku apapun di aplikasi Gemar Baca.'),
-                ),
-              ),
-            ),
+            )
           ],
         ),
       ),

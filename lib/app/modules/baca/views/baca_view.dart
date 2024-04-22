@@ -18,17 +18,17 @@ class BacaView extends GetView<BacaController> {
         title: Obx(() {
           return Text(controller.judul.value ?? '-',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white));
         }),
-        actions: [
-          IconButton(onPressed: () {
-            controller.pdfViewerController.zoomLevel = 1.25;
-          }, icon: Icon(CupertinoIcons.zoom_in, color: Colors.white,)),
-          IconButton(onPressed: () {
-            controller.pdfViewerController.zoomLevel = -1.25;
-          }, icon: Icon(CupertinoIcons.zoom_out, color: Colors.white,)),
-          IconButton(onPressed: () {
-            controller.pdfViewerController.jumpToPage(5);
-          }, icon: Icon(CupertinoIcons.arrow_down_circle, color: Colors.white,))
-        ],
+        // actions: [
+        //   IconButton(onPressed: () {
+        //     Future.microtask(() => controller.pdfViewerController.zoomLevel = 1.25);
+        //   }, icon: Icon(CupertinoIcons.zoom_in, color: Colors.white,)),
+        //   IconButton(onPressed: () {
+        //     Future.microtask(() => controller.pdfViewerController.zoomLevel = -1.25);
+        //   }, icon: Icon(CupertinoIcons.zoom_out, color: Colors.white,)),
+        //   IconButton(onPressed: () {
+        //     Future.microtask(() => controller.pdfViewerController.jumpToPage(5));
+        //   }, icon: Icon(CupertinoIcons.arrow_down_circle, color: Colors.white,))
+        // ],
       ),
       body: Stack(
         children: <Widget>[

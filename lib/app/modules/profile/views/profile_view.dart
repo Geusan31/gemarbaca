@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:gemarbaca/app/data/provider/storage_provider.dart';
 import 'package:gemarbaca/app/routes/app_pages.dart';
 import 'package:gemarbaca/app/widget/base64/base64_widget.dart';
@@ -151,6 +152,45 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Visibility(
+                visible: controller.role == 'admin',
+                child: GestureDetector(
+                  onTap: () async {
+                    final data = await controller.generatePDF();
+                    controller.savePdf("Gemar Baca PDF", data);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              blurRadius: 1,
+                              spreadRadius: 0,
+                              offset: const Offset(2, 2))
+                        ]),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.report),
+                        SizedBox(width: 10),
+                        Text(
+                          'Generate Laporan',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ],

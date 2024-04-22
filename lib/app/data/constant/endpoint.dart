@@ -1,7 +1,7 @@
 class EndPoint {
-  // static const String BaseUrlApi = "https://gemarbaca-api.onrender.com/";
+  static const String BaseUrlApi = "https://gemarbaca-api.onrender.com/";
   // static const String BaseUrlApi = "http://192.168.1.11:3000/";
-  static const String BaseUrlApi = "http://localhost:3000/";
+  // static const String BaseUrlApi = "http://localhost:3000/";
 
   // Authentication
   static const String login = "${BaseUrlApi}auth/login";
@@ -17,6 +17,7 @@ class EndPoint {
   static const String populerBook = "$book/populer";
   static const String highRateBook = "$book/high-rate";
   static const String bookByPeminjaman = "$book/peminjaman";
+  static const String bookForReport = "$book/book-report";
 
   // Genre Url
   static const String genre = "${BaseUrlApi}genre";
@@ -45,4 +46,10 @@ class EndPoint {
 
   // Peminjaman Url
   static const String peminjaman = "${BaseUrlApi}peminjaman";
+
+  // Peminjaman Url
+  static const String episode = "${BaseUrlApi}episode";
+
+  // Peminjaman Url
+  static const String ulasan = "${BaseUrlApi}ulasan";
 }

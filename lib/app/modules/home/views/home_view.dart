@@ -132,29 +132,29 @@ class HomeView extends GetView<HomeController> {
                     children: [
                       Container(
                         padding:
-                        EdgeInsets.symmetric(horizontal: 100, vertical: 15),
+                            EdgeInsets.symmetric(horizontal: 100, vertical: 15),
                         width: 70,
                         height: 70,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(100),
                             image: DecorationImage(
-                              image: (controller
-                                  .dataDetailProfile
-                                  .value?.fotoProfile !=
-                                  null &&
-                                  controller
-                                      .dataDetailProfile.value
-                                      ?.fotoProfile!
-                                      .isNotEmpty)
-                                  ? base64Widget(controller
-                                  .dataDetailProfile.value
-                                  ?.fotoProfile ??
-                                  "")
+                              image: (controller.dataDetailProfile.value
+                                              ?.fotoProfile !=
+                                          null &&
+                                      controller.dataDetailProfile.value
+                                          ?.fotoProfile!.isNotEmpty)
+                                  ? base64Widget(controller.dataDetailProfile
+                                          .value?.fotoProfile ??
+                                      "")
                                   : const AssetImage(
-                                  "assets/img/default/person.png"),
+                                      "assets/img/default/person.png"),
                               fit: BoxFit.cover,
                             )),
-                        child: controller.dataDetailProfile.value?.fotoProfile != null ? null : CircularProgressIndicator(),
+                        child:
+                            controller.dataDetailProfile.value?.fotoProfile !=
+                                    null
+                                ? null
+                                : CircularProgressIndicator(),
                       ),
                       SizedBox(
                         width: 8,

@@ -367,93 +367,96 @@ class DetailBukuView extends GetView<DetailBukuController> {
                       style: const TextStyle(fontWeight: FontWeight.bold)),
                 ),
                 body: SingleChildScrollView(
-                  child: Stack(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: 250,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                              image: (controller.dataDetailBukuList.value
-                                              ?.cover !=
-                                          null &&
-                                      controller.dataDetailBukuList.value!
-                                          .cover!.isNotEmpty)
-                                  ? base64Widget(controller
-                                          .dataDetailBukuList.value!.cover ??
-                                      "")
-                                  : const AssetImage(
-                                      "assets/img/default/default_image.png"),
-                              fit: BoxFit.cover,
-                            )),
-                            child: Container(
+                  child: RefreshIndicator(
+                    onRefresh: () async {
+                      await controller.getDetailBook();
+                    },
+                    child: Stack(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: MediaQuery.of(context).size.width,
+                              height: 250,
                               decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                      colors: [
-                                    Colors.transparent,
-                                    Colors.white
-                                  ],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter)),
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        (controller.dataDetailBukuList.value
-                                                    ?.avgRating ??
-                                                '0')
-                                            .toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                      Icon(CupertinoIcons.star_fill,
-                                          color: Colors.amber)
+                                  image: DecorationImage(
+                                image: (controller.dataDetailBukuList.value
+                                                ?.cover !=
+                                            null &&
+                                        controller.dataDetailBukuList.value!
+                                            .cover!.isNotEmpty)
+                                    ? base64Widget(controller
+                                            .dataDetailBukuList.value!.cover ??
+                                        "")
+                                    : const AssetImage(
+                                        "assets/img/default/default_image.png"),
+                                fit: BoxFit.cover,
+                              )),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                        colors: [
+                                      Colors.transparent,
+                                      Colors.white
                                     ],
-                                  ),
-                                  Text('Rating')
-                                ],
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter)),
                               ),
-                              SizedBox(
-                                width: 100,
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  controller.koleksi();
-                                },
-                                child: Column(
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
                                   children: [
-                                    Icon(CupertinoIcons.bookmark),
-                                    Text('Bookmark')
+                                    Row(
+                                      children: [
+                                        Text(
+                                          (controller.dataDetailBukuList.value
+                                                      ?.avgRating ??
+                                                  '0')
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                        Icon(CupertinoIcons.star_fill,
+                                            color: Colors.amber)
+                                      ],
+                                    ),
+                                    Text('Rating')
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 90),
-                            child: TabBar(
-                              tabs: [
-                                Tab(text: 'Detail'),
-                                Tab(text: 'Episode'),
+                                SizedBox(
+                                  width: 100,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    controller.koleksi();
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Icon(CupertinoIcons.bookmark),
+                                      Text('Bookmark')
+                                    ],
+                                  ),
+                                ),
                               ],
                             ),
-                          ),
-                          SizedBox(
-                            height: Get.height,
-                            child: TabBarView(
-                              children: [
-                                SingleChildScrollView(
-                                  child: Container(
+                            Container(
+                              margin: EdgeInsets.only(top: 90),
+                              child: TabBar(
+                                tabs: [
+                                  Tab(text: 'Detail'),
+                                  Tab(text: 'Episode'),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: Get.height*1.3,
+                              child: TabBarView(
+                                children: [
+                                  Container(
                                     width: MediaQuery.of(context).size.width,
                                     // height: Get.height,
                                     padding:
@@ -523,7 +526,8 @@ class DetailBukuView extends GetView<DetailBukuController> {
                                         SizedBox(
                                           height: 7,
                                         ),
-                                        GenreWidget<DetailBukuGenreBukuRelasi>(
+                                        GenreWidget<
+                                                DetailBukuGenreBukuRelasi>(
                                             genres: controller
                                                     .dataDetailBukuList
                                                     .value!
@@ -560,9 +564,21 @@ class DetailBukuView extends GetView<DetailBukuController> {
                                         SizedBox(
                                           height: 8,
                                         ),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              controller.showRating();
+                                            },
+                                            child: Text(
+                                                "Nilai dan beri ulasan buku ini.")),
+                                        SizedBox(
+                                          height: 8,
+                                        ),
                                         Obx(() {
-                                          return (controller.dataDetailBukuList
-                                                      .value?.ulasan?.isEmpty ??
+                                          return (controller
+                                                      .dataDetailBukuList
+                                                      .value
+                                                      ?.ulasan
+                                                      ?.isEmpty ??
                                                   true)
                                               ? const Text(
                                                   'No reviews available')
@@ -597,14 +613,10 @@ class DetailBukuView extends GetView<DetailBukuController> {
                                                                             10,
                                                                       ),
                                                                       RatingBarIndicator(
-                                                                        rating:
-                                                                            ulasan.rating?.toDouble() ??
-                                                                                0,
-                                                                        itemBuilder:
-                                                                            (context, index) =>
-                                                                                const Icon(
-                                                                          Icons
-                                                                              .star,
+                                                                        rating: ulasan.rating == null ? 0.0 : ulasan.rating!.toDouble(),
+                                                                        itemBuilder: (context, index) =>
+                                                                            const Icon(
+                                                                          Icons.star,
                                                                           color:
                                                                               Colors.amber,
                                                                         ),
@@ -618,7 +630,8 @@ class DetailBukuView extends GetView<DetailBukuController> {
                                                                     ]),
                                                                 Text(ulasan
                                                                         .ulasan ??
-                                                                    '')
+                                                                    ''),
+                                                                SizedBox(height: 30,)
                                                               ])
                                                         ]);
                                                       }).toList() ??
@@ -628,90 +641,97 @@ class DetailBukuView extends GetView<DetailBukuController> {
                                       ],
                                     ),
                                   ),
-                                ),
-                                (controller.dataDetailBukuList.value?.episode ==
-                                            null ||
-                                        controller.dataDetailBukuList.value!
-                                            .episode!.isEmpty)
-                                    ? Center(
-                                        child: Text("Tidak ada episode"),
-                                      )
-                                    : ListView.builder(
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: controller.dataDetailBukuList
-                                            .value?.episode?.length,
-                                        itemBuilder: (context, index) {
-                                          return ListTile(
-                                            onTap: () {
-                                              if (controller
-                                                  .statusPeminjaman.value) {
-                                                Get.toNamed(Routes.BACA,
-                                                    parameters: {
-                                                      'judul': controller
-                                                              .dataDetailBukuList
-                                                              .value
-                                                              ?.judul
-                                                              .toString() ??
-                                                          '-',
-                                                      'file': controller
-                                                          .dataDetailBukuList
-                                                          .value
-                                                          ?.episode?[index]
-                                                          .file
-                                                    });
-                                              } else {
-                                                controller.alertShow();
-                                              }
-                                            },
-                                            title: Text(controller
-                                                    .dataDetailBukuList
-                                                    .value
-                                                    ?.episode![index]
-                                                    .judul ??
-                                                ''),
-                                          );
-                                        },
-                                      ),
-                              ],
+                                  (controller.dataDetailBukuList.value
+                                                  ?.episode ==
+                                              null ||
+                                          controller.dataDetailBukuList.value!
+                                              .episode!.isEmpty)
+                                      ? Center(
+                                          child: Text("Tidak ada episode"),
+                                        )
+                                      : ListView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          itemCount: controller
+                                              .dataDetailBukuList
+                                              .value
+                                              ?.episode
+                                              ?.length,
+                                          itemBuilder: (context, index) {
+                                            return ListTile(
+                                              onTap: () {
+                                                if (controller
+                                                    .statusPeminjaman.value) {
+                                                  Get.toNamed(Routes.BACA,
+                                                      parameters: {
+                                                        'judul': controller
+                                                                .dataDetailBukuList
+                                                                .value
+                                                                ?.judul
+                                                                .toString() ??
+                                                            '-',
+                                                        'file': controller
+                                                            .dataDetailBukuList
+                                                            .value
+                                                            ?.episode?[index]
+                                                            .file
+                                                      });
+                                                } else {
+                                                  controller.alertShow();
+                                                }
+                                              },
+                                              title: Text(controller
+                                                      .dataDetailBukuList
+                                                      .value
+                                                      ?.episode![index]
+                                                      .judul ??
+                                                  ''),
+                                            );
+                                          },
+                                        ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Positioned(
-                        top: MediaQuery.of(context).size.height / 8,
-                        left: MediaQuery.of(context).size.width / 2.9,
-                        child: Column(
-                          children: [
-                            Container(
-                              width: 130,
-                              height: 200,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                image: (controller.dataDetailBukuList.value
-                                                ?.cover !=
-                                            null &&
-                                        controller.dataDetailBukuList.value!
-                                            .cover!.isNotEmpty)
-                                    ? base64Widget(controller
-                                            .dataDetailBukuList.value!.cover ??
-                                        "")
-                                    : const AssetImage(
-                                        "assets/img/default/default_image.png"),
-                                fit: BoxFit.cover,
-                              )),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                                controller.dataDetailBukuList.value?.judul ??
-                                    '',
-                                style: TextStyle(
-                                    fontSize: 23, fontWeight: FontWeight.bold))
                           ],
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          top: MediaQuery.of(context).size.height / 8,
+                          left: MediaQuery.of(context).size.width / 3.9,
+                          child: Column(
+                            children: [
+                              Container(
+                                width: 130,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  image: (controller.dataDetailBukuList.value
+                                                  ?.cover !=
+                                              null &&
+                                          controller.dataDetailBukuList.value!
+                                              .cover!.isNotEmpty)
+                                      ? base64Widget(controller
+                                              .dataDetailBukuList
+                                              .value!
+                                              .cover ??
+                                          "")
+                                      : const AssetImage(
+                                          "assets/img/default/default_image.png"),
+                                  fit: BoxFit.cover,
+                                )),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                  controller.dataDetailBukuList.value?.judul ??
+                                      '',
+                                  style: TextStyle(
+                                      fontSize: 23,
+                                      fontWeight: FontWeight.bold))
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 bottomNavigationBar: BottomAppBar(

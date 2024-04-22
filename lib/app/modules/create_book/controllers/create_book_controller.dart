@@ -103,16 +103,18 @@ class CreateBookController extends GetxController {
 
       final ResponseKategori responseKategori =
           ResponseKategori.fromJson(response.data!);
-      if (responseKategori.data!.isEmpty) {
-        print("Empty Kategori");
-        status.value = RxStatus.empty();
-      } else {
-        print("Response Kategori: ${responseKategori.data!}");
-        data = responseKategori.data!;
-        valueData.clear();
-        valueData.add(data[0].kategoriID);
-        status.value = RxStatus.success();
-        update();
+      if (response.statusCode == 200) {
+        if (response.data!.isEmpty) {
+          print("Empty Kategori");
+          status.value = RxStatus.empty();
+        } else {
+          status.value = RxStatus.success();
+          print("Response Kategori: ${responseKategori.data!}");
+          data = responseKategori.data!;
+          valueData.clear();
+          valueData.add(data[0].kategoriID);
+          update();
+        }
       }
     } catch (e) {
       status.value = RxStatus.error(e.toString());
@@ -131,21 +133,22 @@ class CreateBookController extends GetxController {
 
       final ResponseGenre responseGenre =
           ResponseGenre.fromJson(response.data!);
-      if (responseGenre.data!.isEmpty) {
-        print("Empty Genre");
-        status.value = RxStatus.empty();
-      } else {
-        print("Response Genre: ${responseGenre.data!}");
-        items = responseGenre.data!;
-        status.value = RxStatus.success();
-        update();
+      if (response.statusCode == 200) {
+        if (response.data!.isEmpty) {
+          print("Empty Genre");
+          status.value = RxStatus.empty();
+        } else {
+          status.value = RxStatus.success();
+          print("Response Genre: ${responseGenre.data!}");
+          items = responseGenre.data!;
+          update();
+        }
       }
     } catch (e) {
       status.value = RxStatus.error(e.toString());
       print(e.toString());
       showToastError(e.toString());
     }
-    data.map((item) => log("${item.kategoriID}: ${item.namaKategori}"));
   }
 
   Future<void> getImage() async {
@@ -154,9 +157,14 @@ class CreateBookController extends GetxController {
 
     if (image != null) {
       imagePath.value = image.path;
-      imageSize.value =
-          "${((File(imagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
-      showToastSuccess("Profile picture changed successfully");
+      File imageFile = File(imagePath.value);
+      if(await imageFile.exists()) {
+        imageSize.value =
+        "${((File(imagePath.value)).lengthSync() / 1024 / 1024).toStringAsFixed(2)}Mb";
+        showToastSuccess("Cover book changed successfully");
+      } else {
+        showToastError("File does not exist at this path: ${imagePath.value}");
+      }
     } else {
       imagePath.value = '';
       imageSize.value = '';
@@ -164,24 +172,23 @@ class CreateBookController extends GetxController {
     }
   }
 
+
   createBook() async {
     try {
       String token = StorageProvider.read(StorageKey.token);
       loading(true);
-      if (imagePath.value.isNotEmpty) {
+      if (imagePath.value.isNotEmpty || imagePath.value.trim() != "" || imagePath.value != "") {
         try {
+          base64Decode(imagePath.value);
+          profilePict = imagePath.value;
+        } catch (e) {
+          log("CONVERT TO BASE64");
           File imageFile = File(imagePath.value);
           List<int> imageBytes = await imageFile.readAsBytes();
-          String base64Image = base64Encode(imageBytes);
-          profilePict = base64Image;
-          log(profilePict);
-        } catch (e) {
-          profilePict = imagePath.value;
-          log("Error converting image to base64: $e");
-          return null;
+          profilePict = base64Encode(imageBytes);
         }
-      } else {
-        showToastInfo("Image kosong");
+      } else if (imagePath.value == "" && profilePict == "") {
+        return showToastInfo("Cover buku tidak boleh kosong");
       }
 
       if (Get.context == null) {
@@ -200,14 +207,14 @@ class CreateBookController extends GetxController {
               "penerbit": penerbitController.text.toString(),
               "deskripsi": deskripsiController.text.toString(),
               "tahun_terbit": tahunTerbitController.text.toString(),
-              "cover": profilePict,
+              "cover": profilePict.toString(),
               'stok': 10,
               "kategoryIds": valueData.toList(),
               "genreIds": selectedItemsGenre,
             });
         if (response.statusCode == 200) {
           showToastSuccess(response.data['message']);
-          Get.offAllNamed(Routes.MANAGE_BOOK);
+          Get.back();
         } else {
           showToastError("Create Book Gagal!");
         }
